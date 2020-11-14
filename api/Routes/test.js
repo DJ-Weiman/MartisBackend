@@ -32,7 +32,7 @@ router.post("/createNewTest", (req, res) => {
 
   console.log(req.body);
 
-  const result = db.addRepair(
+  const result = db.createNewTest(
     TestID,
     DateIssued,
     AssetID,
@@ -43,29 +43,26 @@ router.post("/createNewTest", (req, res) => {
     TestModID
   );
 
-  result.then((reply) => res.json(reply)).catch((err) => console.log(err));
+  result
+    .then((reply) => {
+      console.log("Test Added");
+      res.json(reply);
+    })
+    .catch((err) => console.log(err));
 });
 
-router.patch("/changeCompletedDate", (req, res) => {
-  let engineerId = req.body.engineerId;
-  let assetId = req.body.assetId;
-  let createdDate = req.body.createdDate;
-  let completedDate = req.body.completedDate;
+router.patch("/setResult", (req, res) => {
+  let TestID = req.body.TestID;
+  let Result = req.body.Result;
+  let DateCompleted = req.body.DateCompleted;
   console.log(req.body);
 
-  console.log("Check");
-
-  const result = db.changeCompletedDate(
-    engineerId,
-    assetId,
-    createdDate,
-    completedDate
-  );
+  const result = db.setResult(TestID, Result, DateCompleted);
 
   result
     .then((reply) => {
       res.json({
-        message: "Date changed",
+        message: reply,
       });
     })
     .catch((err) => console.log(err));

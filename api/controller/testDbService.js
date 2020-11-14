@@ -23,36 +23,54 @@ class Dbservice {
     }
   }
 
-  async changeCompletedDate(engineerID, assetID, createdDate, completedDate) {
+  async createNewTest(
+    TestID,
+    DateIssued,
+    AssetID,
+    InspectorID,
+    SupervisorID,
+    Frequency,
+    Urgent,
+    TestModID
+  ) {
     try {
       const response = await new Promise((resolve, reject) => {
         const query =
-          "UPDATE repair SET CompletedDate = ? WHERE AssetID = ? AND EngineerID = ? AND CreatedDate = ?";
+          "INSERT INTO test (TestID, DateIssued, AssetID, InspectorID, SupervisorID, Frequency, Urgent, TestModID) Values (?, ?, ?, ?, ?, ?, ?, ?)";
 
         connection.query(
           query,
-          [completedDate, assetID, engineerID, createdDate],
+          [
+            TestID,
+            DateIssued,
+            AssetID,
+            InspectorID,
+            SupervisorID,
+            Frequency,
+            Urgent,
+            TestModID,
+          ],
           (err, results) => {
             if (err) reject(err.message);
-            resolve("CompletedDate changed");
+            resolve("New test added");
           }
         );
       });
       return response;
     } catch (error) {
-      console.log(error.message);
+      console.log("There was an error");
     }
   }
 
-  async addRepair(engineerID, assetID, repairDate) {
+  async setResult(TestID, Result, DateCompleted) {
     try {
       const response = await new Promise((resolve, reject) => {
         const query =
-          "INSERT INTO repair(EngineerID, AssetID, CreatedDate) VALUES (?,?,?)";
+          "UPDATE test SET Result = ?, DateCompleted = ? WHERE TestID = ?";
 
         connection.query(
           query,
-          [engineerID, assetID, repairDate],
+          [Result, DateCompleted, TestID],
           (err, results) => {
             if (err) reject(err.message);
             resolve("Record added");
