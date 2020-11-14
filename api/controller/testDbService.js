@@ -26,7 +26,7 @@ class Dbservice{
     async changeStatus(assetID, inspectorID, status){
         try{
             const response = await new Promise((resolve, reject) => {
-                const query = "UPDATE test SET status = ? WHERE AssetID = ? AND InspectorID = ?";
+                const query = "UPDATE test SET Result = ? WHERE AssetID = ? AND InspectorID = ?";
 
                 connection.query(query, [status, assetID, inspectorID], (err, results) => {
                     if(err) reject(err.message);
