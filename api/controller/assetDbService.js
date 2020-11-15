@@ -23,7 +23,7 @@ class Dbservice {
     }
   }
 
-  async createNewTest(
+  async createNewAsset(
     AssetID,
     Status,
     GPSLatitude,

@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const bodyParser = require("body-parser");
 
-const dbService = require("../controller/testDbService");
+const dbService = require("../controller/assetDbService");
 const { urlencoded } = require("body-parser");
 const db = dbService.getDbServiceInstance();
 
