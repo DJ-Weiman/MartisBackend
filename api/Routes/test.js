@@ -46,18 +46,22 @@ router.post("/createNewTest", (req, res) => {
   result
     .then((reply) => {
       console.log("Test Added");
-      res.json(reply);
+      res.json({
+        reply: reply,
+      });
     })
     .catch((err) => console.log(err));
 });
 
 router.patch("/setResult", (req, res) => {
+  let AssetID = req.body.AssetID;
   let TestID = req.body.TestID;
   let Result = req.body.Result;
   let DateCompleted = req.body.DateCompleted;
+  let comments = req.body.comments;
   console.log(req.body);
 
-  const result = db.setResult(TestID, Result, DateCompleted);
+  const result = db.setResult(TestID, Result, DateCompleted, comments);
 
   result
     .then((reply) => {
@@ -66,6 +70,16 @@ router.patch("/setResult", (req, res) => {
       });
     })
     .catch((err) => console.log(err));
+
+  if (Result === "Fail" || Result === "fail") {
+    const trigger = db.AutoInsertIntoRepair(AssetID, DateCompleted);
+
+    trigger
+      .then((reply) => {
+        console.log("The repair record was added");
+      })
+      .catch((err) => console.log(err));
+  }
 });
 
 module.exports = router;

@@ -19,6 +19,29 @@ router.get("/getRepairs", (req, res) => {
     .catch((err) => console.log(err));
 });
 
+// router.post("/addRepair", (req, res) => {
+//   let assetId = req.body.AssetId;
+//   let createdDate = req.body.CreatedDate;
+
+//   console.log(req.body);
+
+//   const result = db.addRepair(assetId, createdDate);
+
+//   result.then((reply) => res.json(reply)).catch((err) => console.log(err));
+// });
+
+router.patch("assignEngineer", (req, res) => {
+  let assetId = req.body.AssetId;
+  let createdDate = req.body.CreatedDate;
+  let engineerID = req.body.EngineerID;
+
+  console.log(req.body);
+
+  const result = db.assignEngineer(assetId, createdDate, engineerID);
+
+  result.then((reply) => res.json(reply)).catch((err) => console.log(err));
+});
+
 router.patch("/addCompletedDateAndComments", (req, res) => {
   let assetId = req.body.AssetID;
   let createdDate = req.body.CreatedDate;
@@ -40,17 +63,6 @@ router.patch("/addCompletedDateAndComments", (req, res) => {
       });
     })
     .catch((err) => console.log(err));
-});
-
-router.post("/addRepair", (req, res) => {
-  let assetId = req.body.AssetId;
-  let createdDate = req.body.CreatedDate;
-
-  console.log(req.body);
-
-  const result = db.addRepair(assetId, createdDate);
-
-  result.then((reply) => res.json(reply)).catch((err) => console.log(err));
 });
 
 module.exports = router;

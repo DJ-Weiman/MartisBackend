@@ -23,21 +23,21 @@ class Dbservice {
     }
   }
 
-  async addRepair(assetID, createdDate) {
-    try {
-      const response = await new Promise((resolve, reject) => {
-        const query = "INSERT INTO repair(AssetID, CreatedDate) VALUES (?,?)";
+  // async addRepair(assetID, createdDate) {
+  //   try {
+  //     const response = await new Promise((resolve, reject) => {
+  //       const query = "INSERT INTO repair(AssetID, CreatedDate) VALUES (?,?)";
 
-        connection.query(query, [assetID, createdDate], (err, results) => {
-          if (err) reject(err.message);
-          resolve("Record added");
-        });
-      });
-      return response;
-    } catch (error) {
-      console.log(error.message);
-    }
-  }
+  //       connection.query(query, [assetID, createdDate], (err, results) => {
+  //         if (err) reject(err.message);
+  //         resolve("Record added");
+  //       });
+  //     });
+  //     return response;
+  //   } catch (error) {
+  //     console.log(error.message);
+  //   }
+  // }
 
   async assignEngineer(assetID, createdDate, engineerID) {
     try {

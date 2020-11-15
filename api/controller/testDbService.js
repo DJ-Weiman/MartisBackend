@@ -62,20 +62,36 @@ class Dbservice {
     }
   }
 
-  async setResult(TestID, Result, DateCompleted) {
+  async setResult(TestID, Result, DateCompleted, comments) {
     try {
       const response = await new Promise((resolve, reject) => {
         const query =
-          "UPDATE test SET Result = ?, DateCompleted = ? WHERE TestID = ?";
+          "UPDATE test SET Result = ?, DateCompleted = ?, comments = ? WHERE TestID = ?";
 
         connection.query(
           query,
-          [Result, DateCompleted, TestID],
+          [Result, DateCompleted, comments, TestID],
           (err, results) => {
             if (err) reject(err.message);
-            resolve("Record added");
+            resolve("Record updated");
           }
         );
+      });
+      return response;
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+
+  async AutoInsertIntoRepair(AssetID, CreatedDate) {
+    try {
+      const response = await new Promise((resolve, reject) => {
+        const query = "Insert into repair(AssetID, CreatedDate) values (?, ?)";
+
+        connection.query(query, [AssetID, CreatedDate], (err, results) => {
+          if (err) reject(err.message);
+          resolve("Repair Entry Added");
+        });
       });
       return response;
     } catch (error) {
