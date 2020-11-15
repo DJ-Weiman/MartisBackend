@@ -19,20 +19,18 @@ router.get("/getRepairs", (req, res) => {
     .catch((err) => console.log(err));
 });
 
-router.patch("/changeCompletedDate", (req, res) => {
-  let engineerId = req.body.engineerId;
-  let assetId = req.body.assetId;
-  let createdDate = req.body.createdDate;
-  let completedDate = req.body.completedDate;
+router.patch("/addCompletedDateAndComments", (req, res) => {
+  let assetId = req.body.AssetID;
+  let createdDate = req.body.CreatedDate;
+  let completedDate = req.body.CompletedDate;
+  let comments = req.body.comments;
   console.log(req.body);
 
-  console.log("Check");
-
-  const result = db.changeCompletedDate(
-    engineerId,
+  const result = db.addCompletedDateAndComments(
     assetId,
     createdDate,
-    completedDate
+    completedDate,
+    comments
   );
 
   result
@@ -45,13 +43,12 @@ router.patch("/changeCompletedDate", (req, res) => {
 });
 
 router.post("/addRepair", (req, res) => {
-  let engineerId = req.body.engineerId;
-  let assetId = req.body.assetId;
-  let createdDate = req.body.createdDate;
+  let assetId = req.body.AssetId;
+  let createdDate = req.body.CreatedDate;
 
   console.log(req.body);
 
-  const result = db.addRepair(engineerId, assetId, createdDate);
+  const result = db.addRepair(assetId, createdDate);
 
   result.then((reply) => res.json(reply)).catch((err) => console.log(err));
 });

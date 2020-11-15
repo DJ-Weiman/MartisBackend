@@ -23,18 +23,34 @@ class Dbservice {
     }
   }
 
-  async changeCompletedDate(engineerID, assetID, createdDate, completedDate) {
+  async addRepair(assetID, createdDate) {
+    try {
+      const response = await new Promise((resolve, reject) => {
+        const query = "INSERT INTO repair(AssetID, CreatedDate) VALUES (?,?)";
+
+        connection.query(query, [assetID, createdDate], (err, results) => {
+          if (err) reject(err.message);
+          resolve("Record added");
+        });
+      });
+      return response;
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+
+  async assignEngineer(assetID, createdDate, engineerID) {
     try {
       const response = await new Promise((resolve, reject) => {
         const query =
-          "UPDATE repair SET CompletedDate = ? WHERE AssetID = ? AND EngineerID = ? AND CreatedDate = ?";
+          "UPDATE repair SET EngineerID = ? WHERE CreatedDate = ? AND AssetID = ?";
 
         connection.query(
           query,
-          [completedDate, assetID, engineerID, createdDate],
+          [engineerID, createdDate, assetID],
           (err, results) => {
             if (err) reject(err.message);
-            resolve("CompletedDate changed");
+            resolve("Engineer assigned");
           }
         );
       });
@@ -44,18 +60,23 @@ class Dbservice {
     }
   }
 
-  async addRepair(engineerID, assetID, repairDate) {
+  async addCompletedDateAndComments(
+    assetID,
+    createdDate,
+    completedDate,
+    comments
+  ) {
     try {
       const response = await new Promise((resolve, reject) => {
         const query =
-          "INSERT INTO repair(EngineerID, AssetID, CreatedDate) VALUES (?,?,?)";
+          "UPDATE repair SET CompletedDate = ?, comments = ? WHERE AssetID = ? AND CreatedDate = ?";
 
         connection.query(
           query,
-          [engineerID, assetID, repairDate],
+          [completedDate, comments, assetID, createdDate],
           (err, results) => {
             if (err) reject(err.message);
-            resolve("Record added");
+            resolve("CompletedDate changed");
           }
         );
       });
