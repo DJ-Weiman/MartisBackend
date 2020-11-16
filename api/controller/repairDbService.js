@@ -27,6 +27,7 @@ class Dbservice {
 			const response = await new Promise((resolve, reject) => {
 				const query = 'SELECT * FROM repair WHERE EngineerID IS NULL';
 
+<<<<<<< HEAD
 				connection.query(query, (err, results) => {
 					if (err) reject(new Error(err));
 					resolve(results);
@@ -42,6 +43,23 @@ class Dbservice {
 		try {
 			const response = await new Promise((resolve, reject) => {
 				const query = 'INSERT INTO repair(AssetID, CreatedDate) VALUES (?,?)';
+=======
+  // async addRepair(assetID, createdDate) {
+  //   try {
+  //     const response = await new Promise((resolve, reject) => {
+  //       const query = "INSERT INTO repair(AssetID, CreatedDate) VALUES (?,?)";
+
+  //       connection.query(query, [assetID, createdDate], (err, results) => {
+  //         if (err) reject(err.message);
+  //         resolve("Record added");
+  //       });
+  //     });
+  //     return response;
+  //   } catch (error) {
+  //     console.log(error.message);
+  //   }
+  // }
+>>>>>>> 892ce675a4fbfb3971a1dd06cc0c24123cc8ddc0
 
 				connection.query(query, [ assetID, createdDate ], (err, results) => {
 					if (err) reject(err.message);
