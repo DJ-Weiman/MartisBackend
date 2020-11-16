@@ -28,7 +28,7 @@ router.post("/createNewAsset", (req, res) => {
   let Region = req.body.Region;
   let Division = req.body.Division;
   let SubDivision = req.body.SubDivision;
-  let NearesMilePost = req.body.NearesMilePost;
+  let NearestMilePost = req.body.NearestMilePost;
   let LastTestedDate = req.body.LastTestedDate;
 
   console.log(req.body);
@@ -41,7 +41,7 @@ router.post("/createNewAsset", (req, res) => {
     Region,
     Division,
     SubDivision,
-    NearesMilePost,
+    NearestMilePost,
     LastTestedDate
   );
 
@@ -49,6 +49,19 @@ router.post("/createNewAsset", (req, res) => {
     .then((reply) => {
       console.log("Test Added");
       res.json(reply);
+    })
+    .catch((err) => console.log(err));
+});
+
+router.post("/orderAssetsByLocation", (req, res) => {
+  const empLatitude = req.body.empLatitude;
+  const empLongitude = req.body.empLongitude;
+  const result = db.orderAssetsByLocation(empLatitude, empLongitude);
+
+  result
+    .then((data) => {
+      //console.log(data);
+      res.json({ data: data });
     })
     .catch((err) => console.log(err));
 });
