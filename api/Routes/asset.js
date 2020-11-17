@@ -66,4 +66,6 @@ router.post("/orderAssetsByLocation", (req, res) => {
     .catch((err) => console.log(err));
 });
 
+router.post("/tester", (req, res) => {});
+
 module.exports = router;

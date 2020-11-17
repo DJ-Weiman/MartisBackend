@@ -64,7 +64,9 @@ class Dbservice {
           query,
           [engineerID, createdDate, assetID],
           (err, results) => {
-            if (err) reject(err.message);
+            if (err) {
+              reject(err.message);
+            }
             resolve("Engineer assigned");
           }
         );
@@ -84,7 +86,7 @@ class Dbservice {
     try {
       const response = await new Promise((resolve, reject) => {
         const query =
-          "UPDATE repair SET CompletedDate = ?, comments = ? WHERE AssetID = ? AND CreatedDate = ?";
+          "update repair set CompletedDate=? , comments=? WHERE AssetID=? AND CreatedDate = ?";
 
         connection.query(
           query,
