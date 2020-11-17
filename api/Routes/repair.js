@@ -30,16 +30,19 @@ router.get('/getUnassignedRepairs', (req, res) => {
 		.catch((err) => console.log(err));
 });
 
-// router.post("/addRepair", (req, res) => {
-//   let assetId = req.body.AssetId;
-//   let createdDate = req.body.CreatedDate;
+router.put("/addRepair", (req, res) => {
+	let assetId = req.body.assetId;
+	let engineerId = req.body.engineerId;
+	let createdDate = req.body.createdDate;
+	let completedDate = req.body.completedDate;
+	let comments = req.body.comment;
 
-//   console.log(req.body);
+  console.log(req.body);
 
-//   const result = db.addRepair(assetId, createdDate);
+  const result = db.addRepair(assetId, engineerId, createdDate, completedDate, comments);
 
-//   result.then((reply) => res.json(reply)).catch((err) => console.log(err));
-// });
+  result.then((reply) => res.json(reply)).catch((err) => console.log(err));
+});
 
 router.patch('assignEngineer', (req, res) => {
 	let assetId = req.body.AssetId;
@@ -53,11 +56,24 @@ router.patch('assignEngineer', (req, res) => {
 	result.then((reply) => res.json(reply)).catch((err) => console.log(err));
 });
 
+router.patch('/removeAssignment', (req, res) => {
+	let assetId = req.body.assetId;
+	let createdDate = req.body.createdDate;
+	let comment = req.body.comment;
+
+	console.log(req.body);
+
+	const result = db.removeAssignment(assetId, createdDate, comment);
+
+	result.then((reply) => res.json(reply)).catch((err) => console.log(err));
+});
+
+
 router.patch('/addCompletedDateAndComments', (req, res) => {
-	let assetId = req.body.AssetID;
-	let createdDate = req.body.CreatedDate;
-	let completedDate = req.body.CompletedDate;
-	let comments = req.body.comments;
+	let assetId = req.body.assetId;
+	let createdDate = req.body.createdDate;
+	let completedDate = req.body.completedDate;
+	let comments = req.body.comment;
 	console.log(req.body);
 
 	const result = db.addCompletedDateAndComments(assetId, createdDate, completedDate, comments);
@@ -65,7 +81,7 @@ router.patch('/addCompletedDateAndComments', (req, res) => {
 	result
 		.then((reply) => {
 			res.json({
-				message: 'Date changed'
+				message: 'Repair report complete'
 			});
 		})
 		.catch((err) => console.log(err));
