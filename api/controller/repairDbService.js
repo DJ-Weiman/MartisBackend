@@ -10,7 +10,7 @@ class Dbservice {
   async getAllRepairs() {
     try {
       const response = await new Promise((resolve, reject) => {
-        const query = "SELECT * FROM repair";
+        const query = "SELECT * FROM repair WHERE CompletedDate IS null";
 
         connection.query(query, (err, results) => {
           if (err) reject(new Error(err));
@@ -38,12 +38,12 @@ class Dbservice {
     }
   }
 
-  async addRepair(assetID, createdDate) {
+  async addRepair(AssetID, EngineerID, CreatedDate, CompletedDate, comments) {
     try {
       const response = await new Promise((resolve, reject) => {
-        const query = "INSERT INTO repair(AssetID, CreatedDate) VALUES (?,?)";
+        const query = "INSERT INTO repair VALUES (?, ?, ?, ?, ?)";
 
-        connection.query(query, [assetID, createdDate], (err, results) => {
+        connection.query(query, [EngineerID, AssetID, CreatedDate, CompletedDate, comments], (err, results) => {
           if (err) reject(err.message);
           resolve("Record added");
         });
@@ -75,6 +75,28 @@ class Dbservice {
     }
   }
 
+  async removeAssignment(assetID, createdDate, comments) {
+    try {
+      const response = await new Promise((resolve, reject) => {
+        const query =
+          "UPDATE repair SET EngineerID = ?, Comments = ? WHERE CreatedDate = ? AND AssetID = ?";
+
+        connection.query(
+          query,
+          [null, comments, createdDate, assetID],
+          (err, results) => {
+            if (err) reject(err.message);
+            resolve("Manager Notified");
+          }
+        );
+      });
+      return response;
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+
+
   async addCompletedDateAndComments(
     assetID,
     createdDate,
@@ -91,7 +113,7 @@ class Dbservice {
           [completedDate, comments, assetID, createdDate],
           (err, results) => {
             if (err) reject(err.message);
-            resolve("CompletedDate changed");
+            resolve("Repair completed");
           }
         );
       });
