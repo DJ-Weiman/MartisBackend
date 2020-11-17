@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const bodyParser = require("body-parser");
+const date = require("date-and-time");
 
 const dbService = require("../controller/repairDbService");
 const db = dbService.getDbServiceInstance();
@@ -14,7 +15,11 @@ router.get("/getRepairs", (req, res) => {
   result
     .then((data) => {
       console.log(data);
-      res.json({ data: data });
+      res.json({
+        data: data,
+        dateCreated2: data[0].CreatedDate,
+        dateCreated: date.format(data[0].CreatedDate, "YYYY/MM/DD HH:mm:ss"),
+      });
     })
     .catch((err) => console.log(err));
 });
@@ -30,35 +35,55 @@ router.get("/getUnassignedRepairs", (req, res) => {
     .catch((err) => console.log(err));
 });
 
-// router.post("/addRepair", (req, res) => {
-//   let assetId = req.body.AssetId;
-//   let createdDate = req.body.CreatedDate;
+router.put("/addRepair", (req, res) => {
+  let assetId = req.body.assetId;
+  let engineerId = req.body.engineerId;
+  let createdDate = req.body.createdDate;
+  let completedDate = req.body.completedDate;
+  let comments = req.body.comment;
 
-//   console.log(req.body);
+  console.log(req.body);
 
-//   const result = db.addRepair(assetId, createdDate);
+  const result = db.addRepair(
+    assetId,
+    engineerId,
+    createdDate,
+    completedDate,
+    comments
+  );
 
-//   result.then((reply) => res.json(reply)).catch((err) => console.log(err));
-// });
+  result.then((reply) => res.json(reply)).catch((err) => console.log(err));
+});
 
 router.patch("assignEngineer", (req, res) => {
-  res.json("H");
-  //   let assetId = req.body.AssetId;
-  //   let createdDate = req.body.CreatedDate;
-  //   let engineerID = req.body.EngineerID;
+  let assetId = req.body.AssetId;
+  let createdDate = req.body.CreatedDate;
+  let engineerID = req.body.EngineerID;
 
-  //   console.log(req.body);
+  console.log(req.body);
 
-  //   const result = db.assignEngineer(assetId, createdDate, engineerID);
+  const result = db.assignEngineer(assetId, createdDate, engineerID);
 
-  //   result.then((reply) => res.json(reply)).catch((err) => console.log(err));
+  result.then((reply) => res.json(reply)).catch((err) => console.log(err));
+});
+
+router.patch("/removeAssignment", (req, res) => {
+  let assetId = req.body.assetId;
+  let createdDate = req.body.createdDate;
+  let comment = req.body.comment;
+
+  console.log(req.body);
+
+  const result = db.removeAssignment(assetId, createdDate, comment);
+
+  result.then((reply) => res.json(reply)).catch((err) => console.log(err));
 });
 
 router.patch("/addCompletedDateAndComments", (req, res) => {
-  let assetId = req.body.AssetId;
-  let createdDate = req.body.CreatedDate;
-  let completedDate = req.body.CompletedDate;
-  let comments = req.body.comments;
+  let assetId = req.body.assetId;
+  let createdDate = req.body.createdDate;
+  let completedDate = req.body.completedDate;
+  let comments = req.body.comment;
   console.log(req.body);
 
   const result = db.addCompletedDateAndComments(
@@ -67,12 +92,28 @@ router.patch("/addCompletedDateAndComments", (req, res) => {
     completedDate,
     comments
   );
+  console.log(new Date(createdDate).toLocaleString());
+  console.log(JSON.stringify(createdDate));
 
   result
     .then((reply) => {
       res.json({
-        message: "Comment and Completed date added",
+        message: "Repair report complete",
       });
+    })
+    .catch((err) => console.log(err));
+});
+
+router.post("/orderRepairsByLocation", (req, res) => {
+  const empLatitude = req.body.empLatitude;
+  const empLongitude = req.body.empLongitude;
+
+  const result = db.orderRepairsByLocation(empLatitude, empLongitude);
+
+  result
+    .then((data) => {
+      //console.log(data);
+      res.json({ data: data });
     })
     .catch((err) => console.log(err));
 });

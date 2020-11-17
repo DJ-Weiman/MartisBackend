@@ -1,5 +1,8 @@
 const mysql = require("mysql");
 const connection = require("./dbConnection");
+const haversine = require("haversine");
+const lodash = require("lodash");
+const { xor } = require("lodash");
 let instance = null;
 
 class Dbservice {
@@ -91,6 +94,52 @@ class Dbservice {
         connection.query(query, [AssetID, CreatedDate], (err, results) => {
           if (err) reject(err.message);
           resolve("Repair Entry Added");
+        });
+      });
+      return response;
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+
+  async orderByLocationAndInspector(empId, empLatitude, empLongitude) {
+    try {
+      const employeeCoordinates = {
+        latitude: empLatitude,
+        longitude: empLongitude,
+      };
+
+      let nearByAssets = [];
+
+      const response = await new Promise((resolve, reject) => {
+        const query = `SELECT t.InspectorID, a.GPSLatitude, a.GPSLongitude, t.AssetID
+                        from test t, asset a
+                        where t.AssetID = a.AssetID
+                        AND t.InspectorID = ?`;
+
+        connection.query(query, [empId], (err, results) => {
+          if (err) reject(new Error(err));
+          results.forEach((element) => {
+            let asset = {
+              latitude: element.GPSLatitude,
+              longitude: element.GPSLongitude,
+            };
+
+            const distance = haversine(asset, employeeCoordinates, {
+              unit: "meter",
+            });
+            if (distance) {
+              nearByAssets.push({
+                distance: distance,
+                assetID: element.AssetID,
+              });
+            }
+          });
+          resolve(
+            lodash.sortBy(nearByAssets, (e) => {
+              return e.distance;
+            })
+          );
         });
       });
       return response;

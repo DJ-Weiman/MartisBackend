@@ -10,7 +10,7 @@ class Dbservice {
   async getReportDetails(inspectorID, InitialDate, FinalDate) {
     try {
       const response = await new Promise((resolve, reject) => {
-        const query = `SELECT t.InspectorID, t.DateCompleted, a.Division, a.SubDivision, a.NearestMilePost, a.Region, u.Name, t.comments
+        const query = `SELECT t.TestID, t.InspectorID, t.DateCompleted, a.Division, a.SubDivision, a.NearestMilePost, a.Region, u.Name, t.comments
         from asset a, user u, testmodule tm, test t
         WHERE a.AssetID = t.AssetID
         AND u.UserID = t.InspectorID
