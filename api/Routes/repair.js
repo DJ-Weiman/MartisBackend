@@ -17,8 +17,6 @@ router.get("/getRepairs", (req, res) => {
       console.log(data);
       res.json({
         data: data,
-        dateCreated2: data[0].CreatedDate,
-        dateCreated: date.format(data[0].CreatedDate, "YYYY/MM/DD HH:mm:ss"),
       });
     })
     .catch((err) => console.log(err));

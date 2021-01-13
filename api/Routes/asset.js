@@ -22,6 +22,7 @@ router.get("/getAssets", (req, res) => {
 
 router.post("/createNewAsset", (req, res) => {
   let AssetID = req.body.AssetID;
+  let AssetType = req.body.AssetType;
   let Status = req.body.Status;
   let GPSLatitude = req.body.GPSLatitude;
   let GPSLongitude = req.body.GPSLongitude;
@@ -35,6 +36,7 @@ router.post("/createNewAsset", (req, res) => {
 
   const result = db.createNewAsset(
     AssetID,
+    AssetType,
     Status,
     GPSLatitude,
     GPSLongitude,
