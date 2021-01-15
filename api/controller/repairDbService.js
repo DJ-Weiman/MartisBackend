@@ -79,7 +79,7 @@ class Dbservice {
     try {
       const response = await new Promise((resolve, reject) => {
         const query =
-          "UPDATE repair SET EngineerID = ?, Comments = ? WHERE CreatedDate = ? AND AssetID = ?";
+          "UPDATE repair SET EngineerID = ?, comments = ? WHERE CreatedDate = ? AND AssetID = ?";
 
         connection.query(
           query,
@@ -122,6 +122,34 @@ class Dbservice {
       console.log(error.message);
     }
   }
+
+
+async baa(
+  engineerID,
+  assetID,
+  createdDate,
+  completedDate,
+  comments
+) {
+  try {
+    const response = await new Promise((resolve, reject) => {
+      const query =
+        "UPDATE repair SET EngineerID = ?, CompletedDate = ?, comments = ? WHERE AssetID = ? AND CreatedDate = ?";
+
+      connection.query(
+        query,
+        [engineerID, completedDate, comments,  assetID, createdDate],
+        (err, results) => {
+          if (err) reject(err.message);
+          resolve("Repair completed");
+        }
+      );
+    });
+    return response;
+  } catch (error) {
+    console.log(error.message);
+  }
+}
 }
 
 module.exports = Dbservice;

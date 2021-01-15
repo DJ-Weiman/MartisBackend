@@ -77,6 +77,25 @@ router.patch('/addCompletedDateAndComments', (req, res) => {
 	console.log(req.body);
 
 	const result = db.addCompletedDateAndComments(assetId, createdDate, completedDate, comments);
+	console.log(assetId, createdDate, completedDate, comments);
+	result
+		.then((reply) => {
+			res.json({
+				message: 'Repair report complete'
+			});
+		})
+		.catch((err) => console.log(err));
+});
+
+router.put('/baa', (req, res) => {
+	let assetId = req.body.assetId;
+	let engineerId = req.body.engineerId;
+	let createdDate = req.body.createdDate;
+	let completedDate = req.body.completedDate;
+	let comments = req.body.comment;
+	console.log(req.body);
+
+	const result = db.baa(engineerId, assetId, createdDate, completedDate, comments);
 
 	result
 		.then((reply) => {
@@ -86,5 +105,6 @@ router.patch('/addCompletedDateAndComments', (req, res) => {
 		})
 		.catch((err) => console.log(err));
 });
+
 
 module.exports = router;
