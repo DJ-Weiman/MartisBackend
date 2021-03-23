@@ -71,11 +71,11 @@ router.patch('/removeAssignment', (req, res) => {
 	result.then((reply) => res.json(reply)).catch((err) => console.log(err));
 });
 
-router.patch('/addCompletedDateAndComments', (req, res) => {
-	let assetId = req.body.assetId;
-	let createdDate = req.body.createdDate;
-	let completedDate = req.body.completedDate;
-	let comments = req.body.comment;
+router.put('/addCompletedDateAndComments', (req, res) => {
+	let assetId = req.body.AssetId;
+	let createdDate = req.body.CreatedDate;
+	let completedDate = req.body.CompletedDate;
+	let comments = req.body.comments;
 	console.log(req.body);
 
 	const result = db.addCompletedDateAndComments(assetId, createdDate, completedDate, comments);

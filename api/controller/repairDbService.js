@@ -13,7 +13,7 @@ class Dbservice {
 	async getAllRepairs() {
 		try {
 			const response = await new Promise((resolve, reject) => {
-				const query = 'SELECT * FROM repair WHERE CompletedDate IS null OR EngineerID IS NOT NULL';
+				const query = 'SELECT * FROM repair WHERE CompletedDate IS null';
 
 				connection.query(query, (err, results) => {
 					if (err) reject(new Error(err));
@@ -98,13 +98,15 @@ class Dbservice {
 	async addCompletedDateAndComments(assetID, createdDate, completedDate, comments) {
 		try {
 			const response = await new Promise((resolve, reject) => {
-				const query = 'update repair set CompletedDate=? , comments=? WHERE AssetID=? AND CreatedDate = ?';
-
+				const query =
+					'UPDATE repair SET CompletedDate = ? , comments = ? WHERE AssetID = ? AND CreatedDate = ?';
 				connection.query(query, [ completedDate, comments, assetID, createdDate ], (err, results) => {
+					console.log(query);
 					if (err) reject(err.message);
 					resolve('Repair completed');
 				});
 			});
+			console.log(response);
 			return response;
 		} catch (error) {
 			console.log(error.message);
