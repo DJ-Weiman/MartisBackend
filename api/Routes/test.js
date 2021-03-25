@@ -21,12 +21,12 @@ router.get('/getTests', (req, res) => {
 });
 
 router.get('/exportTests', (req, res) => {
-	const result = db.getAllTests();
+	const result = db.exportTests();
 
 	result
 		.then((data) => {
 			console.log(data);
-			res.json([data]);
+			res.json(data);
 		})
 		.catch((err) => console.log(err));
 });

@@ -124,6 +124,38 @@ class Dbservice {
 			console.log(error.message);
 		}
 	}
+
+	async exportTests() {
+		try {
+			const response = await new Promise((resolve, reject) => {
+				const query = `SELECT CONCAT("[", 
+				GROUP_CONCAT( 
+				CONCAT("[TestID:'",TestID,"'"),
+				CONCAT("[DateIssued:'",DateIssued,"'"),
+				CONCAT("[AssetID:'",AssetID,"'"),
+				CONCAT("[InspectorID:'",InspectorID,"'"),
+				CONCAT("[Result:'",Result,"'"),
+				CONCAT("[SupervisorID:'",SupervisorID,"'"),
+				CONCAT("[DateCompleted:'",DateCompleted,"'"),
+				CONCAT("[Frequency:'",Frequency,"'"),
+				CONCAT("[Priority:'",Priority,"'"),
+				CONCAT("[TestModID:'",TestModID,"'"),
+				CONCAT("[comments:'",comments,"']")
+				) 
+				,"]") 
+				AS json FROM test`;
+
+				connection.query(query, (err, results) => {
+					if (err) reject(new Error(err));
+					resolve(results);
+				});
+			});
+			return response;
+		} catch (error) {
+			console.log(error.message);
+		}
+	}
+
 }
 
 module.exports = Dbservice;
