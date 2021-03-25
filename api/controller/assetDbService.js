@@ -28,6 +28,7 @@ class Dbservice {
 
   async createNewAsset(
     AssetID,
+    AssetType,
     Status,
     GPSLatitude,
     GPSLongitude,
@@ -40,12 +41,13 @@ class Dbservice {
     try {
       const response = await new Promise((resolve, reject) => {
         const query =
-          "INSERT INTO asset (AssetID, Status, GPSLatitude, GPSLongitude, Region, Division, SubDivision, NearestMilePost, LastTestedDate) Values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+          "INSERT INTO asset (AssetID, AssetType, Status, GPSLatitude, GPSLongitude, Region, Division, SubDivision, NearestMilePost, LastTestedDate) Values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         connection.query(
           query,
           [
             AssetID,
+            AssetType,
             Status,
             GPSLatitude,
             GPSLongitude,

@@ -82,4 +82,24 @@ router.patch("/setResult", (req, res) => {
   }
 });
 
+router.post("/orderByLocationAndInspector", (req, res) => {
+  const empLatitude = req.body.empLatitude;
+  const empLongitude = req.body.empLongitude;
+  const empId = req.body.empId;
+
+  console.log(req.body);
+  const result = db.orderByLocationAndInspector(
+    empId,
+    empLatitude,
+    empLongitude
+  );
+
+  result
+    .then((data) => {
+      //console.log(data);
+      res.json({ data: data });
+    })
+    .catch((err) => console.log(err));
+});
+
 module.exports = router;
