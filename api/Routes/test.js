@@ -20,6 +20,17 @@ router.get('/getTests', (req, res) => {
 		.catch((err) => console.log(err));
 });
 
+router.get('/exportTests', (req, res) => {
+	const result = db.getAllTests();
+
+	result
+		.then((data) => {
+			console.log(data);
+			res.json([data]);
+		})
+		.catch((err) => console.log(err));
+});
+
 router.post('/createNewTest', (req, res) => {
 	let TestID = req.body.TestID;
 	let DateIssued = req.body.DateIssued;
