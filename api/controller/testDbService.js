@@ -156,25 +156,6 @@ class Dbservice {
 		}
 	}
 
-	// async exportTests() {
-	// 	try {
-	// 		const response = await new Promise((resolve, reject) => {
-	// 			const query = `JSON_ARRAYAGG(
-	// 				*
-	// 			)
-	// 			FROM test`;
-
-	// 			connection.query(query, (err, results) => {
-	// 				if (err) reject(new Error(err));
-	// 				resolve(results);
-	// 			});
-	// 		});
-	// 		return response;
-	// 	} catch (error) {
-	// 		console.log(error.message);
-	// 	}
-	// }
-
 }
 
 module.exports = Dbservice;
