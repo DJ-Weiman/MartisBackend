@@ -47,6 +47,27 @@ class Dbservice {
 		}
 	}
 
+	async importTest(TestID, DateIssued, AssetID, InspectorID, Result, SupervisorID, DateCompleted, Frequency, Priority, TestModID, comments) {
+		try {
+			const response = await new Promise((resolve, reject) => {
+				const query =
+					'INSERT IGNORE INTO test (TestID,DateIssued, AssetID, InspectorID, Result, SupervisorID, DateCompleted, Frequency, Priority, TestModID, comments) Values ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+
+				connection.query(
+					query,
+					[ TestID, DateIssued, AssetID, InspectorID, SupervisorID, Frequency, Urgent, TestModID ],
+					(err, results) => {
+						if (err) reject(err.message);
+						resolve('New test imported');
+					}
+				);
+			});
+			return response;
+		} catch (error) {
+			console.log('There was an error');
+		}
+	}
+
 	async setResult(TestID, Result, DateCompleted, comments) {
 		try {
 			const response = await new Promise((resolve, reject) => {
