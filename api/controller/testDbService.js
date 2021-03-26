@@ -143,7 +143,7 @@ class Dbservice {
 				CONCAT("'",comments,"']")
 				) 
 				,"]") 
-				AS values FROM test`;
+				AS json FROM test`;
 
 				connection.query(query, (err, results) => {
 					if (err) reject(new Error(err));
