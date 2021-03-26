@@ -26,7 +26,7 @@ router.get('/exportTests', (req, res) => {
 	result
 		.then((data) => {
 			console.log(data);
-			res.json({json: data});
+			res.json(data);
 		})
 		.catch((err) => console.log(err));
 });
