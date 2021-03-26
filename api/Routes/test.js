@@ -46,7 +46,7 @@ router.post('/importTest', (req, res) => {
 
 	console.log(req.body);
 
-	const result = db.createNewTest(
+	const result = db.importTest(
 		TestID,
 		DateIssued,
 		AssetID,
@@ -63,7 +63,7 @@ router.post('/importTest', (req, res) => {
 	result
 		.then((reply) => {
 			res.json({
-				message: 'Test added successfully',
+				message: 'Test imported successfully',
 				reply: reply
 			});
 		})
