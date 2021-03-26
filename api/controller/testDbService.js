@@ -143,7 +143,7 @@ class Dbservice {
 				CONCAT("'",comments,"']")
 				) 
 				,"]") 
-				as json FROM test WHERE DateCompleted is NULL`;
+				as json FROM test where DateCompleted is NULL`;
 
 				connection.query(query, (err, results) => {
 					if (err) reject(new Error(err));
