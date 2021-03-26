@@ -78,7 +78,7 @@ router.post('/createNewTest', (req, res) => {
 	let InspectorID = req.body.InspectorID;
 	let SupervisorID = req.body.SupervisorID;
 	let Frequency = req.body.Frequency;
-	let Urgent = req.body.Urgent;
+	let Urgent = req.body.Priority;
 	let TestModID = req.body.TestModID;
 
 	console.log(req.body);
