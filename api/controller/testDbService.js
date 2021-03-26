@@ -130,20 +130,20 @@ class Dbservice {
 			const response = await new Promise((resolve, reject) => {
 				const query = `SELECT CONCAT("[", 
 				GROUP_CONCAT( 
-				CONCAT("[TestID:'",TestID,"'"),
-				CONCAT("[DateIssued:'",DateIssued,"'"),
-				CONCAT("[AssetID:'",AssetID,"'"),
-				CONCAT("[InspectorID:'",InspectorID,"'"),
-				CONCAT("[Result:'",Result,"'"),
-				CONCAT("[SupervisorID:'",SupervisorID,"'"),
-				CONCAT("[DateCompleted:'",DateCompleted,"'"),
-				CONCAT("[Frequency:'",Frequency,"'"),
-				CONCAT("[Priority:'",Priority,"'"),
-				CONCAT("[TestModID:'",TestModID,"'"),
-				CONCAT("[comments:'",comments,"']")
+				CONCAT("['",TestID,"',"),
+				CONCAT("'",DateIssued,"',"),
+				CONCAT("'",AssetID,"',"),
+				CONCAT("'",InspectorID,"',"),
+				CONCAT("'",Result,"',"),
+				CONCAT("'",SupervisorID,"',"),
+				CONCAT("'",DateCompleted,"',"),
+				CONCAT("'",Frequency,"',"),
+				CONCAT("'",Priority,"',"),
+				CONCAT("'",TestModID,"',"),
+				CONCAT("'",comments,"']")
 				) 
 				,"]") 
-				AS json FROM test`;
+				AS values FROM test`;
 
 				connection.query(query, (err, results) => {
 					if (err) reject(new Error(err));
