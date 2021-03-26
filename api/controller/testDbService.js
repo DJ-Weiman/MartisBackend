@@ -125,44 +125,25 @@ class Dbservice {
 		}
 	}
 
-	// async exportTests() {
-	// 	try {
-	// 		const response = await new Promise((resolve, reject) => {
-	// 			const query = `SELECT CONCAT("[", 
-	// 			GROUP_CONCAT( 
-	// 			CONCAT("['",TestID,"',"),
-	// 			CONCAT("'",DateIssued,"',"),
-	// 			CONCAT("'",AssetID,"',"),
-	// 			CONCAT("'",InspectorID,"',"),
-	// 			CONCAT("'",Result,"',"),
-	// 			CONCAT("'",SupervisorID,"',"),
-	// 			CONCAT("'",DateCompleted,"',"),
-	// 			CONCAT("'",Frequency,"',"),
-	// 			CONCAT("'",Priority,"',"),
-	// 			CONCAT("'",TestModID,"',"),
-	// 			CONCAT("'",comments,"']")
-	// 			) 
-	// 			,"]") 
-	// 			as json FROM test`;
-
-	// 			connection.query(query, (err, results) => {
-	// 				if (err) reject(new Error(err));
-	// 				resolve(results);
-	// 			});
-	// 		});
-	// 		return response;
-	// 	} catch (error) {
-	// 		console.log(error.message);
-	// 	}
-	// }
-
 	async exportTests() {
 		try {
 			const response = await new Promise((resolve, reject) => {
-				const query = `JSON_ARRAYAGG(
-					*
-				)
-				FROM test`;
+				const query = `SELECT CONCAT("[", 
+				GROUP_CONCAT( 
+				CONCAT("['",TestID,"',"),
+				CONCAT("'",DateIssued,"',"),
+				CONCAT("'",AssetID,"',"),
+				CONCAT("'",InspectorID,"',"),
+				CONCAT("'",Result,"',"),
+				CONCAT("'",SupervisorID,"',"),
+				CONCAT("'",DateCompleted,"',"),
+				CONCAT("'",Frequency,"',"),
+				CONCAT("'",Priority,"',"),
+				CONCAT("'",TestModID,"',"),
+				CONCAT("'",comments,"']")
+				) 
+				,"]") 
+				as json FROM test`;
 
 				connection.query(query, (err, results) => {
 					if (err) reject(new Error(err));
@@ -174,6 +155,25 @@ class Dbservice {
 			console.log(error.message);
 		}
 	}
+
+	// async exportTests() {
+	// 	try {
+	// 		const response = await new Promise((resolve, reject) => {
+	// 			const query = `JSON_ARRAYAGG(
+	// 				*
+	// 			)
+	// 			FROM test`;
+
+	// 			connection.query(query, (err, results) => {
+	// 				if (err) reject(new Error(err));
+	// 				resolve(results);
+	// 			});
+	// 		});
+	// 		return response;
+	// 	} catch (error) {
+	// 		console.log(error.message);
+	// 	}
+	// }
 
 }
 
