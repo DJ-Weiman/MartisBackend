@@ -26,7 +26,7 @@ class Dbservice {
 		}
 	}
 
-	async createNewTest(TestID, DateIssued, AssetID, InspectorID, SupervisorID, Frequency, Urgent, TestModID) {
+	async createNewTest(TestID, DateIssued, AssetID, InspectorID, SupervisorID, Frequency, Priority, TestModID) {
 		try {
 			const response = await new Promise((resolve, reject) => {
 				const query =
@@ -34,7 +34,7 @@ class Dbservice {
 
 				connection.query(
 					query,
-					[ TestID, DateIssued, AssetID, InspectorID, SupervisorID, Frequency, Urgent, TestModID ],
+					[ TestID, DateIssued, AssetID, InspectorID, SupervisorID, Frequency, Priority, TestModID ],
 					(err, results) => {
 						if (err) reject(err.message);
 						resolve('New test added');
