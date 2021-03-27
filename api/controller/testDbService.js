@@ -30,7 +30,7 @@ class Dbservice {
 		try {
 			const response = await new Promise((resolve, reject) => {
 				const query =
-					'INSERT INTO test (TestID,DateIssued, AssetID, InspectorID, SupervisorID, Frequency, Urgent, TestModID) Values ( ?, ?, ?, ?, ?, ?, ?, ?)';
+					'INSERT INTO test (TestID,DateIssued, AssetID, InspectorID, SupervisorID, Frequency, Priority, TestModID) Values ( ?, ?, ?, ?, ?, ?, ?, ?)';
 
 				connection.query(
 					query,
@@ -55,7 +55,7 @@ class Dbservice {
 
 				connection.query(
 					query,
-					[ TestID, DateIssued, AssetID, InspectorID, SupervisorID, Frequency, Urgent, TestModID ],
+					[ TestID, DateIssued, AssetID, InspectorID, Result, SupervisorID, DateCompleted, Frequency, Priority, TestModID, comments ],
 					(err, results) => {
 						if (err) reject(err.message);
 						resolve('New test imported');
