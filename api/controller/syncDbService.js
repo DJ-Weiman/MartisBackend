@@ -17,6 +17,7 @@ class Dbservice {
                 SELECT * FROM test where DateCompleted is NULL;
                 SELECT * FROM asset;
                 SELECT * FROM repair;
+                COMMIT;
                 `;
 
 				connection.query(query, (err, results) => {
