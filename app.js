@@ -12,12 +12,14 @@ const repairRoutes = require("./api/Routes/repair");
 const testRoutes = require("./api/Routes/test");
 const assetRoutes = require("./api/Routes/asset");
 const reportRoutes = require("./api/Routes/report");
+const syncRoutes = require("./api/Routes/sync");
 
 app.use("/user", userRoutes);
 app.use("/repair", repairRoutes);
 app.use("/test", testRoutes);
 app.use("/asset", assetRoutes);
 app.use("/report", reportRoutes);
+app.use("/sync", syncRoutes);
 
 app.use((req, res, next) => {
   const error = new Error("Not found");
