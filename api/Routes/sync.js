@@ -15,7 +15,7 @@ router.get('/export', (req, res) => {
 	result
 		.then((data) => {
 			console.log(data);
-			res.json({ data: data });
+			res.json({ values: data });
 		})
 		.catch((err) => console.log(err));
 });

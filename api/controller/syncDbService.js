@@ -31,7 +31,7 @@ class Dbservice {
 		}
 	}
 
-    async exAll() {
+    async exportAssets() {
 		try {
 			const response = await new Promise((resolve, reject) => {
 				const query = `SELECT * FROM asset;`;
@@ -57,9 +57,18 @@ class Dbservice {
                         
                         assets.push(currAss);
                     }
-					
+					resolve(assets);
 				});
+			});
+			return response;
+		} catch (error) {
+			console.log(error.message);
+		}
+	}
 
+    async exportTests() {
+        try{
+            const response = await new Promise((resolve, reject) => {
                 const query2 = `SELECT * from test`;
 
                 connection.query(query2, (err2,result) => {
@@ -74,29 +83,13 @@ class Dbservice {
                         
                         tests.push(currTest);
                     }
-                    
-                    var exportJsonText = {
-                        "json":
-                    [
-                        {
-                            "name" : "asset",
-                            "values": assets
-                        },
-                        {
-                            "name": "test",
-                            "values": tests
-                        }
-                    ]
-                    };
-
                     resolve(tests);
-
-                })
-			});
-			return response;
-		} catch (error) {
+                });
+            });
+        }
+        catch (error) {
 			console.log(error.message);
 		}
-	}
+    }
 }
 module.exports = Dbservice;
