@@ -14,9 +14,9 @@ class Dbservice {
 		try {
 			const response = await new Promise((resolve, reject) => {
 				const query = `START TRANSACTION;
-                SELECT * FROM test where DateCompleted is NULL AS test;
-                SELECT * FROM asset AS asset;
-                SELECT * FROM repair AS repair;
+                SELECT * AS test FROM test where DateCompleted is NULL;
+                SELECT * AS asset FROM asset;
+                SELECT * AS repair FROM repair;
                 COMMIT;
                 `;
 
