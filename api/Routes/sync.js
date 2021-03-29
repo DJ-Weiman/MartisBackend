@@ -33,6 +33,18 @@ router.get('/export', (req, res) => {
 		.catch((err) => console.log(err));
 });
 
+router.get('/exportTests', (req, res) => {
+	const result = db.exportTests();
+
+	result
+		.then((data) => {
+			console.log(data);
+		
+		res.json(data);
+		})
+		.catch((err) => console.log(err));
+});
+
 
 
 module.exports = router;
