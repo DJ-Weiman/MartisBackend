@@ -10,27 +10,6 @@ class Dbservice {
 		return instance ? instance : new Dbservice();
 	}
 
-	async exportAll() {
-		try {
-			const response = await new Promise((resolve, reject) => {
-				const query = `START TRANSACTION;
-                SELECT * FROM asset;
-                SELECT * FROM repair;
-                SELECT * FROM test WHERE CompletedDate IS NULL;
-                COMMIT;
-                `;
-
-				connection.query(query, (err, results) => {
-					if (err) reject(new Error(err));
-					resolve(results);
-				});
-			});
-			return response;
-		} catch (error) {
-			console.log(error.message);
-		}
-	}
-
     async exportAssets() {
 		try {
 			const response = await new Promise((resolve, reject) => {
@@ -90,16 +69,39 @@ class Dbservice {
                         currTest.push(result[k].TestModID);
                         currTest.push(result[k].comments);
                         
-                        
-                        
-                        
-                        
-                        
-                        
-                        
                         tests.push(currTest);
                     }
                     resolve(tests);
+                });
+            });
+            return response;
+        }
+        catch (error) {
+			console.log(error.message);
+		}
+    }
+
+    async exportRepairs() {
+        try{
+            const response = await new Promise((resolve, reject) => {
+                const query = `SELECT * from repair`;
+
+                connection.query(query, (err,result) => {
+                    if (err) reject(new Error(err));
+
+                    var repairs = [];
+
+                    for (var k = 0; k < result.length; k++){
+                        var currTest = [];
+                        currTest.push(result[k].EngineerID);
+                        currTest.push(result[k].AssetID);
+                        currTest.push(result[k].CreatedDate);
+                        currTest.push(result[k].CompletedDate);
+                        currTest.push(result[k].comments);
+                        
+                        repairs.push(currTest);
+                    }
+                    resolve(repairs);
                 });
             });
             return response;
