@@ -33,13 +33,11 @@ class Dbservice {
 
     async exAll() {
 		try {
-            i = 0;
-            for (i = 0; i < )
 			const response = await new Promise((resolve, reject) => {
 				const query = `START TRANSACTION;
                 SELECT * FROM asset;
                 SELECT * FROM repair;
-                SELECT * FROM test WHERE DateCompleted IS NULL;
+                SELECT * FROM test WHERE DateCompleted is NULL;
                 COMMIT;
                 `;
 
