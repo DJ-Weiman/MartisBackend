@@ -39,7 +39,7 @@ class Dbservice {
 				const query = `START TRANSACTION;
                 SELECT * FROM asset;
                 SELECT * FROM repair;
-                SELECT * FROM test WHERE CompletedDate IS NULL;
+                SELECT * FROM test WHERE DateCompleted IS NULL;
                 COMMIT;
                 `;
 
