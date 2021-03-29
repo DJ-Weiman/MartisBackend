@@ -2,7 +2,7 @@ const mysql = require('mysql');
 const connection = require('./dbConnection');
 const haversine = require('haversine');
 const lodash = require('lodash');
-const { xor } = require('lodash');
+const { xor, values } = require('lodash');
 let instance = null;
 
 class Dbservice {
@@ -57,8 +57,37 @@ class Dbservice {
                         
                         assets.push(currAss);
                     }
-					resolve(assets);
+					//resolve(assets);
 				});
+
+                const query2 = `SELECT * from test`;
+
+                connection.query(query2, (err2,result) => {
+                    if (err2) reject(new Error(err2));
+
+                    var tests = [];
+
+                    for (var i = 0; i < result.length; i++){
+                        var currTest = [];
+                        currTest.push(result[i].TestID);
+                        
+                        tests.push(currTest);
+                    }
+                    
+                    var exportJsonText = `{
+                        {
+                            "name" : "asset",
+                            "values": assets;
+                        },
+                        {
+                            "name": "test",
+                            "values": tests;
+                        }
+                    }`;
+
+                    resolve(JSON.parse(exportJsonText));
+
+                })
 			});
 			return response;
 		} catch (error) {
