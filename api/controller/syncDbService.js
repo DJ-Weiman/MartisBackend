@@ -86,6 +86,7 @@ class Dbservice {
                     resolve(tests);
                 });
             });
+            return response;
         }
         catch (error) {
 			console.log(error.message);
