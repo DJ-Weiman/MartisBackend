@@ -69,17 +69,17 @@ class Dbservice {
     async exportTests() {
         try{
             const response = await new Promise((resolve, reject) => {
-                const query2 = `SELECT * from test`;
+                const query = `SELECT * from test`;
 
-                connection.query(query2, (err2,result) => {
-                    if (err2) reject(new Error(err2));
+                connection.query(query, (err,result) => {
+                    if (err) reject(new Error(err));
 
                     var tests = [];
 
-                    for (var i = 0; i < result.length; i++){
+                    for (var k = 0; k < result.length; k++){
                         var currTest = [];
-                        currTest.push(result[i].TestID);
-                        currTest.push(result[i].DateIssued);
+                        currTest.push(result[k].TestID);
+                        //currTest.push(result[k].DateIssued);
                         
                         tests.push(currTest);
                     }
