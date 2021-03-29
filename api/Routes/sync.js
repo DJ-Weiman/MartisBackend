@@ -18,8 +18,8 @@ router.get('/export', (req, res) => {
 			var assetData = data;
 			const testResults = db.exportTests();
 			testResults
-			.then((data) => {
-				var testData = data;
+			.then((data2) => {
+				var testData = data2;
 				const dataToImport = {
 					database : "martis",
 					version : 1,
