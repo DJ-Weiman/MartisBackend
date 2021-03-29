@@ -89,7 +89,7 @@ class Dbservice {
                     ]
                     };
 
-                    resolve(exportJsonText);
+                    resolve(tests);
 
                 })
 			});
