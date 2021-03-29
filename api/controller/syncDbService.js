@@ -45,6 +45,15 @@ class Dbservice {
 
                         var currAss = [];
                         currAss.push(results[i].AssetID);
+                        currAss.push(results[i].AssetType);
+                        currAss.push(results[i].Status);
+                        currAss.push(results[i].GPSLatitude);
+                        currAss.push(results[i].GPSLongitude);
+                        currAss.push(results[i].Region);
+                        currAss.push(results[i].Division);
+                        currAss.push(results[i].SubDivision);
+                        currAss.push(results[i].NearestMilePost);
+                        currAss.push(results[i].LastTestedDate);
                         
                         assets.push(currAss);
                     }
