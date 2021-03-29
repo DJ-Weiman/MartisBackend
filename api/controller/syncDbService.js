@@ -110,5 +110,64 @@ class Dbservice {
 			console.log(error.message);
 		}
     }
+
+    async exportAccess() {
+        try{
+            const response = await new Promise((resolve, reject) => {
+                const query = `SELECT * from access`;
+
+                connection.query(query, (err,result) => {
+                    if (err) reject(new Error(err));
+
+                    var table = [];
+
+                    for (var k = 0; k < result.length; k++){
+                        var row = [];
+                        row.push(result[k].AccessID);
+                        row.push(result[k].Access);
+                        
+                        
+                        table.push(row);
+                    }
+                    resolve(table);
+                });
+            });
+            return response;
+        }
+        catch (error) {
+			console.log(error.message);
+		}
+    }
+
+    async exportRoles() {
+        try{
+            const response = await new Promise((resolve, reject) => {
+                const query = `SELECT * from role`;
+
+                connection.query(query, (err,result) => {
+                    if (err) reject(new Error(err));
+
+                    var table = [];
+
+                    for (var k = 0; k < result.length; k++){
+                        var row = [];
+                        row.push(result[k].RoleID);
+                        row.push(result[k].Title);
+                        row.push(result[k].CreatedDate);
+                        row.push(result[k].UpdatedDate);
+                        row.push(result[k].DeletedDate);
+                        
+                        
+                        table.push(row);
+                    }
+                    resolve(table);
+                });
+            });
+            return response;
+        }
+        catch (error) {
+			console.log(error.message);
+		}
+    }
 }
 module.exports = Dbservice;
