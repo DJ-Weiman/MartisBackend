@@ -169,5 +169,122 @@ class Dbservice {
 			console.log(error.message);
 		}
     }
+
+    async exportUsers() {
+        try{
+            const response = await new Promise((resolve, reject) => {
+                const query = `SELECT * from user`;
+
+                connection.query(query, (err,result) => {
+                    if (err) reject(new Error(err));
+
+                    var table = [];
+
+                    for (var k = 0; k < result.length; k++){
+                        var row = [];
+                        row.push(result[k].UserID);
+                        row.push(result[k].Name);
+                        row.push(result[k].Email);
+                        row.push(result[k].Password);
+                        row.push(result[k].Region);
+                        row.push(result[k].RoleID);
+                        
+                        
+                        table.push(row);
+                    }
+                    resolve(table);
+                });
+            });
+            return response;
+        }
+        catch (error) {
+			console.log(error.message);
+		}
+    }
+
+    async exportDevices() {
+        try{
+            const response = await new Promise((resolve, reject) => {
+                const query = `SELECT * from device`;
+
+                connection.query(query, (err,result) => {
+                    if (err) reject(new Error(err));
+
+                    var table = [];
+
+                    for (var k = 0; k < result.length; k++){
+                        var row = [];
+                        row.push(result[k].DeviceID);
+                        row.push(result[k].UserID);
+                        row.push(result[k].PIN);
+                        
+                        table.push(row);
+                    }
+                    resolve(table);
+                });
+            });
+            return response;
+        }
+        catch (error) {
+			console.log(error.message);
+		}
+    }
+
+    async exportRoleAccess() {
+        try{
+            const response = await new Promise((resolve, reject) => {
+                const query = `SELECT * from roleaccess`;
+
+                connection.query(query, (err,result) => {
+                    if (err) reject(new Error(err));
+
+                    var table = [];
+
+                    for (var k = 0; k < result.length; k++){
+                        var row = [];
+                        row.push(result[k].RoleID);
+                        row.push(result[k].AccessID);
+                        row.push(result[k].CreatedDate);
+                        row.push(result[k].UpdatedDate);
+                        row.push(result[k].DeletedDate);
+                        
+                        table.push(row);
+                    }
+                    resolve(table);
+                });
+            });
+            return response;
+        }
+        catch (error) {
+			console.log(error.message);
+		}
+    }
+    async exportTestModules() {
+        try{
+            const response = await new Promise((resolve, reject) => {
+                const query = `SELECT * from testmodule`;
+
+                connection.query(query, (err,result) => {
+                    if (err) reject(new Error(err));
+
+                    var table = [];
+
+                    for (var k = 0; k < result.length; k++){
+                        var row = [];
+                        row.push(result[k].TestModID);
+                        row.push(result[k].SupervisorID);
+                        row.push(result[k].Description);
+                        
+                        table.push(row);
+                    }
+                    resolve(table);
+                });
+            });
+            return response;
+        }
+        catch (error) {
+			console.log(error.message);
+		}
+    }
 }
 module.exports = Dbservice;
