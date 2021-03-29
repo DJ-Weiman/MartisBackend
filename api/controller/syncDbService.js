@@ -80,6 +80,22 @@ class Dbservice {
                         var currTest = [];
                         currTest.push(result[k].TestID);
                         currTest.push(result[k].DateIssued);
+                        currTest.push(result[k].AssetID);
+                        currTest.push(result[k].InspectorID);
+                        currTest.push(result[k].Result);
+                        currTest.push(result[k].SupervisorID);
+                        currTest.push(result[k].DateCompleted);
+                        currTest.push(result[k].Frequency);
+                        currTest.push(result[k].Priority);
+                        currTest.push(result[k].TestModID);
+                        currTest.push(result[k].comments);
+                        
+                        
+                        
+                        
+                        
+                        
+                        
                         
                         tests.push(currTest);
                     }
