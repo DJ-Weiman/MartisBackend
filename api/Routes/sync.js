@@ -10,7 +10,7 @@ router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json());
 
 router.get('/export', (req, res) => {
-	const result = db.exportAll();
+	const result = db.exAll();
 
 	result
 		.then((data) => {

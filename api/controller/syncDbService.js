@@ -34,16 +34,18 @@ class Dbservice {
     async exAll() {
 		try {
 			const response = await new Promise((resolve, reject) => {
-				const query = `START TRANSACTION;
-                SELECT * FROM asset;
-                SELECT * FROM repair;
-                SELECT * FROM test WHERE DateCompleted is NULL;
-                COMMIT;
-                `;
+				const query = `SELECT * FROM asset;`;
 
 				connection.query(query, (err, results) => {
 					if (err) reject(new Error(err));
-					resolve(results);
+
+                    var assets = [];
+
+                    for (var i =0; i <results.length; i++){
+                        var currAss = results[i].toString();
+                        assets.push(currAss);
+                    }
+					resolve(assets);
 				});
 			});
 			return response;
