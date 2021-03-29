@@ -42,7 +42,11 @@ class Dbservice {
                     var assets = [];
 
                     for (var i =0; i <results.length; i++){
-                        var currAss = results[i];
+
+                        var currAss = [];
+                        for (var j =0 ; j < results[i].length; j++){
+                            currAss.push(results[i][j].toString());
+                        }
                         assets.push(currAss);
                     }
 					resolve(assets);
