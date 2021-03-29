@@ -57,7 +57,7 @@ class Dbservice {
                         
                         assets.push(currAss);
                     }
-					resolve(assets);
+					
 				});
 
                 const query2 = `SELECT * from test`;
