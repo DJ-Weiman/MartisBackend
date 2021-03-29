@@ -44,9 +44,8 @@ class Dbservice {
                     for (var i =0; i <results.length; i++){
 
                         var currAss = [];
-                        for (var j =0 ; j < results[i].length; j++){
-                            currAss.push(results[i][j]);
-                        }
+                        currAss.push(results[i].AssetID);
+                        
                         assets.push(currAss);
                     }
 					resolve(assets);
