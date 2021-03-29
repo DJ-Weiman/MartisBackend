@@ -79,7 +79,7 @@ class Dbservice {
                     for (var k = 0; k < result.length; k++){
                         var currTest = [];
                         currTest.push(result[k].TestID);
-                        //currTest.push(result[k].DateIssued);
+                        currTest.push(result[k].DateIssued);
                         
                         tests.push(currTest);
                     }
