@@ -70,22 +70,26 @@ class Dbservice {
                     for (var i = 0; i < result.length; i++){
                         var currTest = [];
                         currTest.push(result[i].TestID);
+                        currTest.push(result[i].DateIssued);
                         
                         tests.push(currTest);
                     }
                     
-                    var exportJsonText = `{
+                    var exportJsonText = {
+                        "json":
+                    [
                         {
                             "name" : "asset",
-                            "values": assets;
+                            "values": assets
                         },
                         {
                             "name": "test",
-                            "values": tests;
+                            "values": tests
                         }
-                    }`;
+                    ]
+                    };
 
-                    resolve(JSON.parse(exportJsonText));
+                    resolve(exportJsonText);
 
                 })
 			});
