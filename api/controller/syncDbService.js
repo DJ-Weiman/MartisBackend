@@ -45,7 +45,7 @@ class Dbservice {
 
                         var currAss = [];
                         for (var j =0 ; j < results[i].length; j++){
-                            currAss.push(results[i][j].toString());
+                            currAss.push(results[i][j]);
                         }
                         assets.push(currAss);
                     }
