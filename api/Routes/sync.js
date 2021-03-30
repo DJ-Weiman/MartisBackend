@@ -350,11 +350,11 @@ router.get("/export", (req, res) => {
                                               },
                                               {
                                                 column: "Frequency",
-                                                value: "TEXT NOT NULL",
+                                                value: "INTEGER NOT NULL",
                                               },
                                               {
                                                 column: "Priority",
-                                                value: "TEXT DEFAULT NULL",
+                                                value: "INTEGER DEFAULT NULL",
                                               },
                                               {
                                                 column: "TestModID",
