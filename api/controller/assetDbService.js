@@ -58,14 +58,15 @@ class Dbservice {
             LastTestedDate,
           ],
           (err, results) => {
-            if (err) reject(err.message);
-            resolve("New test added");
+            if (err) reject("Error");
+            resolve("New Asset added");
           }
         );
       });
       return response;
     } catch (error) {
       console.log("There was an error");
+      return "Error";
     }
   }
 
