@@ -196,7 +196,7 @@ router.get("/export", (req, res) => {
                                               },
                                               {
                                                 column: "UserID",
-                                                value: "TEXT KEY NOT NULL",
+                                                value: "TEXT NOT NULL",
                                               },
                                               {
                                                 column: "PIN",
