@@ -214,16 +214,16 @@ router.get("/export", (req, res) => {
                                             name: "repair",
                                             schema: [
                                               {
-                                                column: "EngineerID",
-                                                value: "TEXT DEFAULT NULL",
-                                              },
-                                              {
                                                 column: "AssetID",
                                                 value: "TEXT NOT NULL",
                                               },
                                               {
                                                 column: "CreatedDate",
                                                 value: "TEXT NOT NULL",
+                                              },
+											  {
+                                                column: "EngineerID",
+                                                value: "TEXT DEFAULT NULL",
                                               },
                                               {
                                                 column: "CompletedDate",
