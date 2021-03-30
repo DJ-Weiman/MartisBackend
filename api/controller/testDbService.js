@@ -13,7 +13,7 @@ class Dbservice {
   async getAllTests() {
     try {
       const response = await new Promise((resolve, reject) => {
-        const query = "SELECT * FROM test";
+        const query = "SELECT * FROM test where DateCompleted is NULL";
 
         connection.query(query, (err, results) => {
           if (err) reject(new Error(err));
@@ -33,13 +33,13 @@ class Dbservice {
     InspectorID,
     SupervisorID,
     Frequency,
-    Priority,
+    Urgent,
     TestModID
   ) {
     try {
       const response = await new Promise((resolve, reject) => {
         const query =
-          "INSERT INTO test (TestID, DateIssued, AssetID, InspectorID, SupervisorID, Frequency, Priority, TestModID) Values (?, ?, ?, ?, ?, ?, ?, ?)";
+          "INSERT INTO test (TestID,DateIssued, AssetID, InspectorID, SupervisorID, Frequency, Urgent, TestModID) Values ( ?, ?, ?, ?, ?, ?, ?, ?)";
 
         connection.query(
           query,
@@ -50,11 +50,11 @@ class Dbservice {
             InspectorID,
             SupervisorID,
             Frequency,
-            Priority,
+            Urgent,
             TestModID,
           ],
           (err, results) => {
-            if (err) reject("Error");
+            if (err) reject(err.message);
             resolve("New test added");
           }
         );
@@ -62,7 +62,6 @@ class Dbservice {
       return response;
     } catch (error) {
       console.log("There was an error");
-      return "Error";
     }
   }
 

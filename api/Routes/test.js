@@ -27,7 +27,7 @@ router.post("/createNewTest", (req, res) => {
   let InspectorID = req.body.InspectorID;
   let SupervisorID = req.body.SupervisorID;
   let Frequency = req.body.Frequency;
-  let Priority = req.body.Priority;
+  let Urgent = req.body.Urgent;
   let TestModID = req.body.TestModID;
 
   console.log(req.body);
@@ -39,13 +39,14 @@ router.post("/createNewTest", (req, res) => {
     InspectorID,
     SupervisorID,
     Frequency,
-    Priority,
+    Urgent,
     TestModID
   );
 
   result
     .then((reply) => {
       res.json({
+        message: "Test added successfully",
         reply: reply,
       });
     })
