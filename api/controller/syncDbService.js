@@ -93,9 +93,10 @@ class Dbservice {
 
                     for (var k = 0; k < result.length; k++){
                         var currTest = [];
-                        currTest.push(result[k].EngineerID);
+                        
                         currTest.push(result[k].AssetID);
                         currTest.push(result[k].CreatedDate);
+                        currTest.push(result[k].EngineerID);
                         currTest.push(result[k].CompletedDate);
                         currTest.push(result[k].comments);
                         
