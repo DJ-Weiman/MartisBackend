@@ -389,7 +389,7 @@ router.get("/export", (req, res) => {
                                           },
                                         ],
                                       };
-                                      res.json({data : dataToImport});
+                                      res.json(dataToImport);
                                     })
                                     .catch((err) => console.log(err));
                                 })
