@@ -87,7 +87,11 @@ router.post("/orderByLocationAndInspector", (req, res) => {
   const empLongitude = req.body.empLongitude;
   const empId = req.body.empId;
 
-  console.log(req.body);
+  // console.log(req.body);
+
+  // console.log(empLongitude);
+  // console.log(empLatitude);
+  // console.log(empId);
   const result = db.orderByLocationAndInspector(
     empId,
     empLatitude,
@@ -97,6 +101,17 @@ router.post("/orderByLocationAndInspector", (req, res) => {
   result
     .then((data) => {
       //console.log(data);
+      res.json({ data: data });
+    })
+    .catch((err) => console.log(err));
+});
+
+router.get("/orderByPriority", (req, res) => {
+  const result = db.orderByPriority();
+
+  result
+    .then((data) => {
+      console.log(data);
       res.json({ data: data });
     })
     .catch((err) => console.log(err));

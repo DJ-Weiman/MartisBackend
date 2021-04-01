@@ -125,13 +125,17 @@ class Dbservice {
               longitude: element.GPSLongitude,
             };
 
-            const distance = haversine(asset, employeeCoordinates, {
-              unit: "meter",
-            });
+            const distance = Math.round(
+              haversine(asset, employeeCoordinates, {
+                unit: "meter",
+              })
+            );
             if (distance) {
               nearByAssets.push({
                 distance: distance,
-                assetID: element.AssetID,
+                AssetID: element.AssetID,
+                InspectorID: element.InspectorID,
+                TestID: element.TestID,
               });
             }
           });
@@ -147,6 +151,25 @@ class Dbservice {
       console.log(error.message);
     }
   }
+
+  async orderByPriority() {
+    try {
+      const response = await new Promise((resolve, reject) => {
+        const query =
+          "SELECT * from test where DateCompleted is NULL ORDER by Priority ASC";
+
+        connection.query(query, (err, results) => {
+          if (err) reject(new Error(err));
+          resolve(results);
+        });
+      });
+      return response;
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
 }
 
 module.exports = Dbservice;
+
+this is another line
