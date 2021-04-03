@@ -295,16 +295,16 @@ class Dbservice {
 
                 for(var x=0; x<tables.length; x++){
                     for(var y=0; y<tables[x].values.length; y++){
-                        query += "INSERT IGNORE INTO "+tables[x].name+" VALUES ( "+tables[x].values[y] +" );";
+                        query += "INSERT IGNORE INTO "+tables[x].name+" VALUES ( "+tables[x].values[y].toString() +" );";
                     }
                 }
                 //repair update
                 for (var y=0; y<tables[5].values.length; y++){
-                    query += "UPDATE IGNORE repair SET CompletedDate = "+ tables[5].values[y].CompletedDate +" , comments = "+ tables[5].values[y].comments +" WHERE AssetID = "+ tables[5].values[y].AssetID +" AND CreatedDate = "+ tables[5].values[y].CreatedDate + ";";
+                    query += "UPDATE IGNORE repair SET CompletedDate = "+ tables[5].values[y][3] +" , comments = "+ tables[5].values[y][4] +" WHERE AssetID = "+ tables[5].values[y][0] +" AND CreatedDate = "+ tables[5].values[y][1] + ";";
                 }
                 //test update
                 for (var y=0; y<tables[8].values.length; y++){
-                    query += "UPDATE IGNORE test SET Result = "+ tables[8].values[y].Result +" , DateCompleted = "+ tables[8].values[y].DateCompleted +", comments = "+ tables[8].values[y].comments +" WHERE TestID = "+ tables[8].values[y].TestID + ";";
+                    query += "UPDATE IGNORE test SET Result = "+ tables[8].values[y][4] +" , DateCompleted = "+ tables[8].values[y][6] +", comments = "+ tables[8].values[y][10] +" WHERE TestID = "+ tables[8].values[y][0] + ";";
                 }
                 query += "COMMIT;"
 				connection.query(query, (err, results) => {
