@@ -521,6 +521,22 @@ router.get("/partialexport", (req, res) => {
     .catch((err) => console.log(err));
 });
 
+router.post("/fullimport", (req,res) => {
+  let tables = req.body.tables;
+
+  console.log(req.body);
+
+  const result = db.importAll(tables);
+
+	result
+		.then((reply) => {
+			res.json({
+				reply: reply
+			});
+		})
+		.catch((err) => console.log(err));
+});
+
 router.get("/exportTests", (req, res) => {
   const result = db.exportTests();
 

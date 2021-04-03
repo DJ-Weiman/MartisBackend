@@ -287,5 +287,36 @@ class Dbservice {
 			console.log(error.message);
 		}
     }
+
+    async importAll(tables){
+        try{
+            const response = await new Promise((resolve, reject) => {
+				let query = `START TRANSACTION;`;
+
+                for(var x=0; x<tables.length; x++){
+                    for(var y=0; y<tables[x].values.length; y++){
+                        query += "INSERT IGNORE INTO "+tables[x].name+" VALUES ( "+tables[x].values[y] +" );";
+                    }
+                }
+                //repair update
+                for (var y=0; y<tables[5].values.length; y++){
+                    query += "UPDATE IGNORE repair SET CompletedDate = "+ tables[5].values[y].CompletedDate +" , comments = "+ tables[5].values[y].comments +" WHERE AssetID = "+ tables[5].values[y].AssetID +" AND CreatedDate = "+ tables[5].values[y].CreatedDate + ";";
+                }
+                //test update
+                for (var y=0; y<tables[8].values.length; y++){
+                    query += "UPDATE IGNORE test SET Result = "+ tables[8].values[y].Result +" , DateCompleted = "+ tables[8].values[y].DateCompleted +", comments = "+ tables[8].values[y].comments +" WHERE TestID = "+ tables[8].values[y].TestID + ";";
+                }
+                query += "COMMIT;"
+				connection.query(query, (err, results) => {
+					if (err) reject(err.message);
+					resolve('Tables Imported');
+				});
+			});
+			return response;
+        }
+        catch (error){
+            console.log(error.message);
+        }
+    }
 }
 module.exports = Dbservice;
