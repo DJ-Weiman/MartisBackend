@@ -260,6 +260,7 @@ class Dbservice {
 			console.log(error.message);
 		}
     }
+
     async exportTestModules() {
         try{
             const response = await new Promise((resolve, reject) => {
@@ -299,13 +300,13 @@ class Dbservice {
                     }
                 }
                 //repair update
-                for (var y=0; y<tables[5].values.length; y++){
-                    query += "UPDATE IGNORE repair SET CompletedDate = "+ tables[5].values[y][3] +" , comments = "+ tables[5].values[y][4] +" WHERE AssetID = "+ tables[5].values[y][0] +" AND CreatedDate = "+ tables[5].values[y][1] + ";";
-                }
+                // for (var y=0; y<tables[5].values.length; y++){
+                //     query += "UPDATE IGNORE repair SET CompletedDate = "+ tables[5].values[y][3] +" , comments = "+ tables[5].values[y][4] +" WHERE AssetID = "+ tables[5].values[y][0] +" AND CreatedDate = "+ tables[5].values[y][1] + ";";
+                // }
                 //test update
-                for (var y=0; y<tables[8].values.length; y++){
-                    query += "UPDATE IGNORE test SET Result = "+ tables[8].values[y][4] +" , DateCompleted = "+ tables[8].values[y][6] +", comments = "+ tables[8].values[y][10] +" WHERE TestID = "+ tables[8].values[y][0] + ";";
-                }
+                // for (var y=0; y<tables[8].values.length; y++){
+                //     query += "UPDATE IGNORE test SET Result = "+ tables[8].values[y][4] +" , DateCompleted = "+ tables[8].values[y][6] +", comments = "+ tables[8].values[y][10] +" WHERE TestID = "+ tables[8].values[y][0] + ";";
+                // }
                 query += "COMMIT;"
 				connection.query(query, (err, results) => {
 					if (err) reject(err.message);
