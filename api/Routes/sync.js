@@ -521,7 +521,7 @@ router.get("/partialexport", (req, res) => {
     .catch((err) => console.log(err));
 });
 
-router.put("/fullimport", (req,res) => {
+router.post("/fullimport", (req,res) => {
   let tables = req.body.tables;
 
   console.log(req.body);

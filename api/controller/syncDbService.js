@@ -292,7 +292,7 @@ class Dbservice {
     async importAll(tables){
         try{
             const response = await new Promise((resolve, reject) => {
-				let query = `START TRANSACTION;`;
+				let query = ""; //= `START TRANSACTION;`;
 
                 for(var x=0; x<tables.length; x++){
                     for(var y=0; y<tables[x].values.length; y++){
@@ -307,7 +307,7 @@ class Dbservice {
                 // for (var y=0; y<tables[8].values.length; y++){
                 //     query += "UPDATE IGNORE test SET Result = "+ tables[8].values[y][4] +" , DateCompleted = "+ tables[8].values[y][6] +", comments = "+ tables[8].values[y][10] +" WHERE TestID = "+ tables[8].values[y][0] + ";";
                 // }
-                query += "COMMIT;"
+                //query += "COMMIT;"
 				connection.query(query, (err, results) => {
 					if (err) reject(err.message);
 					resolve('Tables Imported');
