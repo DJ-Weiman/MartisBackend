@@ -13,7 +13,7 @@ class Dbservice {
 	async getAllTests() {
 		try {
 			const response = await new Promise((resolve, reject) => {
-				const query = 'SELECT * FROM test where DateCompleted is NULL';
+				const query = `SELECT * FROM test where DateCompleted is NULL OR DateCompleted = "0000-00-00 00:00:00"`;
 
 				connection.query(query, (err, results) => {
 					if (err) reject(new Error(err));
