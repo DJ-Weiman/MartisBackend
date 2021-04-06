@@ -391,5 +391,28 @@ class Dbservice {
 			console.log('There was an error');
 		}
 	}
+
+    async importAsset(values) {
+		try {
+			const response = await new Promise((resolve, reject) => {
+                for(var x = 0; x< values.length; x++){//
+				const query =
+					'INSERT IGNORE INTO asset (AssetID, AssetType, Status, GPSLatitude, GPSLongitude, Region, Division, SubDivision, NearestMilePost, LastTestedDate) Values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+
+				connection.query(
+					query,
+					[ values[x][0], values[x][1], values[x][2], values[x][3], values[x][4], values[x][5], values[x][6], values[x][7], values[x][8], values[x][9] ],
+					(err, results) => {
+						if (err) reject(err.message);
+						resolve('Asset imported');
+					}
+				);
+                }//
+			});
+			return response;
+		} catch (error) {
+			console.log('There was an error');
+		}
+	}
 }
 module.exports = Dbservice;

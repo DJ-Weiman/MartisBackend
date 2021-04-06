@@ -537,7 +537,13 @@ router.post("/fullimport", (req,res) => {
         const result3 = db.importTest(tables[8].values);
         
         result3
-        .then((reply) => res.json(reply))
+        .then((reply) => {
+          const result4 = db.importAsset(tables[1].values);
+
+          result4
+          .then((reply) => res.json(reply))
+          .catch((err) => console.log(err));  
+        })
         .catch((err) => console.log(err));  
       })
       .catch((err) => console.log(err));
