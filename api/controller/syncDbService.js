@@ -368,5 +368,28 @@ class Dbservice {
 			console.log('There was an error');
 		}
 	}
+
+    async importAccess(values) {
+		try {
+			const response = await new Promise((resolve, reject) => {
+                for(var x = 0; x< values.length; x++){//
+				const query =
+					'INSERT IGNORE INTO access (AccessID, Access) Values ( ?, ?)';
+
+				connection.query(
+					query,
+					[ values[x][0], values[x][1] ],
+					(err, results) => {
+						if (err) reject(err.message);
+						resolve('Access imported');
+					}
+				);
+                }//
+			});
+			return response;
+		} catch (error) {
+			console.log('There was an error');
+		}
+	}
 }
 module.exports = Dbservice;

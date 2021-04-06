@@ -533,7 +533,10 @@ router.post("/fullimport", (req,res) => {
       const result2 = db.importTestModule(tables[7].values);
 
       result2
-      .then((reply) =>res.json(reply))
+      .then((reply) =>{
+        const result3 = db.importAccess(tables[0].values)
+        res.json(reply)
+      })
       .catch((err) => console.log(err));
     })
 		.catch((err) => console.log(err));
