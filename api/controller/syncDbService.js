@@ -437,5 +437,143 @@ class Dbservice {
 			console.log('There was an error');
 		}
 	}
+
+    async importUser(values) {
+		try {
+			const response = await new Promise((resolve, reject) => {
+                for(var x = 0; x< values.length; x++){//
+				const query =
+					'INSERT IGNORE INTO user (UserID, Name, Email, Password, Region, RoleID) Values (?, ?, ?, ?, ?, ?)';
+
+				connection.query(
+					query,
+					[ values[x][0], values[x][1], values[x][2], values[x][3], values[x][4], values[x][5]],
+					(err, results) => {
+						if (err) reject(err.message);
+						resolve('User imported');
+					}
+				);
+                }//
+			});
+			return response;
+		} catch (error) {
+			console.log('There was an error');
+		}
+	}
+
+    async importDevice(values) {
+		try {
+			const response = await new Promise((resolve, reject) => {
+                for(var x = 0; x< values.length; x++){//
+				const query =
+					'INSERT IGNORE INTO device (DeviceID, UserID, PIN) Values (?, ?, ?)';
+
+				connection.query(
+					query,
+					[ values[x][0], values[x][1], values[x][2]],
+					(err, results) => {
+						if (err) reject(err.message);
+						resolve('Device imported');
+					}
+				);
+                }//
+			});
+			return response;
+		} catch (error) {
+			console.log('There was an error');
+		}
+	}
+
+    async importRoleAccess(values) {
+		try {
+			const response = await new Promise((resolve, reject) => {
+                for(var x = 0; x< values.length; x++){//
+				const query =
+					'INSERT IGNORE INTO roleaccess (RoleID, AccessID, CreatedDate, UpdatedDate, DeletedDate) Values (?, ?, ?, ?, ?)';
+
+				connection.query(
+					query,
+					[ values[x][0], values[x][1], values[x][2], values[x][3], values[x][4]],
+					(err, results) => {
+						if (err) reject(err.message);
+						resolve('Role-access imported');
+					}
+				);
+                }//
+			});
+			return response;
+		} catch (error) {
+			console.log('There was an error');
+		}
+	}
+
+    async importRepair(values) {
+		try {
+			const response = await new Promise((resolve, reject) => {
+                for(var x = 0; x< values.length; x++){//
+				const query =
+					'INSERT IGNORE INTO repair (AssetID, CreatedDate, EngineerID, CompletedDate, comments) Values (?, ?, ?, ?, ?)';
+
+				connection.query(
+					query,
+					[ values[x][0], values[x][1], values[x][2], values[x][3], values[x][4]],
+					(err, results) => {
+						if (err) reject(err.message);
+						resolve('Repair imported');
+					}
+				);
+                }//
+			});
+			return response;
+		} catch (error) {
+			console.log('There was an error');
+		}
+	}
+
+    async importRepairUpdates(values) {
+		try {
+			const response = await new Promise((resolve, reject) => {
+                for(var x = 0; x< values.length; x++){//
+				const query =
+					'UPDATE IGNORE repair SET EngineerID = ?, Comments = ? WHERE CreatedDate = ? AND AssetID = ?';
+
+				connection.query(
+					query,
+					[ values[x][2], values[x][4], values[x][1], values[x][0] ],
+					(err, results) => {
+						if (err) reject(err.message);
+						resolve('Repair update imported');
+					}
+				);
+                }//
+			});
+			return response;
+		} catch (error) {
+			console.log('There was an error');
+		}
+	}
+
+    async importTestUpdates(values) {
+		try {
+			const response = await new Promise((resolve, reject) => {
+                for(var x = 0; x< values.length; x++){//
+				const query =
+					'UPDATE test SET Result = ?, DateCompleted = ?, comments = ? WHERE TestID = ?';
+
+				connection.query(
+					query,
+					[ values[x][4], values[x][6], values[x][10], values[x][0] ],
+					(err, results) => {
+						if (err) reject(err.message);
+						resolve('Test update imported');
+					}
+				);
+                }//
+			});
+			return response;
+		} catch (error) {
+			console.log('There was an error');
+		}
+	}
 }
 module.exports = Dbservice;

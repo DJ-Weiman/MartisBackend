@@ -530,22 +530,58 @@ router.post("/fullimport", (req,res) => {
 
 	result
 		.then((reply) => {
-      const result2 = db.importTestModule(tables[7].values);
+      const result2 = db.importAsset(tables[1].values); 
 
       result2
       .then((reply) =>{
-        const result3 = db.importTest(tables[8].values);
+        const result3 = db.importRole(tables[2].values); 
         
         result3
         .then((reply) => {
-          const result4 = db.importAsset(tables[1].values);
+          const result4 = db.importUser(tables[3].values);
 
           result4
           .then((reply) => {
-            const result5 = db.importRole(tables[2].values);
+            const result5 = db.importDevice(tables[4].values);
 
             result5
-            .then((reply) => res.json(reply))
+            .then((reply) => {
+              const result6 = db.importRepair(tables[5].values); 
+
+              result6
+              .then((reply) => {
+                const result7 = db.importRoleAccess(tables[6].values); 
+
+                result7
+                .then((reply) =>{
+                  const result8 = db.importTestModule(tables[7].values);
+
+                  result8
+                  .then((reply) => {
+                    const result9 = db.importTest(tables[8].values); 
+
+                    result9
+                    .then((reply) => {
+                      const result10 = db.importRepairUpdates(tables[5].values);
+
+                      result10
+                      .then((reply) => {
+                        const result11 = db.importTestUpdates(tables[8].values);
+
+                        result11
+                        .then((reply) => res.json(reply))
+                        .catch((err) => console.log(err)); 
+                      })
+                      .catch((err) => console.log(err));      
+                    })
+                    .catch((err) => console.log(err));    
+                  })
+                  .catch((err) => console.log(err));  
+                })
+                .catch((err) => console.log(err));     
+              })
+              .catch((err) => console.log(err));   
+            })
             .catch((err) => console.log(err));  
           })
           .catch((err) => console.log(err));  
