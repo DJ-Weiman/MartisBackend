@@ -558,7 +558,7 @@ class Dbservice {
 			const response = await new Promise((resolve, reject) => {
                 for(var x = 0; x< values.length; x++){//
 				const query =
-					'UPDATE test SET Result = ?, DateCompleted = ?, comments = ? WHERE TestID = ?';
+					'UPDATE IGNORE test SET Result = ?, DateCompleted = ?, comments = ? WHERE TestID = ?';
 
 				connection.query(
 					query,
