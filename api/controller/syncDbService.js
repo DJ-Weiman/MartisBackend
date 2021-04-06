@@ -311,9 +311,9 @@ class Dbservice {
                 //     query += "UPDATE IGNORE test SET Result = "+ tables[8].values[y][4] +" , DateCompleted = "+ tables[8].values[y][6] +", comments = "+ tables[8].values[y][10] +" WHERE TestID = "+ tables[8].values[y][0] + ";";
                 // }
                 //query += "COMMIT;"
-				connection.query(query, (err, results) => {
-					if (err) reject(err.message);
-					resolve('Tables Imported');
+				connection.query(query, [], (err, results) => {
+					if (err) {reject(err.message)};
+					resolve('Tables Imported: '+results.message);
 				});
 			});
 			return response;
