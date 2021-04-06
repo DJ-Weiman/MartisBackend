@@ -297,7 +297,7 @@ class Dbservice {
                 //for(var x=1; x<tables.length; x++){
                     var x= 0;
                     for(var y=0; y<tables[x].values.length; y++){
-                        query += "INSERT IGNORE INTO "+tables[x].name+" VALUES ("+tables[x].values[y].AccessID+","+tables[x].values[y].Access/*tables[x].values[y].toString()*/ +");";
+                        query += "INSERT IGNORE INTO "+tables[x].name+" VALUES ("+tables[x].values[y][0]+","+tables[x].values[y][1]/*tables[x].values[y].toString()*/ +");";
                         console.log(query);
                     }
                 //}
