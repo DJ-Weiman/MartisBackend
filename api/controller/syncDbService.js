@@ -292,12 +292,12 @@ class Dbservice {
     async importAll(tables){
         try{
             const response = await new Promise((resolve, reject) => {
-				let query;// = `START TRANSACTION;`;
+				let query = "";// = `START TRANSACTION;`;
 
                 //for(var x=1; x<tables.length; x++){
                     var x= 0;
                     for(var y=0; y<tables[x].values.length; y++){
-                        query += "INSERT IGNORE INTO "+tables[x].name+" VALUES ("+tables[x].values[y][0]+","+tables[x].values[y][1]/*tables[x].values[y].toString()*/ +");";
+                        query += "INSERT IGNORE INTO "+tables[x].name+" VALUES ("+tables[x].values[y].toString()+");";
                         console.log(query);
                     }
                 //}
