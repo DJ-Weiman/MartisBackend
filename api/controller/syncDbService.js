@@ -322,5 +322,28 @@ class Dbservice {
             console.log(error.message);
         }
     }
+
+    async importTest(test) {
+		try {
+			const response = await new Promise((resolve, reject) => {
+                for(var x = 0; x< test.length; x++){//
+				const query =
+					'INSERT IGNORE INTO test (TestID,DateIssued, AssetID, InspectorID, Result, SupervisorID, DateCompleted, Frequency, Priority, TestModID, comments) Values ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+
+				connection.query(
+					query,
+					[ test[x][0], test[x][1], test[x][2], test[x][3], test[x][4], test[x][5], test[x][6], test[x][7], test[x][8], test[x][9], test[x][10] ],
+					(err, results) => {
+						if (err) reject(err.message);
+						resolve('New test imported:'+query);
+					}
+				);
+                }//
+			});
+			return response;
+		} catch (error) {
+			console.log('There was an error');
+		}
+	}
 }
 module.exports = Dbservice;

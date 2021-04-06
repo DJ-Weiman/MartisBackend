@@ -524,9 +524,9 @@ router.get("/partialexport", (req, res) => {
 router.post("/fullimport", (req,res) => {
   let tables = req.body.tables;
 
-  console.log(req.body);
+  console.log(req.body.tables);
 
-  const result = db.importAll(tables);
+  const result = db.importTest(tables[8].values);
 
 	result
 		.then((reply) => res.json(reply))
