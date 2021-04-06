@@ -529,7 +529,13 @@ router.post("/fullimport", (req,res) => {
   const result = db.importTest(tables[8].values);
 
 	result
-		.then((reply) => res.json(reply))
+		.then((reply) => {
+      const result2 = db.importTestModule(tables[7].values);
+
+      result2
+      .then((reply) =>res.json(reply))
+      .catch((err) => console.log(err));
+    })
 		.catch((err) => console.log(err));
 });
 

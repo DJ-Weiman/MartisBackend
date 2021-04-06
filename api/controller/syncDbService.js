@@ -335,7 +335,30 @@ class Dbservice {
 					[ test[x][0], test[x][1], test[x][2], test[x][3], test[x][4], test[x][5], test[x][6], test[x][7], test[x][8], test[x][9], test[x][10] ],
 					(err, results) => {
 						if (err) reject(err.message);
-						resolve('New test imported:'+query);
+						resolve('Tests imported');
+					}
+				);
+                }//
+			});
+			return response;
+		} catch (error) {
+			console.log('There was an error');
+		}
+	}
+
+    async importTestModule(values) {
+		try {
+			const response = await new Promise((resolve, reject) => {
+                for(var x = 0; x< values.length; x++){//
+				const query =
+					'INSERT IGNORE INTO testmodule (TestModID,SupervisorID, Description) Values ( ?, ?, ?)';
+
+				connection.query(
+					query,
+					[ values[x][0], values[x][1], values[x][2] ],
+					(err, results) => {
+						if (err) reject(err.message);
+						resolve('Test modules imported');
 					}
 				);
                 }//
