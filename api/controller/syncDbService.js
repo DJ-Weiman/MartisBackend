@@ -295,7 +295,7 @@ class Dbservice {
 				let query = "";// = `START TRANSACTION;`;
 
                 //for(var x=1; x<tables.length; x++){
-                    var x= 0;
+                    var x= 4;
                     for(var y=0; y<tables[x].values.length; y++){
                         query += "INSERT IGNORE INTO "+tables[x].name+" VALUES ("+tables[x].values[y].toString()+");";
                         console.log(query);
