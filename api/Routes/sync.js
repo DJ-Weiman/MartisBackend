@@ -526,7 +526,7 @@ router.post("/fullimport", (req,res) => {
 
   console.log(req.body.tables);
 
-  const result = db.importTest(tables[8].values);
+  const result = db.importAccess(tables[0].values); 
 
 	result
 		.then((reply) => {
@@ -534,8 +534,11 @@ router.post("/fullimport", (req,res) => {
 
       result2
       .then((reply) =>{
-        const result3 = db.importAccess(tables[0].values)
-        res.json(reply)
+        const result3 = db.importTest(tables[8].values);
+        
+        result3
+        .then((reply) => res.json(reply))
+        .catch((err) => console.log(err));  
       })
       .catch((err) => console.log(err));
     })
