@@ -541,7 +541,13 @@ router.post("/fullimport", (req,res) => {
           const result4 = db.importAsset(tables[1].values);
 
           result4
-          .then((reply) => res.json(reply))
+          .then((reply) => {
+            const result5 = db.importRole(tables[2].values);
+
+            result5
+            .then((reply) => res.json(reply))
+            .catch((err) => console.log(err));  
+          })
           .catch((err) => console.log(err));  
         })
         .catch((err) => console.log(err));  
