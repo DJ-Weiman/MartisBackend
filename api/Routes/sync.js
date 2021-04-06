@@ -529,11 +529,7 @@ router.post("/fullimport", (req,res) => {
   const result = db.importAll(tables);
 
 	result
-		.then((reply) => {
-			res.json({
-				reply: reply
-			});
-		})
+		.then((reply) => res.json(reply))
 		.catch((err) => console.log(err));
 });
 
