@@ -313,7 +313,7 @@ class Dbservice {
                 //query += "COMMIT;"
 				connection.query(query, (err, results) => {
 					if (err) {reject(err.message)};
-					resolve('Tables Imported: '+results.message);
+					resolve('Tables Imported');
 				});
 			});
 			return response;
