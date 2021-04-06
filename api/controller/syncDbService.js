@@ -294,12 +294,14 @@ class Dbservice {
             const response = await new Promise((resolve, reject) => {
 				let query = `START TRANSACTION;`;
 
-                for(var x=1; x<tables.length; x++){
+                //for(var x=1; x<tables.length; x++){
+                    var x= 0;
                     for(var y=0; y<tables[x].values.length; y++){
-                        query += "INSERT IGNORE INTO "+tables[x].name+" VALUES ( "+tables[x].values[y].toString() +" );";
+                        query += "INSERT IGNORE INTO "+tables[x].name+" VALUES ("+tables[x].values[y].AccessID+","+tables[x].values[y].Access/*tables[x].values[y].toString()*/ +");";
                         console.log(query);
                     }
-                }
+                //}
+
                 //repair update
                 // for (var y=0; y<tables[5].values.length; y++){
                 //     query += "UPDATE IGNORE repair SET CompletedDate = "+ tables[5].values[y][3] +" , comments = "+ tables[5].values[y][4] +" WHERE AssetID = "+ tables[5].values[y][0] +" AND CreatedDate = "+ tables[5].values[y][1] + ";";
