@@ -294,7 +294,7 @@ class Dbservice {
             const response = await new Promise((resolve, reject) => {
 				let query = `START TRANSACTION;`;
 
-                for(var x=0; x<tables.length; x++){
+                for(var x=1; x<tables.length; x++){
                     for(var y=0; y<tables[x].values.length; y++){
                         query += "INSERT IGNORE INTO "+tables[x].name+" VALUES ( "+tables[x].values[y].toString() +" );";
                         console.log(query);
