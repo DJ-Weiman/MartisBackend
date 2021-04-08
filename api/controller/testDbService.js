@@ -110,13 +110,15 @@ class Dbservice {
 			let nearByAssets = [];
 
 			const response = await new Promise((resolve, reject) => {
-				const query = `SELECT t.InspectorID, a.GPSLatitude, a.GPSLongitude, t.AssetID
+				const query = `SELECT t.InspectorID, a.GPSLatitude, a.GPSLongitude, t.AssetID, t.TestID, t.TestModID
                         from test t, asset a
                         where t.AssetID = a.AssetID
                         AND t.InspectorID = ?`;
 
         connection.query(query, [empId], (err, results) => {
           if (err) reject(new Error(err));
+          console.log("Words");
+          console.log(results);
           results.forEach((element) => {
             let asset = {
               latitude: element.GPSLatitude,
@@ -134,6 +136,7 @@ class Dbservice {
                 AssetID: element.AssetID,
                 InspectorID: element.InspectorID,
                 TestID: element.TestID,
+                TestModID: element.TestModID,
               });
             }
           });
