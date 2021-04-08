@@ -73,7 +73,7 @@ router.patch('/removeAssignment', (req, res) => {
 
 router.put('/addCompletedDateAndComments', (req, res) => {
 	let assetId = req.body.AssetId;
-	let createdDate = req.body.CreatedDate;
+	let createdDate = JSON.stringify(req.body.CreatedDate);
 	let completedDate = req.body.CompletedDate;
 	let comments = req.body.comments;
 	console.log(req.body);
