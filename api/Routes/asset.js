@@ -49,7 +49,6 @@ router.post("/createNewAsset", (req, res) => {
 
   result
     .then((reply) => {
-      console.log("Test Added");
       res.json(reply);
     })
     .catch((err) => console.log(err));

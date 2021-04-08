@@ -1,8 +1,8 @@
-const mysql = require('mysql');
-const connection = require('./dbConnection');
-const haversine = require('haversine');
-const lodash = require('lodash');
-const { xor } = require('lodash');
+const mysql = require("mysql");
+const connection = require("./dbConnection");
+const haversine = require("haversine");
+const lodash = require("lodash");
+const { xor } = require("lodash");
 let instance = null;
 
 class Dbservice {
@@ -115,68 +115,57 @@ class Dbservice {
                         where t.AssetID = a.AssetID
                         AND t.InspectorID = ?`;
 
-				connection.query(query, [ empId ], (err, results) => {
-					if (err) reject(new Error(err));
-					results.forEach((element) => {
-						let asset = {
-							latitude: element.GPSLatitude,
-							longitude: element.GPSLongitude
-						};
+        connection.query(query, [empId], (err, results) => {
+          if (err) reject(new Error(err));
+          results.forEach((element) => {
+            let asset = {
+              latitude: element.GPSLatitude,
+              longitude: element.GPSLongitude,
+            };
 
-						const distance = haversine(asset, employeeCoordinates, {
-							unit: 'meter'
-						});
-						if (distance) {
-							nearByAssets.push({
-								distance: distance,
-								assetID: element.AssetID
-							});
-						}
-					});
-					resolve(
-						lodash.sortBy(nearByAssets, (e) => {
-							return e.distance;
-						})
-					);
-				});
-			});
-			return response;
-		} catch (error) {
-			console.log(error.message);
-		}
-	}
+            const distance = Math.round(
+              haversine(asset, employeeCoordinates, {
+                unit: "meter",
+              })
+            );
+            if (distance) {
+              nearByAssets.push({
+                distance: distance,
+                AssetID: element.AssetID,
+                InspectorID: element.InspectorID,
+                TestID: element.TestID,
+              });
+            }
+          });
+          resolve(
+            lodash.sortBy(nearByAssets, (e) => {
+              return e.distance;
+            })
+          );
+        });
+      });
+      return response;
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
 
-	// async exportTests() {
-	// 	try {
-	// 		const response = await new Promise((resolve, reject) => {
-	// 			const query = `SELECT CONCAT("[", 
-	// 			GROUP_CONCAT( 
-	// 			CONCAT("['",TestID,"',"),
-	// 			CONCAT("'",DateIssued,"',"),
-	// 			CONCAT("'",AssetID,"',"),
-	// 			CONCAT("'",InspectorID,"',"),
-	// 			CONCAT("'",Result,"',"),
-	// 			CONCAT("'",SupervisorID,"',"),
-	// 			CONCAT("'",DateCompleted,"',"),
-	// 			CONCAT("'",Frequency,"',"),
-	// 			CONCAT("'",Priority,"',"),
-	// 			CONCAT("'",TestModID,"',"),
-	// 			CONCAT("'",comments,"']")
-	// 			) 
-	// 			,"]") 
-	// 			as json FROM test`;
+  async orderByPriority() {
+    try {
+      const response = await new Promise((resolve, reject) => {
+        const query =
+          "SELECT * from test where DateCompleted is NULL ORDER by Priority ASC";
 
-	// 			connection.query(query, (err, results) => {
-	// 				if (err) reject(new Error(err));
-	// 				resolve(results);
-	// 			});
-	// 		});
-	// 		return response;
-	// 	} catch (error) {
-	// 		console.log(error.message);
-	// 	}
-	// }
-
+        connection.query(query, (err, results) => {
+          if (err) reject(new Error(err));
+          resolve(results);
+        });
+      });
+      return response;
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
 }
 
 module.exports = Dbservice;
