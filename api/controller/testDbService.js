@@ -135,7 +135,7 @@ class Dbservice {
             if (distance) {
               nearByAssets.push({
                 distance: distance,
-                AssetID: element.AssetID,
+                //AssetID: element.AssetID,
                 InspectorID: element.InspectorID,
                 TestID: element.TestID,
                 TestModID: element.TestModID,
