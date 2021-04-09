@@ -524,7 +524,7 @@ class Dbservice {
     async importRepairUpdates(values) {
 		try {
 			const response = await new Promise((resolve, reject) => {
-                for(var x = 0; x< values.length; x++){//
+                for(var x = 0; x< values.length; x++){
 				const query =
 					'UPDATE IGNORE repair SET EngineerID = ?, Comments = ? WHERE CreatedDate = ? AND AssetID = ?';
 
@@ -536,7 +536,7 @@ class Dbservice {
 						resolve('Repair update imported');
 					}
 				);
-                }//
+                }
 			});
 			return response;
 		} catch (error) {
