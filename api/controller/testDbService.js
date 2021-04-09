@@ -157,7 +157,7 @@ class Dbservice {
     try {
       const response = await new Promise((resolve, reject) => {
         const query =
-          "SELECT * from test where DateCompleted is NULL ORDER by Priority ASC";
+          `SELECT * from test where DateCompleted is NULL or DateCompleted = "0000-00-00 00:00:00" ORDER by Priority ASC`;
 
         connection.query(query, (err, results) => {
           if (err) reject(new Error(err));
