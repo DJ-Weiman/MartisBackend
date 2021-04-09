@@ -6,113 +6,111 @@ const { xor } = require("lodash");
 let instance = null;
 
 class Dbservice {
-  static getDbServiceInstance() {
-    return instance ? instance : new Dbservice();
-  }
+	static getDbServiceInstance() {
+		return instance ? instance : new Dbservice();
+	}
 
-  async getAllTests() {
-    try {
-      const response = await new Promise((resolve, reject) => {
-        const query = "SELECT * FROM test where DateCompleted is NULL";
+	async getAllTests() {
+		try {
+			const response = await new Promise((resolve, reject) => {
+				const query = `SELECT * FROM test where DateCompleted is NULL OR DateCompleted = "0000-00-00 00:00:00"`;
 
-        connection.query(query, (err, results) => {
-          if (err) reject(new Error(err));
-          resolve(results);
-        });
-      });
-      return response;
-    } catch (error) {
-      console.log(error.message);
-    }
-  }
+				connection.query(query, (err, results) => {
+					if (err) reject(new Error(err));
+					resolve(results);
+				});
+			});
+			return response;
+		} catch (error) {
+			console.log(error.message);
+		}
+	}
 
-  async createNewTest(
-    TestID,
-    DateIssued,
-    AssetID,
-    InspectorID,
-    SupervisorID,
-    Frequency,
-    Urgent,
-    TestModID
-  ) {
-    try {
-      const response = await new Promise((resolve, reject) => {
-        const query =
-          "INSERT INTO test (TestID,DateIssued, AssetID, InspectorID, SupervisorID, Frequency, Urgent, TestModID) Values ( ?, ?, ?, ?, ?, ?, ?, ?)";
+	async createNewTest(TestID, DateIssued, AssetID, InspectorID, SupervisorID, Frequency, Priority, TestModID) {
+		try {
+			const response = await new Promise((resolve, reject) => {
+				const query =
+					'INSERT INTO test (TestID,DateIssued, AssetID, InspectorID, SupervisorID, Frequency, Priority, TestModID) Values ( ?, ?, ?, ?, ?, ?, ?, ?)';
 
-        connection.query(
-          query,
-          [
-            TestID,
-            DateIssued,
-            AssetID,
-            InspectorID,
-            SupervisorID,
-            Frequency,
-            Urgent,
-            TestModID,
-          ],
-          (err, results) => {
-            if (err) reject(err.message);
-            resolve("New test added");
-          }
-        );
-      });
-      return response;
-    } catch (error) {
-      console.log("There was an error");
-    }
-  }
+				connection.query(
+					query,
+					[ TestID, DateIssued, AssetID, InspectorID, SupervisorID, Frequency, Priority, TestModID ],
+					(err, results) => {
+						if (err) reject(err.message);
+						resolve('New test added');
+					}
+				);
+			});
+			return response;
+		} catch (error) {
+			console.log('There was an error');
+		}
+	}
 
-  async setResult(TestID, Result, DateCompleted, comments) {
-    try {
-      const response = await new Promise((resolve, reject) => {
-        const query =
-          "UPDATE test SET Result = ?, DateCompleted = ?, comments = ? WHERE TestID = ?";
+	async importTest(TestID, DateIssued, AssetID, InspectorID, Result, SupervisorID, DateCompleted, Frequency, Priority, TestModID, comments) {
+		try {
+			const response = await new Promise((resolve, reject) => {
+				const query =
+					'INSERT IGNORE INTO test (TestID,DateIssued, AssetID, InspectorID, Result, SupervisorID, DateCompleted, Frequency, Priority, TestModID, comments) Values ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
 
-        connection.query(
-          query,
-          [Result, DateCompleted, comments, TestID],
-          (err, results) => {
-            if (err) reject(err.message);
-            resolve("Record updated");
-          }
-        );
-      });
-      return response;
-    } catch (error) {
-      console.log(error.message);
-    }
-  }
+				connection.query(
+					query,
+					[ TestID, DateIssued, AssetID, InspectorID, Result, SupervisorID, DateCompleted, Frequency, Priority, TestModID, comments ],
+					(err, results) => {
+						if (err) reject(err.message);
+						resolve('New test imported');
+					}
+				);
+			});
+			return response;
+		} catch (error) {
+			console.log('There was an error');
+		}
+	}
 
-  async AutoInsertIntoRepair(AssetID, CreatedDate) {
-    try {
-      const response = await new Promise((resolve, reject) => {
-        const query = "Insert into repair(AssetID, CreatedDate) values (?, ?)";
+	async setResult(TestID, Result, DateCompleted, comments) {
+		try {
+			const response = await new Promise((resolve, reject) => {
+				const query = 'UPDATE test SET Result = ?, DateCompleted = ?, comments = ? WHERE TestID = ?';
 
-        connection.query(query, [AssetID, CreatedDate], (err, results) => {
-          if (err) reject(err.message);
-          resolve("Repair Entry Added");
-        });
-      });
-      return response;
-    } catch (error) {
-      console.log(error.message);
-    }
-  }
+				connection.query(query, [ Result, DateCompleted, comments, TestID ], (err, results) => {
+					if (err) reject(err.message);
+					resolve('Record updated');
+				});
+			});
+			return response;
+		} catch (error) {
+			console.log(error.message);
+		}
+	}
 
-  async orderByLocationAndInspector(empId, empLatitude, empLongitude) {
-    try {
-      const employeeCoordinates = {
-        latitude: empLatitude,
-        longitude: empLongitude,
-      };
+	async AutoInsertIntoRepair(AssetID, CreatedDate) {
+		try {
+			const response = await new Promise((resolve, reject) => {
+				const query = 'Insert into repair(AssetID, CreatedDate) values (?, ?)';
 
-      let nearByAssets = [];
+				connection.query(query, [ AssetID, CreatedDate ], (err, results) => {
+					if (err) reject(err.message);
+					resolve('Repair Entry Added');
+				});
+			});
+			return response;
+		} catch (error) {
+			console.log(error.message);
+		}
+	}
 
-      const response = await new Promise((resolve, reject) => {
-        const query = `SELECT t.InspectorID, a.GPSLatitude, a.GPSLongitude, t.AssetID, t.TestID, t.TestModID
+	async orderByLocationAndInspector(empId, empLatitude, empLongitude) {
+		try {
+			const employeeCoordinates = {
+				latitude: empLatitude,
+				longitude: empLongitude
+			};
+
+			let nearByAssets = [];
+
+			const response = await new Promise((resolve, reject) => {
+				const query = `SELECT t.InspectorID, a.GPSLatitude, a.GPSLongitude, t.AssetID, t.TestID, t.TestModID
                         from test t, asset a
                         where t.AssetID = a.AssetID
                         AND t.InspectorID = ?`;
@@ -159,7 +157,7 @@ class Dbservice {
     try {
       const response = await new Promise((resolve, reject) => {
         const query =
-          "SELECT * from test where DateCompleted is NULL ORDER by Priority ASC";
+          `SELECT * from test where DateCompleted is NULL or DateCompleted = "0000-00-00 00:00:00" ORDER by Priority ASC`;
 
         connection.query(query, (err, results) => {
           if (err) reject(new Error(err));
