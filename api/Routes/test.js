@@ -20,37 +20,88 @@ router.get("/getTests", (req, res) => {
     .catch((err) => console.log(err));
 });
 
-router.post("/createNewTest", (req, res) => {
-  let TestID = req.body.TestID;
-  let DateIssued = req.body.DateIssued;
-  let AssetID = req.body.AssetID;
-  let InspectorID = req.body.InspectorID;
-  let SupervisorID = req.body.SupervisorID;
-  let Frequency = req.body.Frequency;
-  let Urgent = req.body.Urgent;
-  let TestModID = req.body.TestModID;
+router.get('/exportTests', (req, res) => {
+	const result = db.exportTests();
 
-  console.log(req.body);
+	result
+		.then((data) => {
+			console.log(data);
+			res.json(data);
+		})
+		.catch((err) => console.log(err));
+});
 
-  const result = db.createNewTest(
-    TestID,
-    DateIssued,
-    AssetID,
-    InspectorID,
-    SupervisorID,
-    Frequency,
-    Urgent,
-    TestModID
-  );
+router.post('/importTest', (req, res) => {
+	let TestID = req.body.TestID;
+	let DateIssued = req.body.DateIssued;
+	let AssetID = req.body.AssetID;
+	let InspectorID = req.body.InspectorID;
+	let Result = req.body.Result;
+	let SupervisorID = req.body.SupervisorID;
+	let DateCompleted = req.body.DateCompleted;
+	let Frequency = req.body.Frequency;
+	let Priority = req.body.Priority;
+	let TestModID = req.body.TestModID;
+	let comments = req.body.comments;
 
-  result
-    .then((reply) => {
-      res.json({
-        message: "Test added successfully",
-        reply: reply,
-      });
-    })
-    .catch((err) => console.log(err));
+	console.log(req.body);
+
+	const result = db.importTest(
+		TestID,
+		DateIssued,
+		AssetID,
+		InspectorID,
+		Result,
+		SupervisorID,
+		DateCompleted,
+		Frequency,
+		Priority,
+		TestModID,
+		comments
+	);
+
+	result
+		.then((reply) => {
+			res.json({
+				message: 'Test imported successfully',
+				reply: reply
+			});
+		})
+		.catch((err) => console.log(err));
+});
+
+
+router.post('/createNewTest', (req, res) => {
+	let TestID = req.body.TestID;
+	let DateIssued = req.body.DateIssued;
+	let AssetID = req.body.AssetID;
+	let InspectorID = req.body.InspectorID;
+	let SupervisorID = req.body.SupervisorID;
+	let Frequency = req.body.Frequency;
+	let TestModID = req.body.TestModID;
+	let Priority = req.body.Priority;
+
+	console.log(req.body);
+
+	const result = db.createNewTest(
+		TestID,
+		DateIssued,
+		AssetID,
+		InspectorID,
+		SupervisorID,
+		Frequency,
+		Priority,
+		TestModID
+	);
+
+	result
+		.then((reply) => {
+			res.json({
+				message: 'Test added successfully',
+				reply: reply
+			});
+		})
+		.catch((err) => console.log(err));
 });
 
 router.patch("/setResult", (req, res) => {
