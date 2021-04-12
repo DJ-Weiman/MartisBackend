@@ -73,6 +73,10 @@ router.get("/export", (req, res) => {
                                                 column: "Access",
                                                 value: "TEXT NOT NULL",
                                               },
+                                              { 
+                                                column: "last_modified",
+                                                value: "INTEGER DEFAULT (strftime('%s', 'now'))" 
+                                              }
                                             ],
                                             values: accessData,
                                           },
@@ -120,6 +124,10 @@ router.get("/export", (req, res) => {
                                                 column: "LastTestedDate",
                                                 value: "TEXT DEFAULT NULL",
                                               },
+                                              { 
+                                                column: "last_modified",
+                                                value: "INTEGER DEFAULT (strftime('%s', 'now'))" 
+                                              }
                                             ],
                                             values: assetData,
                                           },
@@ -147,6 +155,10 @@ router.get("/export", (req, res) => {
                                                 column: "DeletedDate",
                                                 value: "TEXT DEFAULT NULL",
                                               },
+                                              { 
+                                                column: "last_modified",
+                                                value: "INTEGER DEFAULT (strftime('%s', 'now'))" 
+                                              }
                                             ],
                                             values: roleData,
                                           },
@@ -178,6 +190,10 @@ router.get("/export", (req, res) => {
                                                 column: "RoleID",
                                                 value: "TEXT NOT NULL",
                                               },
+                                              { 
+                                                column: "last_modified",
+                                                value: "INTEGER DEFAULT (strftime('%s', 'now'))" 
+                                              },
                                               {
                                                 constraint: "user_ibfk_1",
                                                 value:
@@ -201,6 +217,10 @@ router.get("/export", (req, res) => {
                                               {
                                                 column: "PIN",
                                                 value: "TEXT NOT NULL",
+                                              },
+                                              { 
+                                                column: "last_modified",
+                                                value: "INTEGER DEFAULT (strftime('%s', 'now'))" 
                                               },
                                               {
                                                 constraint: "device_ibfk_1",
@@ -232,6 +252,10 @@ router.get("/export", (req, res) => {
                                               {
                                                 column: "comments",
                                                 value: "TEXT DEFAULT NULL",
+                                              },
+                                              { 
+                                                column: "last_modified",
+                                                value: "INTEGER DEFAULT (strftime('%s', 'now'))" 
                                               },
                                               {
                                                 constraint: "PK_repair",
@@ -274,6 +298,10 @@ router.get("/export", (req, res) => {
                                                 column: "DeletedDate",
                                                 value: "TEXT DEFAULT NULL",
                                               },
+                                              { 
+                                                column: "last_modified",
+                                                value: "INTEGER DEFAULT (strftime('%s', 'now'))" 
+                                              },
                                               {
                                                 constraint: "PK_roleaccesss",
                                                 value:
@@ -307,6 +335,10 @@ router.get("/export", (req, res) => {
                                               {
                                                 column: "Description",
                                                 value: "TEXT NOT NULL",
+                                              },
+                                              { 
+                                                column: "last_modified",
+                                                value: "INTEGER DEFAULT (strftime('%s', 'now'))" 
                                               },
                                               {
                                                 constraint: "testmodule_ibfk_1",
@@ -363,6 +395,10 @@ router.get("/export", (req, res) => {
                                               {
                                                 column: "comments",
                                                 value: "TEXT DEFAULT NULL",
+                                              },
+                                              { 
+                                                column: "last_modified",
+                                                value: "INTEGER DEFAULT (strftime('%s', 'now'))" 
                                               },
                                               {
                                                 constraint: "test_ibfk_1",

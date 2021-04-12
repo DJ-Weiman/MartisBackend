@@ -33,6 +33,7 @@ class Dbservice {
                         currAss.push(results[i].SubDivision);
                         currAss.push(results[i].NearestMilePost);
                         currAss.push(results[i].LastTestedDate);
+                        currAss.push(results[i].last_modified);
                         
                         assets.push(currAss);
                     }
@@ -68,6 +69,7 @@ class Dbservice {
                         currTest.push(result[k].Priority);
                         currTest.push(result[k].TestModID);
                         currTest.push(result[k].comments);
+                        currTest.push(result[k].last_modified);
                         
                         tests.push(currTest);
                     }
@@ -99,6 +101,7 @@ class Dbservice {
                         currTest.push(result[k].EngineerID);
                         currTest.push(result[k].CompletedDate);
                         currTest.push(result[k].comments);
+                        currTest.push(result[k].last_modified);
                         
                         repairs.push(currTest);
                     }
@@ -126,6 +129,7 @@ class Dbservice {
                         var row = [];
                         row.push(result[k].AccessID);
                         row.push(result[k].Access);
+                        row.push(result[k].last_modified);
                         
                         
                         table.push(row);
@@ -157,7 +161,7 @@ class Dbservice {
                         row.push(result[k].CreatedDate);
                         row.push(result[k].UpdatedDate);
                         row.push(result[k].DeletedDate);
-                        
+                        row.push(result[k].last_modified);
                         
                         table.push(row);
                     }
@@ -189,6 +193,7 @@ class Dbservice {
                         row.push(result[k].Password);
                         row.push(result[k].Region);
                         row.push(result[k].RoleID);
+                        row.push(result[k].last_modified);
                         
                         
                         table.push(row);
@@ -218,6 +223,7 @@ class Dbservice {
                         row.push(result[k].DeviceID);
                         row.push(result[k].UserID);
                         row.push(result[k].PIN);
+                        row.push(result[k].last_modified);
                         
                         table.push(row);
                     }
@@ -248,6 +254,7 @@ class Dbservice {
                         row.push(result[k].CreatedDate);
                         row.push(result[k].UpdatedDate);
                         row.push(result[k].DeletedDate);
+                        row.push(result[k].last_modified);
                         
                         table.push(row);
                     }
@@ -276,6 +283,7 @@ class Dbservice {
                         row.push(result[k].TestModID);
                         row.push(result[k].SupervisorID);
                         row.push(result[k].Description);
+                        row.push(result[k].last_modified);
                         
                         table.push(row);
                     }
