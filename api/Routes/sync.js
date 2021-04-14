@@ -65,7 +65,7 @@ router.get("/export", (req, res) => {
                                             name: "access",
                                             schema: [
                                               {
-                                                column: "AccessID",
+                                                column: "id",
                                                 value:
                                                   "TEXT PRIMARY KEY NOT NULL",
                                               },
@@ -84,7 +84,7 @@ router.get("/export", (req, res) => {
                                             name: "asset",
                                             schema: [
                                               {
-                                                column: "AssetID",
+                                                column: "id",
                                                 value:
                                                   "TEXT PRIMARY KEY NOT NULL",
                                               },
@@ -135,7 +135,7 @@ router.get("/export", (req, res) => {
                                             name: "role",
                                             schema: [
                                               {
-                                                column: "RoleID",
+                                                column: "id",
                                                 value:
                                                   "TEXT PRIMARY KEY NOT NULL",
                                               },
@@ -166,7 +166,7 @@ router.get("/export", (req, res) => {
                                             name: "user",
                                             schema: [
                                               {
-                                                column: "UserID",
+                                                column: "id",
                                                 value:
                                                   "TEXT PRIMARY KEY NOT NULL",
                                               },
@@ -206,7 +206,7 @@ router.get("/export", (req, res) => {
                                             name: "device",
                                             schema: [
                                               {
-                                                column: "DeviceID",
+                                                column: "id",
                                                 value:
                                                   "TEXT PRIMARY KEY NOT NULL",
                                               },
@@ -234,7 +234,7 @@ router.get("/export", (req, res) => {
                                             name: "repair",
                                             schema: [
                                               {
-                                                column: "AssetID",
+                                                column: "id",
                                                 value: "TEXT NOT NULL",
                                               },
                                               {
@@ -279,7 +279,7 @@ router.get("/export", (req, res) => {
                                             name: "roleaccess",
                                             schema: [
                                               {
-                                                column: "RoleID",
+                                                column: "id",
                                                 value: "TEXT NOT NULL",
                                               },
                                               {
@@ -324,7 +324,7 @@ router.get("/export", (req, res) => {
                                             name: "testmodule",
                                             schema: [
                                               {
-                                                column: "TestModID",
+                                                column: "id",
                                                 value:
                                                   "TEXT PRIMARY KEY NOT NULL",
                                               },
@@ -352,7 +352,7 @@ router.get("/export", (req, res) => {
                                             name: "test",
                                             schema: [
                                               {
-                                                column: "TestID",
+                                                column: "id",
                                                 value:
                                                   "TEXT PRIMARY KEY NOT NULL",
                                               },
