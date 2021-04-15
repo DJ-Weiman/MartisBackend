@@ -197,7 +197,7 @@ router.get("/export", (req, res) => {
                                               {
                                                 constraint: "user_ibfk_1",
                                                 value:
-                                                  "FOREIGN KEY (RoleID) REFERENCES role (RoleID) ON DELETE CASCADE",
+                                                  "FOREIGN KEY (RoleID) REFERENCES role (id) ON DELETE CASCADE",
                                               },
                                             ],
                                             values: userData,
@@ -225,7 +225,7 @@ router.get("/export", (req, res) => {
                                               {
                                                 constraint: "device_ibfk_1",
                                                 value:
-                                                  "FOREIGN KEY (UserID) REFERENCES user(UserID) ON DELETE CASCADE",
+                                                  "FOREIGN KEY (UserID) REFERENCES user(id) ON DELETE CASCADE",
                                               },
                                             ],
                                             values: deviceData,
@@ -260,17 +260,17 @@ router.get("/export", (req, res) => {
                                               {
                                                 constraint: "PK_repair",
                                                 value:
-                                                  "PRIMARY KEY (AssetID, CreatedDate)",
+                                                  "PRIMARY KEY (id, CreatedDate)",
                                               },
                                               {
                                                 constraint: "repair_ibfk_2",
                                                 value:
-                                                  "FOREIGN KEY (EngineerID) REFERENCES user(UserID) ON DELETE CASCADE",
+                                                  "FOREIGN KEY (EngineerID) REFERENCES user(id) ON DELETE CASCADE",
                                               },
                                               {
                                                 constraint: "repair_ibfk_1",
                                                 value:
-                                                  "FOREIGN KEY (AssetID) REFERENCES asset(AssetID) ON DELETE CASCADE",
+                                                  "FOREIGN KEY (id) REFERENCES asset(id) ON DELETE CASCADE",
                                               },
                                             ],
                                             values: repairData,
@@ -305,17 +305,17 @@ router.get("/export", (req, res) => {
                                               {
                                                 constraint: "PK_roleaccesss",
                                                 value:
-                                                  "PRIMARY KEY (RoleID, AccessID)",
+                                                  "PRIMARY KEY (id, AccessID)",
                                               },
                                               {
                                                 constraint: "roleaccess_ibfk_1",
                                                 value:
-                                                  "FOREIGN KEY (RoleID) REFERENCES role(RoleID) ON DELETE CASCADE",
+                                                  "FOREIGN KEY (id) REFERENCES role(id) ON DELETE CASCADE",
                                               },
                                               {
                                                 constraint: "roleaccess_ibfk_2",
                                                 value:
-                                                  "FOREIGN KEY (AccessID) REFERENCES access(AccessID) ON DELETE CASCADE",
+                                                  "FOREIGN KEY (AccessID) REFERENCES access(id) ON DELETE CASCADE",
                                               },
                                             ],
                                             values: roleaccessData,
@@ -343,7 +343,7 @@ router.get("/export", (req, res) => {
                                               {
                                                 constraint: "testmodule_ibfk_1",
                                                 value:
-                                                  "FOREIGN KEY (SupervisorID) REFERENCES user (UserID) ON DELETE CASCADE",
+                                                  "FOREIGN KEY (SupervisorID) REFERENCES user (id) ON DELETE CASCADE",
                                               },
                                             ],
                                             values: testmoduleData,
@@ -403,22 +403,22 @@ router.get("/export", (req, res) => {
                                               {
                                                 constraint: "test_ibfk_1",
                                                 value:
-                                                  "FOREIGN KEY (AssetID) REFERENCES asset(AssetID) ON DELETE CASCADE",
+                                                  "FOREIGN KEY (AssetID) REFERENCES asset(id) ON DELETE CASCADE",
                                               },
                                               {
                                                 constraint: "test_ibfk_2",
                                                 value:
-                                                  "FOREIGN KEY (InspectorID) REFERENCES user(UserID) ON DELETE CASCADE",
+                                                  "FOREIGN KEY (InspectorID) REFERENCES user(id) ON DELETE CASCADE",
                                               },
                                               {
                                                 constraint: "test_ibfk_3",
                                                 value:
-                                                  "FOREIGN KEY (SupervisorID) REFERENCES user (UserID) ON DELETE CASCADE",
+                                                  "FOREIGN KEY (SupervisorID) REFERENCES user (id) ON DELETE CASCADE",
                                               },
                                               {
                                                 constraint: "test_ibfk_4",
                                                 value:
-                                                  "FOREIGN KEY (TestModID) REFERENCES testmodule (TestModID) ON DELETE CASCADE",
+                                                  "FOREIGN KEY (TestModID) REFERENCES testmodule (id) ON DELETE CASCADE",
                                               },
                                             ],
                                             values: testData,
