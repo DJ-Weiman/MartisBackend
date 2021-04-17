@@ -640,5 +640,19 @@ router.get("/exportTests", (req, res) => {
     })
     .catch((err) => console.log(err));
 });
+//testing import to Access Table s
+
+router.post("/importAccess", (req,res) => {
+  let values = req.body.values;
+  const result = db.importAccess(values);
+
+  result
+  .then((data) => {
+    console.log(data);
+
+    res.json(data);
+  })
+  .catch((err) => console.log(err));
+});
 
 module.exports = router;
