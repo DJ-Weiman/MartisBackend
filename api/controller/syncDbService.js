@@ -354,7 +354,7 @@ class Dbservice {
 
 				connection.query(
 					query,
-					[ values[x][0], values[x][1], values[x][2], values[x][3] ],
+					[ values[x][0], values[x][1], values[x][2], values[x][3]],
 					(err, results) => {
 						if (err) reject(err.message);
 						resolve('Test modules imported');
