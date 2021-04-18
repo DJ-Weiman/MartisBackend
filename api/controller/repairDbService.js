@@ -99,7 +99,7 @@ class Dbservice {
 		try {
 			const response = await new Promise((resolve, reject) => {
 				const query =
-					'UPDATE repair SET EngineerID= ?, CompletedDate = ? , comments = ? WHERE AssetID = ? AND CreatedDate = ?';
+					'UPDATE repair SET EngineerID= 	?, CompletedDate = ? , comments = ? WHERE AssetID = ? AND CreatedDate = ?';
 				connection.query(
 					query,
 					[ employeeid, completedDate, comments, assetID, createdDate ],
