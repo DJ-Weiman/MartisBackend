@@ -18,6 +18,7 @@ class Dbservice {
         AND t.InspectorID = ?
         AND t.DateIssued BETWEEN ?
         AND ?`;
+		
 
 				connection.query(query, [ inspectorID, InitialDate, FinalDate ], (err, results) => {
 					if (err) reject(new Error(err));
