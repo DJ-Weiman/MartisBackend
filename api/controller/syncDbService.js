@@ -373,11 +373,11 @@ class Dbservice {
 			const response = await new Promise((resolve, reject) => {
                 for(var x = 0; x< values.length; x++){//
 				const query =
-					'INSERT INTO access (AccessID, Access, last_modified) Values ( ?, ?, ?) ON DUPLICATE KEY UPDATE Access = ?, last_modified = ?';
+					'INSERT INTO access (AccessID, Access, last_modified) Values ( ?, ?, ?) ON DUPLICATE KEY UPDATE Access = VALUES(Access), last_modified = VALUES(last_modified)';
 
 				connection.query(
 					query,
-					[ values[x][0], values[x][1], values[x][2], values[x][1], values[x][2] ],
+					[ values[x][0], values[x][1], values[x][2] ],
 					(err, results) => {
 						if (err) reject(err.message);
 						resolve('Access imported');
