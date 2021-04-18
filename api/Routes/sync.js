@@ -643,14 +643,18 @@ router.get("/exportTests", (req, res) => {
 //testing import to Access Table s
 
 router.post("/importAccess", (req,res) => {
-  let values = req.body.values;
-  const result = db.importAccess(values);
+  let tables = req.body.tables;
+  const result = db.importAccess(tables[0]);
 
   result
   .then((data) => {
-    console.log(data);
+    const result2 = db.importTestModule(tables[1]);
 
-    res.json(data);
+    result2
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((err) => console.log(err));
   })
   .catch((err) => console.log(err));
 });

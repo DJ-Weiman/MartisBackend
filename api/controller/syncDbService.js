@@ -344,17 +344,17 @@ class Dbservice {
 			console.log('There was an error');
 		}
 	}
-
+//edited to test the triggger 
     async importTestModule(values) {
 		try {
 			const response = await new Promise((resolve, reject) => {
                 for(var x = 0; x< values.length; x++){//
 				const query =
-					'INSERT IGNORE INTO testmodule (TestModID,SupervisorID, Description) Values ( ?, ?, ?)';
+					'INSERT INTO testmodule (TestModID,SupervisorID, Description, last_modified) Values ( ?, ?, ?, ?) ON DUPLICATE KEY UPDATE SupervisorID = VALUES(SupervisorID), Description = VALUES(Description), last_modified = VALUES(last_modified)';
 
 				connection.query(
 					query,
-					[ values[x][0], values[x][1], values[x][2] ],
+					[ values[x][0], values[x][1], values[x][2], values[x][3] ],
 					(err, results) => {
 						if (err) reject(err.message);
 						resolve('Test modules imported');
