@@ -324,12 +324,13 @@ class Dbservice {
 
     async importTest(test) {
 		try {
+            console.log("test");
 			const response = await new Promise((resolve, reject) => {
                 for(var x = 0; x< test.length; x++){//
 				const query =
 					`INSERT INTO test (TestID,DateIssued, AssetID, InspectorID, Result, SupervisorID, DateCompleted, Frequency, Priority, TestModID, comments, last_modified) Values ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                     ON DUPLICATE KEY UPDATE DateIssued = VALUES(DateIssued), AssetID = VALUES(AssetID), InspectorID = VALUES(InspectorID), Result = VALUES(Result), SupervisorID = VALUES(SupervisorID), DateCompleted = VALUES(DateCompleted), Frequency = VALUES(Frequency), Priority = VALUES(Priority), TestModID = VALUES(TestModID), comments = VALUES(comments), last_modified = VALUES(last_modified)`;
-
+                
 				connection.query(
 					query,
 					[ test[x][0], test[x][1], test[x][2], test[x][3], test[x][4], test[x][5], test[x][6], test[x][7], test[x][8], test[x][9], test[x][10], test[x][11] ],
@@ -348,6 +349,7 @@ class Dbservice {
 //edited to test the triggger 
     async importTestModule(values) {
 		try {
+            console.log("TM");
 			const response = await new Promise((resolve, reject) => {
                 for(var x = 0; x< values.length; x++){//
 				const query =
@@ -371,6 +373,7 @@ class Dbservice {
     //edited to test the trigger 
     async importAccess(values) {
 		try {
+            console.log("acc");
 			const response = await new Promise((resolve, reject) => {
                 for(var x = 0; x< values.length; x++){//
 				const query =
@@ -394,6 +397,7 @@ class Dbservice {
 
     async importAsset(values) {
 		try {
+            console.log("aset");
 			const response = await new Promise((resolve, reject) => {
                 for(var x = 0; x< values.length; x++){//
 				const query =
@@ -421,6 +425,7 @@ class Dbservice {
 
     async importRole(values) {
 		try {
+            console.log("role");
 			const response = await new Promise((resolve, reject) => {
                 for(var x = 0; x< values.length; x++){//
 				const query =
@@ -439,7 +444,7 @@ class Dbservice {
 			});
 			return response;
 		} catch (error) {
-			console.log('There was an error');
+			console.log('There was an error in role import');
 		}
 	}
 
@@ -463,7 +468,7 @@ class Dbservice {
 			});
 			return response;
 		} catch (error) {
-			console.log('There was an error');
+			console.log('There was an error in user import');
 		}
 	}
 
@@ -487,7 +492,7 @@ class Dbservice {
 			});
 			return response;
 		} catch (error) {
-			console.log('There was an error');
+			console.log('There was an error in device import');
 		}
 	}
 
@@ -510,7 +515,7 @@ class Dbservice {
 			});
 			return response;
 		} catch (error) {
-			console.log('There was an error');
+			console.log('There was an error in roleaccess import');
 		}
 	}
 
@@ -534,7 +539,7 @@ class Dbservice {
 			});
 			return response;
 		} catch (error) {
-			console.log('There was an error');
+			console.log('There was an error in repair import');
 		}
 	}
 
@@ -557,7 +562,7 @@ class Dbservice {
 			});
 			return response;
 		} catch (error) {
-			console.log('There was an error');
+			console.log('There was an error in repair update');
 		}
 	}
 
