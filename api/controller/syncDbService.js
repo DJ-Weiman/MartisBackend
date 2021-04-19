@@ -529,9 +529,12 @@ class Dbservice {
 					`INSERT INTO repair (AssetID, CreatedDate, EngineerID, CompletedDate, comments, last_modified) Values (?, ?, ?, ?, ?, ?)
                     ON DUPLICATE KEY UPDATE AssetID = VALUES(AssetID), CreatedDate = VALUES(CreatedDate), EngineerID = VALUES(EngineerID), CompletedDate = VALUES(CompletedDate), comments = VALUES(comments), last_modified = VALUES(last_modified)`;
 
+                    var engineerID = (values[x][2].toString() == "NULL")? null : values[x][2];
+                    var completedD = (values[x][3].toString() == "NULL")? null : values[x][3].toString().replace(/T/, ' ').replace(/\..+/, '');
+                    var comments = (values[x][4].toString() == "NULL")? null : values[x][4];
 				connection.query(
 					query,
-					[ values[x][0], values[x][1], values[x][2], values[x][3], values[x][4], values[x][5]],
+					[ values[x][0], values[x][1].toString().replace(/T/, ' ').replace(/\..+/, ''), engineerID, completedD, comments, values[x][5]],
 					(err, results) => {
 						if (err) reject(err.message);
 						resolve('Repair imported');
