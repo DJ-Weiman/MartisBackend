@@ -17,7 +17,7 @@ class Dbservice {
         AND t.TestModID = tm.TestModID
         AND t.InspectorID = ?
         AND t.DateIssued BETWEEN ?
-        AND ?`;
+        AND ?` ;
 		
 
 				connection.query(query, [ inspectorID, InitialDate, FinalDate ], (err, results) => {
