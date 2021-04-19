@@ -405,7 +405,7 @@ class Dbservice {
                     SubDivision = VALUES(SubDivision), NearestMilePost = VALUES(NearestMilePost), 
                     LastTestedDate = VALUES(LastTestedDate), last_modified = VALUES(last_modified)`;
 
-                    var lastTD = values[x][9].replace(/T/, ' ').replace(/\..+/, '');
+                    var lastTD = values[x][9].toString().replace(/T/, ' ').replace(/\..+/, '');
 				connection.query(
 					query,
 					[ values[x][0], values[x][1], values[x][2], values[x][3], values[x][4], values[x][5], values[x][6], values[x][7], values[x][8], lastTD, values[x][10] ],
