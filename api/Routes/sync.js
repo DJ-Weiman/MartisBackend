@@ -597,36 +597,24 @@ router.post("/fullimport", (req,res) => {
                     const result9 = db.importTest(tables[8].values); 
 
                     result9
-                    .then((reply) => {
-                      const result10 = db.importRepairUpdates(tables[5].values);
-
-                      result10
-                      .then((reply) => {
-                        const result11 = db.importTestUpdates(tables[8].values);
-
-                        result11
-                        .then((reply) => res.json(reply))
-                        .catch((err) => console.log(err)); 
-                      })
-                      .catch((err) => console.log(err));      
+                    .then((reply) => res.json(reply))
+                    .catch((err9) => console.log(err9)); 
                     })
-                    .catch((err) => console.log(err));    
+                    .catch((err8) => console.log(err8));    
                   })
-                  .catch((err) => console.log(err));  
+                  .catch((err7) => console.log(err7));  
                 })
-                .catch((err) => console.log(err));     
+                .catch((err6) => console.log(err6));     
               })
-              .catch((err) => console.log(err));   
+              .catch((err5) => console.log(err5));   
             })
-            .catch((err) => console.log(err));  
+            .catch((err4) => console.log(err4));  
           })
-          .catch((err) => console.log(err));  
+          .catch((err3) => console.log(err3));  
         })
-        .catch((err) => console.log(err));  
+        .catch((err2) => console.log(err2));  
       })
       .catch((err) => console.log(err));
-    })
-		.catch((err) => console.log(err));
 });
 
 router.get("/exportTests", (req, res) => {

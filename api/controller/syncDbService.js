@@ -327,11 +327,12 @@ class Dbservice {
 			const response = await new Promise((resolve, reject) => {
                 for(var x = 0; x< test.length; x++){//
 				const query =
-					'INSERT IGNORE INTO test (TestID,DateIssued, AssetID, InspectorID, Result, SupervisorID, DateCompleted, Frequency, Priority, TestModID, comments) Values ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+					`INSERT INTO test (TestID,DateIssued, AssetID, InspectorID, Result, SupervisorID, DateCompleted, Frequency, Priority, TestModID, comments, last_modified) Values ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    ON DUPLICATE KEY UPDATE DateIssued = VALUES(DateIssued), AssetID = VALUES(AssetID), InspectorID = VALUES(InspectorID), Result = VALUES(Result), SupervisorID = VALUES(SupervisorID), DateCompleted = VALUES(DateCompleted), Frequency = VALUES(Frequency), Priority = VALUES(Priority), TestModID = VALUES(TestModID), comments = VALUES(comments), last_modified = VALUES(last_modified)`;
 
 				connection.query(
 					query,
-					[ test[x][0], test[x][1], test[x][2], test[x][3], test[x][4], test[x][5], test[x][6], test[x][7], test[x][8], test[x][9], test[x][10] ],
+					[ test[x][0], test[x][1], test[x][2], test[x][3], test[x][4], test[x][5], test[x][6], test[x][7], test[x][8], test[x][9], test[x][10], test[x][11] ],
 					(err, results) => {
 						if (err) reject(err.message);
 						resolve('Tests imported');
@@ -396,11 +397,15 @@ class Dbservice {
 			const response = await new Promise((resolve, reject) => {
                 for(var x = 0; x< values.length; x++){//
 				const query =
-					'INSERT IGNORE INTO asset (AssetID, AssetType, Status, GPSLatitude, GPSLongitude, Region, Division, SubDivision, NearestMilePost, LastTestedDate) Values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+					`INSERT INTO asset (AssetID, AssetType, Status, GPSLatitude, GPSLongitude, Region, Division, SubDivision, NearestMilePost, LastTestedDate, last_modified) Values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    ON DUPLICATE KEY UPDATE AssetType = VALUES(AssetType), Status = VALUES(Status), GPSLatitude = VALUES(GPSLatitude), 
+                    GPSLongitude = VALUES(GPSLongitude), Region = VALUES(Region), Division = VALUES(Division), 
+                    SubDivision = VALUES(SubDivision), NearestMilePost = VALUES(NearestMilePost), 
+                    LastTestedDate = VALUES(LastTestedDate), last_modified = VALUES(last_modified)`;
 
 				connection.query(
 					query,
-					[ values[x][0], values[x][1], values[x][2], values[x][3], values[x][4], values[x][5], values[x][6], values[x][7], values[x][8], values[x][9] ],
+					[ values[x][0], values[x][1], values[x][2], values[x][3], values[x][4], values[x][5], values[x][6], values[x][7], values[x][8], values[x][9], values[x][10] ],
 					(err, results) => {
 						if (err) reject(err.message);
 						resolve('Asset imported');
@@ -419,11 +424,12 @@ class Dbservice {
 			const response = await new Promise((resolve, reject) => {
                 for(var x = 0; x< values.length; x++){//
 				const query =
-					'INSERT IGNORE INTO role (RoleID, Title, CreatedDate, UpdatedDate, DeletedDate) Values (?, ?, ?, ?, ?)';
+					`INSERT INTO role (RoleID, Title, CreatedDate, UpdatedDate, DeletedDate, last_modified) Values (?, ?, ?, ?, ?, ?) 
+                    ON DUPLICATE KEY UPDATE Title = VALUES(Title), CreatedDate = VALUES(CreatedDate), UpdatedDate = VALUES(UpdatedDate), DeletedDate = VALUES(DeletedDate), last_modified = VALUES(last_modified)`;
 
 				connection.query(
 					query,
-					[ values[x][0], values[x][1], values[x][2], values[x][3], values[x][4]],
+					[ values[x][0], values[x][1], values[x][2], values[x][3], values[x][4], values[x][5] ],
 					(err, results) => {
 						if (err) reject(err.message);
 						resolve('Role imported');
@@ -442,11 +448,12 @@ class Dbservice {
 			const response = await new Promise((resolve, reject) => {
                 for(var x = 0; x< values.length; x++){//
 				const query =
-					'INSERT IGNORE INTO user (UserID, Name, Email, Password, Region, RoleID) Values (?, ?, ?, ?, ?, ?)';
+					`INSERT INTO user (UserID, Name, Email, Password, Region, RoleID, last_modified) Values (?, ?, ?, ?, ?, ?, ?)
+                    ON DUPLICATE KEY UPDATE Name = VALUES(Name), Email = VALUES(Email), Password = VALUES(Password), Region = VALUES(Region), RoleID = VALUES(RoleID), last_modified = VALUES(last_modified)`;
 
 				connection.query(
 					query,
-					[ values[x][0], values[x][1], values[x][2], values[x][3], values[x][4], values[x][5]],
+					[ values[x][0], values[x][1], values[x][2], values[x][3], values[x][4], values[x][5], values[x][6] ],
 					(err, results) => {
 						if (err) reject(err.message);
 						resolve('User imported');
@@ -465,11 +472,12 @@ class Dbservice {
 			const response = await new Promise((resolve, reject) => {
                 for(var x = 0; x< values.length; x++){//
 				const query =
-					'INSERT IGNORE INTO device (DeviceID, UserID, PIN) Values (?, ?, ?)';
+					`INSERT INTO device (DeviceID, UserID, PIN, last_modified) Values (?, ?, ?, ?)
+                    ON DUPLICATE KEY UPDATE UserID = VALUES(UserID), PIN = VALUES(PIN), last_modified = VALUES(last_modified)`;
 
 				connection.query(
 					query,
-					[ values[x][0], values[x][1], values[x][2]],
+					[ values[x][0], values[x][1], values[x][2], values[x][3] ],
 					(err, results) => {
 						if (err) reject(err.message);
 						resolve('Device imported');
@@ -488,7 +496,7 @@ class Dbservice {
 			const response = await new Promise((resolve, reject) => {
                 for(var x = 0; x< values.length; x++){//
 				const query =
-					'INSERT IGNORE INTO roleaccess (RoleID, AccessID, CreatedDate, UpdatedDate, DeletedDate) Values (?, ?, ?, ?, ?)';
+					`INSERT IGNORE INTO roleaccess (RoleID, AccessID, CreatedDate, UpdatedDate, DeletedDate) Values (?, ?, ?, ?, ?)`;
 
 				connection.query(
 					query,
@@ -511,11 +519,12 @@ class Dbservice {
 			const response = await new Promise((resolve, reject) => {
                 for(var x = 0; x< values.length; x++){//
 				const query =
-					'INSERT IGNORE INTO repair (AssetID, CreatedDate, EngineerID, CompletedDate, comments) Values (?, ?, ?, ?, ?)';
+					`INSERT INTO repair (AssetID, CreatedDate, EngineerID, CompletedDate, comments, last_modified) Values (?, ?, ?, ?, ?, ?)
+                    ON DUPLICATE KEY UPDATE AssetID = VALUES(AssetID), CreatedDate = VALUES(CreatedDate), EngineerID = VALUES(EngineerID), CompletedDate = VALUES(CompletedDate), comments = VALUES(comments), last_modified = VALUES(last_modified)`;
 
 				connection.query(
 					query,
-					[ values[x][0], values[x][1], values[x][2], values[x][3], values[x][4]],
+					[ values[x][0], values[x][1], values[x][2], values[x][3], values[x][4], values[x][5]],
 					(err, results) => {
 						if (err) reject(err.message);
 						resolve('Repair imported');
