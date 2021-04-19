@@ -373,7 +373,6 @@ class Dbservice {
     //edited to test the trigger 
     async importAccess(values) {
 		try {
-            console.log("acc");
 			const response = await new Promise((resolve, reject) => {
                 for(var x = 0; x< values.length; x++){//
 				const query =
@@ -391,7 +390,7 @@ class Dbservice {
 			});
 			return response;
 		} catch (error) {
-			console.log('There was an error');
+			console.log('There was an error in access import');
 		}
 	}
 
@@ -419,13 +418,13 @@ class Dbservice {
 			});
 			return response;
 		} catch (error) {
-			console.log('There was an error');
+			console.log('There was an error in asset import');
 		}
 	}
 
     async importRole(values) {
 		try {
-            console.log("role");
+            
 			const response = await new Promise((resolve, reject) => {
                 for(var x = 0; x< values.length; x++){//
 				const query =
