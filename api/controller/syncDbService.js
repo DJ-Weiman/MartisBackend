@@ -343,7 +343,7 @@ class Dbservice {
 			});
 			return response;
 		} catch (error) {
-			console.log('There was an error');
+			console.log('There was an error in test import');
 		}
 	}
 //edited to test the triggger 
@@ -367,7 +367,7 @@ class Dbservice {
 			});
 			return response;
 		} catch (error) {
-			console.log('There was an error');
+			console.log('There was an error in test module import');
 		}
 	}
     //edited to test the trigger 
@@ -418,7 +418,7 @@ class Dbservice {
 			});
 			return response;
 		} catch (error) {
-			console.log('There was an error in asset import');
+			console.log('There was an error in asset import:'+error.message);
 		}
 	}
 
