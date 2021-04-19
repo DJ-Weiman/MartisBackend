@@ -431,10 +431,12 @@ class Dbservice {
 					`INSERT INTO role (RoleID, Title, CreatedDate, UpdatedDate, DeletedDate, last_modified) Values (?, ?, ?, ?, ?, ?) 
                     ON DUPLICATE KEY UPDATE Title = VALUES(Title), CreatedDate = VALUES(CreatedDate), UpdatedDate = VALUES(UpdatedDate), DeletedDate = VALUES(DeletedDate), last_modified = VALUES(last_modified)`;
 
-                    
+                    var createdD = (values[x][2].toString() == "NULL")? null : values[x][2].toString().replace(/T/, ' ').replace(/\..+/, '');
+                    var updatedD = (values[x][3].toString() == "NULL")? null : values[x][3].toString().replace(/T/, ' ').replace(/\..+/, '');
+                    var deletedD = (values[x][4].toString() == "NULL")? null : values[x][4].toString().replace(/T/, ' ').replace(/\..+/, '');
 				connection.query(
 					query,
-					[ values[x][0], values[x][1], values[x][2].toString().replace(/T/, ' ').replace(/\..+/, ''), values[x][3].toString().replace(/T/, ' ').replace(/\..+/, ''), values[x][4].toString().replace(/T/, ' ').replace(/\..+/, ''), values[x][5] ],
+					[ values[x][0], values[x][1], createdD, updatedD, deletedD, values[x][5] ],
 					(err, results) => {
 						if (err) reject(err.message);
 						resolve('Role imported');
