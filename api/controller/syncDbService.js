@@ -444,7 +444,7 @@ class Dbservice {
 			});
 			return response;
 		} catch (error) {
-			console.log('There was an error in role import');
+			console.log('There was an error in role import:'+ error.message);
 		}
 	}
 
