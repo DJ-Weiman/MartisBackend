@@ -408,7 +408,7 @@ class Dbservice {
                     var aType = (values[x][1].toString() == "NULL") ? null : values[x][1];
 				connection.query(
 					query,
-					[ values[x][0], values[x][1], values[x][2], values[x][3], values[x][4], values[x][5], values[x][6], values[x][7], values[x][8], values[x][9], values[x][10] ],
+					[ values[x][0], aType, values[x][2], values[x][3], values[x][4], values[x][5], values[x][6], values[x][7], values[x][8], values[x][9], values[x][10] ],
 					(err, results) => {
 						if (err) reject(err.message);
 						resolve('Asset imported');
