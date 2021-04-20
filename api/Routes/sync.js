@@ -25,12 +25,12 @@ router.get("/export", (req, res) => {
           repairResults
             .then((data3) => {
               var repairData = data3;
-              const accessResults = db.exportAccess();
+              const accessResults = db.exportAccess(); //del
 
               accessResults
                 .then((data4) => {
                   var accessData = data4;
-                  const roleResults = db.exportRoles();
+                  const roleResults = db.exportRoles();//del
 
                   roleResults
                     .then((data5) => {
@@ -40,12 +40,12 @@ router.get("/export", (req, res) => {
                       userResults
                         .then((data6) => {
                           var userData = data6;
-                          const deviceResults = db.exportDevices();
+                          const deviceResults = db.exportDevices();//del
 
                           deviceResults
                             .then((data7) => {
                               var deviceData = data7;
-                              const roleaccessResults = db.exportRoleAccess();
+                              const roleaccessResults = db.exportRoleAccess();//del
 
                               roleaccessResults
                                 .then((data8) => {
@@ -627,24 +627,6 @@ router.get("/exportTests", (req, res) => {
       res.json(data);
     })
     .catch((err) => console.log(err));
-});
-//testing import to Access Table s
-
-router.post("/importAccess", (req,res) => {
-  let tables = req.body.tables;
-  const result = db.importAccess(tables[0]);
-
-  result
-  .then((data) => {
-    const result2 = db.importTestModule(tables[1]);
-
-    result2
-    .then((data) => {
-      res.json(data);
-    })
-    .catch((err) => console.log(err));
-  })
-  .catch((err) => console.log(err));
 });
 
 module.exports = router;
