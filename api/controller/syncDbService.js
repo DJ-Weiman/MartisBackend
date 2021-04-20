@@ -331,9 +331,14 @@ class Dbservice {
 					`INSERT INTO test (TestID,DateIssued, AssetID, InspectorID, Result, SupervisorID, DateCompleted, Frequency, Priority, TestModID, comments, last_modified) Values ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                     ON DUPLICATE KEY UPDATE DateIssued = VALUES(DateIssued), AssetID = VALUES(AssetID), InspectorID = VALUES(InspectorID), Result = VALUES(Result), SupervisorID = VALUES(SupervisorID), DateCompleted = VALUES(DateCompleted), Frequency = VALUES(Frequency), Priority = VALUES(Priority), TestModID = VALUES(TestModID), comments = VALUES(comments), last_modified = VALUES(last_modified)`;
                 
+                    var dIssued = (test[x][1].toString() == "NULL")? null : test[x][1].toString().replace(/T/, ' ').replace(/\..+/, '');
+                    var result = (test[x][4].toString() == "NULL")? null : test[x][4];
+                    var dCompleted = (test[x][6].toString() == "NULL")? null : test[x][6].toString().replace(/T/, ' ').replace(/\..+/, '');
+                    var priority = (test[x][8].toString() == "NULL")? null : test[x][8];
+                    var comments = (test[x][10].toString() == "NULL")? null : test[x][10];
 				connection.query(
 					query,
-					[ test[x][0], test[x][1], test[x][2], test[x][3], test[x][4], test[x][5], test[x][6], test[x][7], test[x][8], test[x][9], test[x][10], test[x][11] ],
+					[ test[x][0], dIssued, test[x][2], test[x][3], result, test[x][5], dCompleted, test[x][7], priority, test[x][9], comments, test[x][11] ],
 					(err, results) => {
 						if (err) reject(err.message);
 						resolve('Tests imported');
