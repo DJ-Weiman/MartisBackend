@@ -29,7 +29,7 @@ class Dbservice {
   async getTestsForAssets() {
     try {
       const response = await new Promise((resolve, reject) => {
-        const query = `select a.AssetID AS id, a.Status, a.Division, COUNT(t.TestID)
+        const query = `select a.AssetID AS id, a.Status, COUNT(t.TestID)
         AS noOfTests
         FROM asset AS a
         LEFT JOIN test AS t
