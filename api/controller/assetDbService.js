@@ -26,6 +26,27 @@ class Dbservice {
     }
   }
 
+  async getTestsForAssets() {
+    try {
+      const response = await new Promise((resolve, reject) => {
+        const query = `select a.AssetID AS id, a.Status, a.Division, COUNT(t.TestID)
+        AS noOfTests
+        FROM asset AS a
+        LEFT JOIN test AS t
+        ON a.AssetID = t.AssetID
+        GROUP BY a.AssetID`;
+
+        connection.query(query, (err, results) => {
+          if (err) reject(new Error(err));
+          resolve(results);
+        });
+      });
+      return response;
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+
   async createNewAsset(
     AssetID,
     AssetType,
@@ -65,7 +86,7 @@ class Dbservice {
       });
       return response;
     } catch (error) {
-      console.log("There was an error:"+ error.message);
+      console.log("There was an error");
       return "Error";
     }
   }

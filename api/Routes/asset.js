@@ -20,6 +20,17 @@ router.get("/getAssets", (req, res) => {
     .catch((err) => console.log(err));
 });
 
+router.get("/getAssetsTests", (req, res) => {
+  const result = db.getTestsForAssets();
+
+  result
+    .then((data) => {
+      console.log(data);
+      res.json({ data: data });
+    })
+    .catch((err) => console.log(err));
+});
+
 router.post("/createNewAsset", (req, res) => {
   let AssetID = req.body.AssetID;
   let AssetType = req.body.AssetType;
