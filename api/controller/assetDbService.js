@@ -34,6 +34,8 @@ class Dbservice {
         FROM asset AS a
         LEFT JOIN test AS t
         ON a.AssetID = t.AssetID
+        AND (t.DateCompleted is NULL 
+        OR t.DateCompleted = "0000-00-00 00:00:00")
         GROUP BY a.AssetID`;
 
         connection.query(query, (err, results) => {
