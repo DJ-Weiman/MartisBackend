@@ -30,7 +30,7 @@ class Dbservice {
 		try {
 			const response = await new Promise((resolve, reject) => {
 				const query =
-					'INSERT INTO test (TestID,DateIssued, AssetID, InspectorID, SupervisorID, Frequency, Priority, TestModID) Values ( ?, ?, ?, ?, ?, ?, ?, ?)';
+					'INSERT INTO test (TestID,DateIssued, AssetID, InspectorID, SupervisorID, Frequency, Priority, TestModID, last_modified) Values ( ?, ?, ?, ?, ?, ?, ?, ?, UNIX_TIMESTAMP())';
 
 				connection.query(
 					query,
