@@ -160,7 +160,7 @@ class Dbservice {
         const query = `SELECT t.InspectorID, a.GPSLatitude, a.GPSLongitude, t.AssetID, t.TestID, t.TestModID
                         from test t, asset a
                         where t.AssetID = a.AssetID
-                        AND t.InspectorID = ?`;
+                        AND (DateCompleted is NULL OR  DateCompleted = "0000-00-00 00:00:00")`;
 
         connection.query(query, [empId], (err, results) => {
           if (err) reject(new Error(err));

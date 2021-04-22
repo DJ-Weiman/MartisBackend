@@ -95,16 +95,20 @@ class Dbservice {
 		}
 	}
 
-	async addCompletedDateAndComments(assetID, createdDate, completedDate, comments) {
+	async addCompletedDateAndComments(assetID, employeeid, createdDate, completedDate, comments) {
 		try {
 			const response = await new Promise((resolve, reject) => {
 				const query =
-					'UPDATE repair SET CompletedDate = ? , comments = ? WHERE AssetID = ? AND CreatedDate = ?';
-				connection.query(query, [ completedDate, comments, assetID, createdDate ], (err, results) => {
-					console.log(query);
-					if (err) reject(err.message);
-					resolve('Repair completed');
-				});
+					'UPDATE repair SET EngineerID= 	?, CompletedDate = ? , comments = ? WHERE AssetID = ? AND CreatedDate = ?';
+				connection.query(
+					query,
+					[ employeeid, completedDate, comments, assetID, createdDate ],
+					(err, results) => {
+						console.log(query);
+						if (err) reject(err.message);
+						resolve('Repair completed');
+					}
+				);
 			});
 			console.log(response);
 			return response;
