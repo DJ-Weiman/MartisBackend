@@ -35,4 +35,20 @@ router.post("/getDeviceByID", (req, res) => {
     .catch((err) => console.log(err));
 });
 
+router.post("/setDevicePinByID", (req, res) => {
+  let deviceId = req.body.deviceId;
+  let devicePin = req.body.devicePin;
+
+  console.log(req.body);
+
+  const result = db.setPin(deviceId, devicePin);
+
+  result
+    .then((reply) => {
+      //console.log(data);
+      res.json({ message: reply });
+    })
+    .catch((err) => console.log(err));
+});
+
 module.exports = router;
