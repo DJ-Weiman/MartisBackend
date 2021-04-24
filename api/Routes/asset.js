@@ -21,12 +21,19 @@ router.get("/getAssets", (req, res) => {
 });
 
 router.get("/getAssetsTests", (req, res) => {
+  const page = req.query.page;//
+  const limit = req.query.limit;//
+
+  const startIndex = (page - 1) * limit;//
+  const endIndex = page * limit;//
+
   const result = db.getTestsForAssets();
 
   result
     .then((data) => {
       console.log(data);
-      res.json({ data: data });
+      const resultsAT = data.slice(startIndex, endIndex);//
+      res.json({ data: resultsAT });//data
     })
     .catch((err) => console.log(err));
 });
