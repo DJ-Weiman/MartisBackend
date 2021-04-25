@@ -34,10 +34,6 @@ router.get("/getAssetsTests", (req, res) => {
       console.log(data);
       const rets = {};
 
-      const pages = Math.ceil(data.length/limit);
-
-      rets.noOfPages = pages;
-
       if (endIndex < data.length) {
         rets.next = {
           page: page + 1,

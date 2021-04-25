@@ -1,8 +1,9 @@
-const mysql = require("mysql");
-const connection = require("./dbConnection");
-const haversine = require("haversine");
-const lodash = require("lodash");
-const { xor } = require("lodash");
+const mysql = require('mysql');
+const connection = require('./dbConnection');
+const haversine = require('haversine');
+const lodash = require('lodash');
+const { xor } = require('lodash');
+
 let instance = null;
 
 class Dbservice {
@@ -14,7 +15,6 @@ class Dbservice {
 		try {
 			const response = await new Promise((resolve, reject) => {
 				const query = `SELECT * FROM test where DateCompleted is NULL OR DateCompleted = "0000-00-00 00:00:00"`;
-
 				connection.query(query, (err, results) => {
 					if (err) reject(new Error(err));
 					resolve(results);
@@ -64,7 +64,6 @@ class Dbservice {
 			const response = await new Promise((resolve, reject) => {
 				const query =
 					'INSERT IGNORE INTO test (TestID,DateIssued, AssetID, InspectorID, Result, SupervisorID, DateCompleted, Frequency, Priority, TestModID, comments) Values ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
-
 				connection.query(
 					query,
 					[
@@ -96,7 +95,6 @@ class Dbservice {
 		try {
 			const response = await new Promise((resolve, reject) => {
 				const query = 'UPDATE test SET Result = ?, DateCompleted = ?, comments = ? WHERE TestID = ?';
-
 				connection.query(query, [ Result, DateCompleted, comments, TestID ], (err, results) => {
 					if (err) reject(err.message);
 					resolve('Record updated');
@@ -112,7 +110,6 @@ class Dbservice {
 		try {
 			const response = await new Promise((resolve, reject) => {
 				const query = 'Insert into repair(AssetID, CreatedDate) values (?, ?)';
-
 				connection.query(query, [ AssetID, CreatedDate ], (err, results) => {
 					if (err) reject(err.message);
 					resolve('Repair Entry Added');
@@ -130,68 +127,63 @@ class Dbservice {
 				latitude: empLatitude,
 				longitude: empLongitude
 			};
-
 			let nearByAssets = [];
-
 			const response = await new Promise((resolve, reject) => {
 				const query = `SELECT t.InspectorID, a.GPSLatitude, a.GPSLongitude, t.AssetID, t.TestID, t.TestModID
                         from test t, asset a
                         where t.AssetID = a.AssetID
                         AND (DateCompleted is NULL OR  DateCompleted = "0000-00-00 00:00:00")`;
+				connection.query(query, [ empId ], (err, results) => {
+					if (err) reject(new Error(err));
+					console.log('Words');
+					console.log(results);
+					results.forEach((element) => {
+						let asset = {
+							latitude: element.GPSLatitude,
+							longitude: element.GPSLongitude
+						};
+						const distance = Math.round(
+							haversine(asset, employeeCoordinates, {
+								unit: 'meter'
+							})
+						);
+						if (distance) {
+							nearByAssets.push({
+								distance: distance,
+								AssetID: element.AssetID,
+								InspectorID: element.InspectorID,
+								TestID: element.TestID,
+								TestModID: element.TestModID
+							});
+						}
+					});
+					resolve(
+						lodash.sortBy(nearByAssets, (e) => {
+							return e.distance;
+						})
+					);
+				});
+			});
+			return response;
+		} catch (error) {
+			console.log(error.message);
+		}
+	}
 
-        connection.query(query, [empId], (err, results) => {
-          if (err) reject(new Error(err));
-          console.log("Words");
-          console.log(results);
-          results.forEach((element) => {
-            let asset = {
-              latitude: element.GPSLatitude,
-              longitude: element.GPSLongitude,
-            };
-
-            const distance = Math.round(
-              haversine(asset, employeeCoordinates, {
-                unit: "meter",
-              })
-            );
-            if (distance) {
-              nearByAssets.push({
-                distance: distance,
-                AssetID: element.AssetID,
-                InspectorID: element.InspectorID,
-                TestID: element.TestID,
-                TestModID: element.TestModID,
-              });
-            }
-          });
-          resolve(
-            lodash.sortBy(nearByAssets, (e) => {
-              return e.distance;
-            })
-          );
-        });
-      });
-      return response;
-    } catch (error) {
-      console.log(error.message);
-    }
-  }
-
-  async orderByPriority() {
-    try {
-      const response = await new Promise((resolve, reject) => {
-        const query = `SELECT * from test where DateCompleted is NULL or DateCompleted = "0000-00-00 00:00:00" ORDER by Priority ASC`;
-
-        connection.query(query, (err, results) => {
-          if (err) reject(new Error(err));
-          resolve(results);
-        });
-      });
-      return response;
-    } catch (error) {
-      console.log(error.message);
-    }
-  }
+	async orderByPriority() {
+		try {
+			const response = await new Promise((resolve, reject) => {
+				const query = `SELECT * from test where DateCompleted is NULL or DateCompleted = "0000-00-00 00:00:00" ORDER by Priority ASC`;
+				connection.query(query, (err, results) => {
+					if (err) reject(new Error(err));
+					resolve(results);
+				});
+			});
+			return response;
+		} catch (error) {
+			console.log(error.message);
+		}
+	}
 }
 
 module.exports = Dbservice;
