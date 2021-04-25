@@ -21,19 +21,34 @@ router.get("/getAssets", (req, res) => {
 });
 
 router.get("/getAssetsTests", (req, res) => {
-  const page = req.query.page;//
-  const limit = req.query.limit;//
+  const page = parseInt(req.query.page); //
+  const limit = parseInt(req.query.limit); //
 
-  const startIndex = (page - 1) * limit;//
-  const endIndex = page * limit;//
+  const startIndex = (page - 1) * limit; //
+  const endIndex = page * limit; //
 
   const result = db.getTestsForAssets();
 
   result
     .then((data) => {
       console.log(data);
-      const resultsAT = data.slice(startIndex, endIndex);//
-      res.json({ data: resultsAT });//data
+      const rets = {};
+
+      if (endIndex < data.length) {
+        rets.next = {
+          page: page + 1,
+          limit: limit,
+        };
+      }
+
+      if (startIndex > 0) {
+        rets.prev = {
+          page: page - 1,
+          limit: limit,
+        };
+      }
+      rets.results = data.slice(startIndex, endIndex); //
+      res.json({ rets }); //data
     })
     .catch((err) => console.log(err));
 });
