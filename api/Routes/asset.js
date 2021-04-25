@@ -48,7 +48,7 @@ router.get("/getAssetsTests", (req, res) => {
         };
       }
       rets.results = data.slice(startIndex, endIndex); //
-      res.json({ rets }); //data
+      res.json(rets); //data
     })
     .catch((err) => console.log(err));
 });
