@@ -34,7 +34,7 @@ router.get("/getAssetsTests", (req, res) => {
       console.log(data);
       const rets = {};
 
-      const pages = parseInt(data.length/limit);
+      const pages = Math.ceil(data.length/limit);
 
       rets.noOfPages = pages;
 
