@@ -25,12 +25,12 @@ router.get("/export", (req, res) => {
           repairResults
             .then((data3) => {
               var repairData = data3;
-              const accessResults = db.exportAccess();
+              const accessResults = db.exportAccess(); //del
 
               accessResults
                 .then((data4) => {
                   var accessData = data4;
-                  const roleResults = db.exportRoles();
+                  const roleResults = db.exportRoles();//del
 
                   roleResults
                     .then((data5) => {
@@ -40,12 +40,12 @@ router.get("/export", (req, res) => {
                       userResults
                         .then((data6) => {
                           var userData = data6;
-                          const deviceResults = db.exportDevices();
+                          const deviceResults = db.exportDevices();//del
 
                           deviceResults
                             .then((data7) => {
                               var deviceData = data7;
-                              const roleaccessResults = db.exportRoleAccess();
+                              const roleaccessResults = db.exportRoleAccess();//del
 
                               roleaccessResults
                                 .then((data8) => {
@@ -65,7 +65,7 @@ router.get("/export", (req, res) => {
                                             name: "access",
                                             schema: [
                                               {
-                                                column: "AccessID",
+                                                column: "id",
                                                 value:
                                                   "TEXT PRIMARY KEY NOT NULL",
                                               },
@@ -73,6 +73,10 @@ router.get("/export", (req, res) => {
                                                 column: "Access",
                                                 value: "TEXT NOT NULL",
                                               },
+                                              { 
+                                                column: "last_modified",
+                                                value: "INTEGER DEFAULT (strftime('%s', 'now'))" 
+                                              }
                                             ],
                                             values: accessData,
                                           },
@@ -80,7 +84,7 @@ router.get("/export", (req, res) => {
                                             name: "asset",
                                             schema: [
                                               {
-                                                column: "AssetID",
+                                                column: "id",
                                                 value:
                                                   "TEXT PRIMARY KEY NOT NULL",
                                               },
@@ -120,6 +124,10 @@ router.get("/export", (req, res) => {
                                                 column: "LastTestedDate",
                                                 value: "TEXT DEFAULT NULL",
                                               },
+                                              { 
+                                                column: "last_modified",
+                                                value: "INTEGER DEFAULT (strftime('%s', 'now'))" 
+                                              }
                                             ],
                                             values: assetData,
                                           },
@@ -127,7 +135,7 @@ router.get("/export", (req, res) => {
                                             name: "role",
                                             schema: [
                                               {
-                                                column: "RoleID",
+                                                column: "id",
                                                 value:
                                                   "TEXT PRIMARY KEY NOT NULL",
                                               },
@@ -147,6 +155,10 @@ router.get("/export", (req, res) => {
                                                 column: "DeletedDate",
                                                 value: "TEXT DEFAULT NULL",
                                               },
+                                              { 
+                                                column: "last_modified",
+                                                value: "INTEGER DEFAULT (strftime('%s', 'now'))" 
+                                              }
                                             ],
                                             values: roleData,
                                           },
@@ -154,7 +166,7 @@ router.get("/export", (req, res) => {
                                             name: "user",
                                             schema: [
                                               {
-                                                column: "UserID",
+                                                column: "id",
                                                 value:
                                                   "TEXT PRIMARY KEY NOT NULL",
                                               },
@@ -178,10 +190,14 @@ router.get("/export", (req, res) => {
                                                 column: "RoleID",
                                                 value: "TEXT NOT NULL",
                                               },
+                                              { 
+                                                column: "last_modified",
+                                                value: "INTEGER DEFAULT (strftime('%s', 'now'))" 
+                                              },
                                               {
                                                 constraint: "user_ibfk_1",
                                                 value:
-                                                  "FOREIGN KEY (RoleID) REFERENCES role (RoleID) ON DELETE CASCADE",
+                                                  "FOREIGN KEY (RoleID) REFERENCES role (id) ON DELETE CASCADE",
                                               },
                                             ],
                                             values: userData,
@@ -190,7 +206,7 @@ router.get("/export", (req, res) => {
                                             name: "device",
                                             schema: [
                                               {
-                                                column: "DeviceID",
+                                                column: "id",
                                                 value:
                                                   "TEXT PRIMARY KEY NOT NULL",
                                               },
@@ -202,10 +218,14 @@ router.get("/export", (req, res) => {
                                                 column: "PIN",
                                                 value: "TEXT NOT NULL",
                                               },
+                                              { 
+                                                column: "last_modified",
+                                                value: "INTEGER DEFAULT (strftime('%s', 'now'))" 
+                                              },
                                               {
                                                 constraint: "device_ibfk_1",
                                                 value:
-                                                  "FOREIGN KEY (UserID) REFERENCES user(UserID) ON DELETE CASCADE",
+                                                  "FOREIGN KEY (UserID) REFERENCES user(id) ON DELETE CASCADE",
                                               },
                                             ],
                                             values: deviceData,
@@ -214,7 +234,7 @@ router.get("/export", (req, res) => {
                                             name: "repair",
                                             schema: [
                                               {
-                                                column: "AssetID",
+                                                column: "id",
                                                 value: "TEXT NOT NULL",
                                               },
                                               {
@@ -233,20 +253,24 @@ router.get("/export", (req, res) => {
                                                 column: "comments",
                                                 value: "TEXT DEFAULT NULL",
                                               },
+                                              { 
+                                                column: "last_modified",
+                                                value: "INTEGER DEFAULT (strftime('%s', 'now'))" 
+                                              },
                                               {
                                                 constraint: "PK_repair",
                                                 value:
-                                                  "PRIMARY KEY (AssetID, CreatedDate)",
+                                                  "PRIMARY KEY (id, CreatedDate)",
                                               },
                                               {
                                                 constraint: "repair_ibfk_2",
                                                 value:
-                                                  "FOREIGN KEY (EngineerID) REFERENCES user(UserID) ON DELETE CASCADE",
+                                                  "FOREIGN KEY (EngineerID) REFERENCES user(id) ON DELETE CASCADE",
                                               },
                                               {
                                                 constraint: "repair_ibfk_1",
                                                 value:
-                                                  "FOREIGN KEY (AssetID) REFERENCES asset(AssetID) ON DELETE CASCADE",
+                                                  "FOREIGN KEY (id) REFERENCES asset(id) ON DELETE CASCADE",
                                               },
                                             ],
                                             values: repairData,
@@ -255,7 +279,7 @@ router.get("/export", (req, res) => {
                                             name: "roleaccess",
                                             schema: [
                                               {
-                                                column: "RoleID",
+                                                column: "id",
                                                 value: "TEXT NOT NULL",
                                               },
                                               {
@@ -274,20 +298,24 @@ router.get("/export", (req, res) => {
                                                 column: "DeletedDate",
                                                 value: "TEXT DEFAULT NULL",
                                               },
+                                              { 
+                                                column: "last_modified",
+                                                value: "INTEGER DEFAULT (strftime('%s', 'now'))" 
+                                              },
                                               {
                                                 constraint: "PK_roleaccesss",
                                                 value:
-                                                  "PRIMARY KEY (RoleID, AccessID)",
+                                                  "PRIMARY KEY (id, AccessID)",
                                               },
                                               {
                                                 constraint: "roleaccess_ibfk_1",
                                                 value:
-                                                  "FOREIGN KEY (RoleID) REFERENCES role(RoleID) ON DELETE CASCADE",
+                                                  "FOREIGN KEY (id) REFERENCES role(id) ON DELETE CASCADE",
                                               },
                                               {
                                                 constraint: "roleaccess_ibfk_2",
                                                 value:
-                                                  "FOREIGN KEY (AccessID) REFERENCES access(AccessID) ON DELETE CASCADE",
+                                                  "FOREIGN KEY (AccessID) REFERENCES access(id) ON DELETE CASCADE",
                                               },
                                             ],
                                             values: roleaccessData,
@@ -296,7 +324,7 @@ router.get("/export", (req, res) => {
                                             name: "testmodule",
                                             schema: [
                                               {
-                                                column: "TestModID",
+                                                column: "id",
                                                 value:
                                                   "TEXT PRIMARY KEY NOT NULL",
                                               },
@@ -308,10 +336,14 @@ router.get("/export", (req, res) => {
                                                 column: "Description",
                                                 value: "TEXT NOT NULL",
                                               },
+                                              { 
+                                                column: "last_modified",
+                                                value: "INTEGER DEFAULT (strftime('%s', 'now'))" 
+                                              },
                                               {
                                                 constraint: "testmodule_ibfk_1",
                                                 value:
-                                                  "FOREIGN KEY (SupervisorID) REFERENCES user (UserID) ON DELETE CASCADE",
+                                                  "FOREIGN KEY (SupervisorID) REFERENCES user (id) ON DELETE CASCADE",
                                               },
                                             ],
                                             values: testmoduleData,
@@ -320,7 +352,7 @@ router.get("/export", (req, res) => {
                                             name: "test",
                                             schema: [
                                               {
-                                                column: "TestID",
+                                                column: "id",
                                                 value:
                                                   "TEXT PRIMARY KEY NOT NULL",
                                               },
@@ -364,25 +396,29 @@ router.get("/export", (req, res) => {
                                                 column: "comments",
                                                 value: "TEXT DEFAULT NULL",
                                               },
+                                              { 
+                                                column: "last_modified",
+                                                value: "INTEGER DEFAULT (strftime('%s', 'now'))" 
+                                              },
                                               {
                                                 constraint: "test_ibfk_1",
                                                 value:
-                                                  "FOREIGN KEY (AssetID) REFERENCES asset(AssetID) ON DELETE CASCADE",
+                                                  "FOREIGN KEY (AssetID) REFERENCES asset(id) ON DELETE CASCADE",
                                               },
                                               {
                                                 constraint: "test_ibfk_2",
                                                 value:
-                                                  "FOREIGN KEY (InspectorID) REFERENCES user(UserID) ON DELETE CASCADE",
+                                                  "FOREIGN KEY (InspectorID) REFERENCES user(id) ON DELETE CASCADE",
                                               },
                                               {
                                                 constraint: "test_ibfk_3",
                                                 value:
-                                                  "FOREIGN KEY (SupervisorID) REFERENCES user (UserID) ON DELETE CASCADE",
+                                                  "FOREIGN KEY (SupervisorID) REFERENCES user (id) ON DELETE CASCADE",
                                               },
                                               {
                                                 constraint: "test_ibfk_4",
                                                 value:
-                                                  "FOREIGN KEY (TestModID) REFERENCES testmodule (TestModID) ON DELETE CASCADE",
+                                                  "FOREIGN KEY (TestModID) REFERENCES testmodule (id) ON DELETE CASCADE",
                                               },
                                             ],
                                             values: testData,
@@ -561,48 +597,24 @@ router.post("/fullimport", (req,res) => {
                     const result9 = db.importTest(tables[8].values); 
 
                     result9
-                    .then((reply) => {
-                      const result10 = db.importRepairUpdates(tables[5].values);
-
-                      result10
-                      .then((reply) => {
-                        const result11 = db.importTestUpdates(tables[8].values);
-
-                        result11
-                        .then((reply) => res.json(reply))
-                        .catch((err) => console.log(err)); 
-                      })
-                      .catch((err) => console.log(err));      
+                    .then((reply) => res.json(reply))
+                    .catch((err9) => console.log(err9)); 
                     })
-                    .catch((err) => console.log(err));    
+                    .catch((err8) => console.log(err8));    
                   })
-                  .catch((err) => console.log(err));  
+                  .catch((err7) => console.log(err7));  
                 })
-                .catch((err) => console.log(err));     
+                .catch((err6) => console.log(err6));     
               })
-              .catch((err) => console.log(err));   
+              .catch((err5) => console.log(err5));   
             })
-            .catch((err) => console.log(err));  
+            .catch((err4) => console.log(err4));  
           })
-          .catch((err) => console.log(err));  
+          .catch((err3) => console.log(err3));  
         })
-        .catch((err) => console.log(err));  
+        .catch((err2) => console.log(err2));  
       })
       .catch((err) => console.log(err));
-    })
-		.catch((err) => console.log(err));
-});
-
-router.get("/exportTests", (req, res) => {
-  const result = db.exportTests();
-
-  result
-    .then((data) => {
-      console.log(data);
-
-      res.json(data);
-    })
-    .catch((err) => console.log(err));
 });
 
 module.exports = router;

@@ -33,6 +33,7 @@ class Dbservice {
                         currAss.push(results[i].SubDivision);
                         currAss.push(results[i].NearestMilePost);
                         currAss.push(results[i].LastTestedDate);
+                        currAss.push(results[i].last_modified);
                         
                         assets.push(currAss);
                     }
@@ -68,6 +69,7 @@ class Dbservice {
                         currTest.push(result[k].Priority);
                         currTest.push(result[k].TestModID);
                         currTest.push(result[k].comments);
+                        currTest.push(result[k].last_modified);
                         
                         tests.push(currTest);
                     }
@@ -99,6 +101,7 @@ class Dbservice {
                         currTest.push(result[k].EngineerID);
                         currTest.push(result[k].CompletedDate);
                         currTest.push(result[k].comments);
+                        currTest.push(result[k].last_modified);
                         
                         repairs.push(currTest);
                     }
@@ -126,6 +129,7 @@ class Dbservice {
                         var row = [];
                         row.push(result[k].AccessID);
                         row.push(result[k].Access);
+                        row.push(result[k].last_modified);
                         
                         
                         table.push(row);
@@ -157,7 +161,7 @@ class Dbservice {
                         row.push(result[k].CreatedDate);
                         row.push(result[k].UpdatedDate);
                         row.push(result[k].DeletedDate);
-                        
+                        row.push(result[k].last_modified);
                         
                         table.push(row);
                     }
@@ -189,6 +193,7 @@ class Dbservice {
                         row.push(result[k].Password);
                         row.push(result[k].Region);
                         row.push(result[k].RoleID);
+                        row.push(result[k].last_modified);
                         
                         
                         table.push(row);
@@ -218,6 +223,7 @@ class Dbservice {
                         row.push(result[k].DeviceID);
                         row.push(result[k].UserID);
                         row.push(result[k].PIN);
+                        row.push(result[k].last_modified);
                         
                         table.push(row);
                     }
@@ -248,6 +254,7 @@ class Dbservice {
                         row.push(result[k].CreatedDate);
                         row.push(result[k].UpdatedDate);
                         row.push(result[k].DeletedDate);
+                        row.push(result[k].last_modified);
                         
                         table.push(row);
                     }
@@ -276,6 +283,7 @@ class Dbservice {
                         row.push(result[k].TestModID);
                         row.push(result[k].SupervisorID);
                         row.push(result[k].Description);
+                        row.push(result[k].last_modified);
                         
                         table.push(row);
                     }
@@ -316,14 +324,21 @@ class Dbservice {
 
     async importTest(test) {
 		try {
+            console.log("test");
 			const response = await new Promise((resolve, reject) => {
                 for(var x = 0; x< test.length; x++){//
 				const query =
-					'INSERT IGNORE INTO test (TestID,DateIssued, AssetID, InspectorID, Result, SupervisorID, DateCompleted, Frequency, Priority, TestModID, comments) Values ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
-
+					`INSERT INTO test (TestID,DateIssued, AssetID, InspectorID, Result, SupervisorID, DateCompleted, Frequency, Priority, TestModID, comments, last_modified) Values ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    ON DUPLICATE KEY UPDATE DateIssued = VALUES(DateIssued), AssetID = VALUES(AssetID), InspectorID = VALUES(InspectorID), Result = VALUES(Result), SupervisorID = VALUES(SupervisorID), DateCompleted = VALUES(DateCompleted), Frequency = VALUES(Frequency), Priority = VALUES(Priority), TestModID = VALUES(TestModID), comments = VALUES(comments), last_modified = VALUES(last_modified)`;
+                
+                    var dIssued = (test[x][1].toString() == "NULL")? null : test[x][1].toString().replace(/T/, ' ').replace(/\..+/, '');
+                    var result = (test[x][4].toString() == "NULL")? null : test[x][4];
+                    var dCompleted = (test[x][6].toString() == "NULL")? null : test[x][6].toString().replace(/T/, ' ').replace(/\..+/, '');
+                    var priority = (test[x][8].toString() == "NULL")? null : test[x][8];
+                    var comments = (test[x][10].toString() == "NULL")? null : test[x][10];
 				connection.query(
 					query,
-					[ test[x][0], test[x][1], test[x][2], test[x][3], test[x][4], test[x][5], test[x][6], test[x][7], test[x][8], test[x][9], test[x][10] ],
+					[ test[x][0], dIssued, test[x][2], test[x][3], result, test[x][5], dCompleted, test[x][7], priority, test[x][9], comments, test[x][11] ],
 					(err, results) => {
 						if (err) reject(err.message);
 						resolve('Tests imported');
@@ -333,20 +348,21 @@ class Dbservice {
 			});
 			return response;
 		} catch (error) {
-			console.log('There was an error');
+			console.log('There was an error in test import');
 		}
 	}
-
+//edited to test the triggger 
     async importTestModule(values) {
 		try {
+            console.log("TM");
 			const response = await new Promise((resolve, reject) => {
                 for(var x = 0; x< values.length; x++){//
 				const query =
-					'INSERT IGNORE INTO testmodule (TestModID,SupervisorID, Description) Values ( ?, ?, ?)';
+					'INSERT INTO testmodule (TestModID,SupervisorID, Description, last_modified) Values ( ?, ?, ?, ?) ON DUPLICATE KEY UPDATE SupervisorID = VALUES(SupervisorID), Description = VALUES(Description), last_modified = VALUES(last_modified)';
 
 				connection.query(
 					query,
-					[ values[x][0], values[x][1], values[x][2] ],
+					[ values[x][0], values[x][1], values[x][2], values[x][3]],
 					(err, results) => {
 						if (err) reject(err.message);
 						resolve('Test modules imported');
@@ -356,20 +372,20 @@ class Dbservice {
 			});
 			return response;
 		} catch (error) {
-			console.log('There was an error');
+			console.log('There was an error in test module import');
 		}
 	}
-
+    //edited to test the trigger 
     async importAccess(values) {
 		try {
 			const response = await new Promise((resolve, reject) => {
                 for(var x = 0; x< values.length; x++){//
 				const query =
-					'INSERT IGNORE INTO access (AccessID, Access) Values ( ?, ?)';
+					'INSERT INTO access (AccessID, Access, last_modified) Values ( ?, ?, ?) ON DUPLICATE KEY UPDATE Access = VALUES(Access), last_modified = VALUES(last_modified)';
 
 				connection.query(
 					query,
-					[ values[x][0], values[x][1] ],
+					[ values[x][0], values[x][1], values[x][2] ],
 					(err, results) => {
 						if (err) reject(err.message);
 						resolve('Access imported');
@@ -379,7 +395,7 @@ class Dbservice {
 			});
 			return response;
 		} catch (error) {
-			console.log('There was an error');
+			console.log('There was an error in access import');
 		}
 	}
 
@@ -388,11 +404,17 @@ class Dbservice {
 			const response = await new Promise((resolve, reject) => {
                 for(var x = 0; x< values.length; x++){//
 				const query =
-					'INSERT IGNORE INTO asset (AssetID, AssetType, Status, GPSLatitude, GPSLongitude, Region, Division, SubDivision, NearestMilePost, LastTestedDate) Values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
-
+					`INSERT INTO asset (AssetID, AssetType, Status, GPSLatitude, GPSLongitude, Region, Division, SubDivision, NearestMilePost, LastTestedDate, last_modified) Values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    ON DUPLICATE KEY UPDATE AssetType = VALUES(AssetType), Status = VALUES(Status), GPSLatitude = VALUES(GPSLatitude), 
+                    GPSLongitude = VALUES(GPSLongitude), Region = VALUES(Region), Division = VALUES(Division), 
+                    SubDivision = VALUES(SubDivision), NearestMilePost = VALUES(NearestMilePost), 
+                    LastTestedDate = VALUES(LastTestedDate), last_modified = VALUES(last_modified)`;
+                
+                    var aType = (values[x][1].toString() == "NULL") ? null : values[x][1];
+                    var status = (values[x][2].toString() == "NULL") ? null : values[x][2];
 				connection.query(
 					query,
-					[ values[x][0], values[x][1], values[x][2], values[x][3], values[x][4], values[x][5], values[x][6], values[x][7], values[x][8], values[x][9] ],
+					[ values[x][0], aType, status, values[x][3], values[x][4], values[x][5], values[x][6], values[x][7], values[x][8], values[x][9].toString().replace(/T/, ' ').replace(/\..+/, ''), values[x][10] ],
 					(err, results) => {
 						if (err) reject(err.message);
 						resolve('Asset imported');
@@ -402,20 +424,25 @@ class Dbservice {
 			});
 			return response;
 		} catch (error) {
-			console.log('There was an error');
+			console.log('There was an error in asset import:'+error.message);
 		}
 	}
 
     async importRole(values) {
 		try {
+            
 			const response = await new Promise((resolve, reject) => {
                 for(var x = 0; x< values.length; x++){//
 				const query =
-					'INSERT IGNORE INTO role (RoleID, Title, CreatedDate, UpdatedDate, DeletedDate) Values (?, ?, ?, ?, ?)';
+					`INSERT INTO role (RoleID, Title, CreatedDate, UpdatedDate, DeletedDate, last_modified) Values (?, ?, ?, ?, ?, ?) 
+                    ON DUPLICATE KEY UPDATE Title = VALUES(Title), CreatedDate = VALUES(CreatedDate), UpdatedDate = VALUES(UpdatedDate), DeletedDate = VALUES(DeletedDate), last_modified = VALUES(last_modified)`;
 
+                    var createdD = (values[x][2].toString() == "NULL")? null : values[x][2].toString().replace(/T/, ' ').replace(/\..+/, '');
+                    var updatedD = (values[x][3].toString() == "NULL")? null : values[x][3].toString().replace(/T/, ' ').replace(/\..+/, '');
+                    var deletedD = (values[x][4].toString() == "NULL")? null : values[x][4].toString().replace(/T/, ' ').replace(/\..+/, '');
 				connection.query(
 					query,
-					[ values[x][0], values[x][1], values[x][2], values[x][3], values[x][4]],
+					[ values[x][0], values[x][1], createdD, updatedD, deletedD, values[x][5] ],
 					(err, results) => {
 						if (err) reject(err.message);
 						resolve('Role imported');
@@ -425,7 +452,7 @@ class Dbservice {
 			});
 			return response;
 		} catch (error) {
-			console.log('There was an error');
+			console.log('There was an error in role import:'+ error.message);
 		}
 	}
 
@@ -434,11 +461,12 @@ class Dbservice {
 			const response = await new Promise((resolve, reject) => {
                 for(var x = 0; x< values.length; x++){//
 				const query =
-					'INSERT IGNORE INTO user (UserID, Name, Email, Password, Region, RoleID) Values (?, ?, ?, ?, ?, ?)';
+					`INSERT INTO user (UserID, Name, Email, Password, Region, RoleID, last_modified) Values (?, ?, ?, ?, ?, ?, ?)
+                    ON DUPLICATE KEY UPDATE Name = VALUES(Name), Email = VALUES(Email), Password = VALUES(Password), Region = VALUES(Region), RoleID = VALUES(RoleID), last_modified = VALUES(last_modified)`;
 
 				connection.query(
 					query,
-					[ values[x][0], values[x][1], values[x][2], values[x][3], values[x][4], values[x][5]],
+					[ values[x][0], values[x][1], values[x][2], values[x][3], values[x][4], values[x][5], values[x][6] ],
 					(err, results) => {
 						if (err) reject(err.message);
 						resolve('User imported');
@@ -448,7 +476,7 @@ class Dbservice {
 			});
 			return response;
 		} catch (error) {
-			console.log('There was an error');
+			console.log('There was an error in user import');
 		}
 	}
 
@@ -457,11 +485,12 @@ class Dbservice {
 			const response = await new Promise((resolve, reject) => {
                 for(var x = 0; x< values.length; x++){//
 				const query =
-					'INSERT IGNORE INTO device (DeviceID, UserID, PIN) Values (?, ?, ?)';
+					`INSERT INTO device (DeviceID, UserID, PIN, last_modified) Values (?, ?, ?, ?)
+                    ON DUPLICATE KEY UPDATE UserID = VALUES(UserID), PIN = VALUES(PIN), last_modified = VALUES(last_modified)`;
 
 				connection.query(
 					query,
-					[ values[x][0], values[x][1], values[x][2]],
+					[ values[x][0], values[x][1], values[x][2], values[x][3] ],
 					(err, results) => {
 						if (err) reject(err.message);
 						resolve('Device imported');
@@ -471,7 +500,7 @@ class Dbservice {
 			});
 			return response;
 		} catch (error) {
-			console.log('There was an error');
+			console.log('There was an error in device import');
 		}
 	}
 
@@ -480,7 +509,7 @@ class Dbservice {
 			const response = await new Promise((resolve, reject) => {
                 for(var x = 0; x< values.length; x++){//
 				const query =
-					'INSERT IGNORE INTO roleaccess (RoleID, AccessID, CreatedDate, UpdatedDate, DeletedDate) Values (?, ?, ?, ?, ?)';
+					`INSERT IGNORE INTO roleaccess (RoleID, AccessID, CreatedDate, UpdatedDate, DeletedDate) Values (?, ?, ?, ?, ?)`;
 
 				connection.query(
 					query,
@@ -494,7 +523,7 @@ class Dbservice {
 			});
 			return response;
 		} catch (error) {
-			console.log('There was an error');
+			console.log('There was an error in roleaccess import');
 		}
 	}
 
@@ -503,11 +532,16 @@ class Dbservice {
 			const response = await new Promise((resolve, reject) => {
                 for(var x = 0; x< values.length; x++){//
 				const query =
-					'INSERT IGNORE INTO repair (AssetID, CreatedDate, EngineerID, CompletedDate, comments) Values (?, ?, ?, ?, ?)';
+					`INSERT INTO repair (AssetID, CreatedDate, EngineerID, CompletedDate, comments, last_modified) Values (?, ?, ?, ?, ?, ?)
+                    ON DUPLICATE KEY UPDATE AssetID = VALUES(AssetID), CreatedDate = VALUES(CreatedDate), EngineerID = VALUES(EngineerID), CompletedDate = VALUES(CompletedDate), comments = VALUES(comments), last_modified = VALUES(last_modified)`;
 
+                    
+                    var createdD = (values[x][1].toString() == "NULL")? null : values[x][1].toString().replace(/T/, ' ').replace(/\..+/, '');
+                    var completedD = (values[x][3].toString() == "NULL")? null : values[x][3].toString().replace(/T/, ' ').replace(/\..+/, '');
+                    
 				connection.query(
 					query,
-					[ values[x][0], values[x][1], values[x][2], values[x][3], values[x][4]],
+					[ values[x][0], createdD, values[x][2], completedD, values[x][4], values[x][5]],
 					(err, results) => {
 						if (err) reject(err.message);
 						resolve('Repair imported');
@@ -517,14 +551,14 @@ class Dbservice {
 			});
 			return response;
 		} catch (error) {
-			console.log('There was an error');
+			console.log('There was an error in repair import');
 		}
 	}
 
     async importRepairUpdates(values) {
 		try {
 			const response = await new Promise((resolve, reject) => {
-                for(var x = 0; x< values.length; x++){//
+                for(var x = 0; x< values.length; x++){
 				const query =
 					'UPDATE IGNORE repair SET EngineerID = ?, Comments = ? WHERE CreatedDate = ? AND AssetID = ?';
 
@@ -536,11 +570,11 @@ class Dbservice {
 						resolve('Repair update imported');
 					}
 				);
-                }//
+                }
 			});
 			return response;
 		} catch (error) {
-			console.log('There was an error');
+			console.log('There was an error in repair update');
 		}
 	}
 

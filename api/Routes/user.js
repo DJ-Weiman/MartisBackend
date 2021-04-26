@@ -23,6 +23,18 @@ router.get("/getUsers", (req, res) => {
     .catch((err) => console.log(err));
 });
 
+router.get("/getEmps", (req, res) => {
+  const result = db.getEmps();
+
+  result
+    .then((data) => {
+      console.log(data);
+
+      res.json({ data: data });
+    })
+    .catch((err) => console.log(err));
+});
+
 router.post("/signup", (req, res) => {
   const checkUser = db.checkExistingUser(req.body.email);
 

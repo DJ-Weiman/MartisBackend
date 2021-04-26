@@ -24,6 +24,22 @@ class Dbservice {
     }
   }
 
+  async getEmps() {
+    try {
+      const response = await new Promise((resolve, reject) => {
+        const query = "SELECT UserID, Name FROM user";
+
+        connection.query(query, (err, results) => {
+          if (err) reject(new Error(err));
+          resolve(results);
+        });
+      });
+      return response;
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+
   async createNewUser(userID, name, email, password, designation, roleID) {
     try {
       const response = await new Promise((resolve, reject) => {

@@ -31,6 +31,7 @@ router.post('/getAssetReports', (req, res) => {
 
 	result
 		.then((data) => {
+			
 			console.log(data);
 			res.json({ data: data });
 		})
