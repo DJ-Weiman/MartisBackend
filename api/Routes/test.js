@@ -102,6 +102,7 @@ router.patch('/setResult', (req, res) => {
 	let comments = req.body.comments;
 	console.log(req.body);
 	const result = db.setResult(TestID, Result, DateCompleted, comments);
+
 	result
 		.then((reply) => {
 			res.json({
@@ -109,7 +110,7 @@ router.patch('/setResult', (req, res) => {
 			});
 		})
 		.catch((err) => console.log(err));
-	if (Result === 'Fail' || Result === 'fail') {
+	if (Result == 'Fail') {
 		const trigger = db.AutoInsertIntoRepair(AssetID, DateCompleted);
 		trigger
 			.then((reply) => {
