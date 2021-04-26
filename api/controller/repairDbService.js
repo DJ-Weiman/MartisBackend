@@ -35,7 +35,7 @@ class Dbservice {
 					resolve(results);
 				});
 			});
-			
+
 			return response;
 		} catch (error) {
 			console.log(error.message);
@@ -93,14 +93,14 @@ class Dbservice {
 		}
 	}
 
-	async addCompletedDateAndComments(assetID, employeeid, createdDate, completedDate, comments) {
+	async addCompletedDateAndComments(assetID, employeeid, createdDate, completedDate, comments, Result) {
 		try {
 			const response = await new Promise((resolve, reject) => {
 				const query =
-					'UPDATE repair SET EngineerID= 	?, CompletedDate = ? , comments = ? WHERE AssetID = ? AND CreatedDate = ?';
+					'UPDATE repair SET EngineerID = ?, CompletedDate = ? , comments = ?, Result = ? WHERE AssetID = ? AND CreatedDate = ?';
 				connection.query(
 					query,
-					[ employeeid, completedDate, comments, assetID, createdDate ],
+					[ employeeid, completedDate, comments, Result, assetID, createdDate ],
 					(err, results) => {
 						console.log(query);
 						if (err) reject(err.message);

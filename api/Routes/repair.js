@@ -65,8 +65,9 @@ router.put('/addCompletedDateAndComments', (req, res) => {
 	let createdDate = req.body.CreatedDate;
 	let completedDate = req.body.CompletedDate;
 	let comments = req.body.comments;
+	let Result = req.body.Result;
 	console.log(req.body);
-	const result = db.addCompletedDateAndComments(assetId, employeeid, createdDate, completedDate, comments);
+	const result = db.addCompletedDateAndComments(assetId, employeeid, createdDate, completedDate, comments, Result);
 	result
 		.then((reply) => {
 			res.json({
