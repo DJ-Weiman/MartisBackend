@@ -64,7 +64,7 @@ class Dbservice {
     try {
       const response = await new Promise((resolve, reject) => {
         const query =
-          "INSERT INTO asset (AssetID, AssetType, Status, GPSLatitude, GPSLongitude, Region, Division, SubDivision, NearestMilePost, LastTestedDate) Values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+          "INSERT INTO asset (AssetID, AssetType, Status, GPSLatitude, GPSLongitude, Region, Division, SubDivision, NearestMilePost, LastTestedDate, last_modified) Values (?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP(), UNIX_TIMESTAMP())";
 
         connection.query(
           query,
