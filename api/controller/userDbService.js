@@ -43,7 +43,7 @@ class Dbservice {
   async createNewUser(userID, name, email, password, designation, roleID) {
     try {
       const response = await new Promise((resolve, reject) => {
-        const query = "INSERT INTO user VALUES (?, ?, ?, ?, ?, ?) ";
+        const query = "INSERT INTO user VALUES (?, ?, ?, ?, ?, ?, UNIX_TIMESTAMP()) ";
 
         connection.query(
           query,
