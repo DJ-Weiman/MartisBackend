@@ -3,6 +3,7 @@ const connection = require('./dbConnection');
 const haversine = require('haversine');
 const lodash = require('lodash');
 const { xor } = require('lodash');
+
 let instance = null;
 
 class Dbservice {
@@ -14,7 +15,6 @@ class Dbservice {
 		try {
 			const response = await new Promise((resolve, reject) => {
 				const query = 'SELECT * FROM repair WHERE CompletedDate IS null';
-
 				connection.query(query, (err, results) => {
 					if (err) reject(new Error(err));
 					resolve(results);
@@ -25,16 +25,17 @@ class Dbservice {
 			console.log(error.message);
 		}
 	}
+
 	async getUnassignedRepairs() {
 		try {
 			const response = await new Promise((resolve, reject) => {
 				const query = 'SELECT * FROM repair WHERE EngineerID IS NULL';
-
 				connection.query(query, (err, results) => {
 					if (err) reject(new Error(err));
 					resolve(results);
 				});
 			});
+
 			return response;
 		} catch (error) {
 			console.log(error.message);
@@ -45,7 +46,6 @@ class Dbservice {
 		try {
 			const response = await new Promise((resolve, reject) => {
 				const query = 'INSERT INTO repair VALUES (?, ?, ?, ?, ?)';
-
 				connection.query(
 					query,
 					[ EngineerID, AssetID, CreatedDate, CompletedDate, comments ],
@@ -65,7 +65,6 @@ class Dbservice {
 		try {
 			const response = await new Promise((resolve, reject) => {
 				const query = 'UPDATE repair SET EngineerID = ? WHERE CreatedDate = ? AND AssetID = ?';
-
 				connection.query(query, [ engineerID, createdDate, assetID ], (err, results) => {
 					if (err) {
 						reject(err.message);
@@ -83,7 +82,6 @@ class Dbservice {
 		try {
 			const response = await new Promise((resolve, reject) => {
 				const query = 'UPDATE repair SET EngineerID = ?, Comments = ? WHERE CreatedDate = ? AND AssetID = ?';
-
 				connection.query(query, [ null, comments, createdDate, assetID ], (err, results) => {
 					if (err) reject(err.message);
 					resolve('Manager Notified');
@@ -95,14 +93,14 @@ class Dbservice {
 		}
 	}
 
-	async addCompletedDateAndComments(assetID, employeeid, createdDate, completedDate, comments) {
+	async addCompletedDateAndComments(assetID, employeeid, createdDate, completedDate, comments, Result) {
 		try {
 			const response = await new Promise((resolve, reject) => {
 				const query =
-					'UPDATE repair SET EngineerID= 	?, CompletedDate = ? , comments = ? WHERE AssetID = ? AND CreatedDate = ?';
+					'UPDATE repair SET EngineerID = ?, CompletedDate = ? , comments = ?, Result = ? WHERE AssetID = ? AND CreatedDate = ?';
 				connection.query(
 					query,
-					[ employeeid, completedDate, comments, assetID, createdDate ],
+					[ employeeid, completedDate, comments, Result, assetID, createdDate ],
 					(err, results) => {
 						console.log(query);
 						if (err) reject(err.message);
@@ -123,13 +121,12 @@ class Dbservice {
 				latitude: empLatitude,
 				longitude: empLongitude
 			};
-
 			let nearByAssets = [];
-
 			const response = await new Promise((resolve, reject) => {
-				const query = `SELECT asset.GPSLatitude, asset.GPSLongitude, repair.AssetID FROM repair, asset WHERE repair.EngineerID IS NOT NULL
-        AND repair.AssetID = asset.AssetID`;
-
+				const query = `SELECT repair.AssetID, repair.CreatedDate, repair.CompletedDate, repair.comments, repair.EngineerID, asset.GPSLatitude, asset.GPSLongitude 
+				FROM repair, asset 
+				WHERE repair.AssetID = asset.AssetID 
+				AND (repair.CompletedDate is NULL OR  repair.CompletedDate = "0000-00-00 00:00:00")`;
 				connection.query(query, (err, results) => {
 					if (err) reject(new Error(err));
 					results.forEach((element) => {
@@ -137,14 +134,19 @@ class Dbservice {
 							latitude: element.GPSLatitude,
 							longitude: element.GPSLongitude
 						};
-
-						const distance = haversine(asset, employeeCoordinates, {
-							unit: 'meter'
-						});
-						if (distance < 500) {
+						const distance = Math.round(
+							haversine(asset, employeeCoordinates, {
+								unit: 'meter'
+							})
+						);
+						if (distance) {
 							nearByAssets.push({
 								distance: distance,
-								assetID: element.AssetID
+								AssetID: element.AssetID,
+								CreatedDate: element.CreatedDate,
+								CompletedDate: element.CompletedDate,
+								comments: element.comments,
+								EngineerID: element.EngineerID
 							});
 						}
 					});
