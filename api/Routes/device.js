@@ -38,10 +38,11 @@ router.post("/getDeviceByID", (req, res) => {
 router.post("/setDevicePinByID", (req, res) => {
   let deviceId = req.body.deviceId;
   let devicePin = req.body.devicePin;
+  let userId = req.body.userId;
 
   console.log(req.body);
 
-  const result = db.setPin(deviceId, devicePin);
+  const result = db.setPinAndID(deviceId, userId, devicePin);
 
   result
     .then((reply) => {
