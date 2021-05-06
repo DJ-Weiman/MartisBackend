@@ -32,7 +32,10 @@ router.post("/getDeviceByID", (req, res) => {
       //console.log(data);
       res.json({ data: data });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      res.json(err);
+      console.log(err);
+    });
 });
 
 router.post("/setDevicePinByID", (req, res) => {

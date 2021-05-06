@@ -34,7 +34,6 @@ class Dbservice {
           resolve(result);
         });
       });
-
       return response;
     } catch (err) {
       console.log(err.message);
@@ -59,6 +58,7 @@ class Dbservice {
       return response;
     } catch (err) {
       console.log(err.message);
+      return err;
     }
   }
 }
