@@ -99,7 +99,7 @@ class Dbservice {
         const query =
           "SELECT u.Name, r.Title FROM user u, role r where r.RoleID = u.RoleID AND u.UserID = ?";
 
-        connection.query(query, (err, results) => {
+        connection.query(query, [userID], (err, results) => {
           if (err) reject(new Error(err));
           resolve(results);
         });
