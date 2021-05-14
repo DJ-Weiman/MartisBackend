@@ -92,6 +92,23 @@ class Dbservice {
       console.log(err.message);
     }
   }
+
+  async getUserNameAndRole(userID) {
+    try {
+      const response = await new Promise((resolve, reject) => {
+        const query =
+          "SELECT u.Name, r.Title FROM user u, role r where r.RoleID = u.RoleID AND u.UserID = ?";
+
+        connection.query(query, (err, results) => {
+          if (err) reject(new Error(err));
+          resolve(results);
+        });
+      });
+      return response;
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
 }
 
 module.exports = Dbservice;

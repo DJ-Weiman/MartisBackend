@@ -135,4 +135,16 @@ router.delete("/:userId", (req, res) => {
     .catch((err) => console.log(err));
 });
 
+router.post("/getUserNameAndRole", (req, res) => {
+  const result = db.getUserNameAndRole(req.body.EmpId);
+
+  result
+    .then((data) => {
+      console.log(data);
+
+      res.json({ data: data });
+    })
+    .catch((err) => console.log(err));
+});
+
 module.exports = router;
