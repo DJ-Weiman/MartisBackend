@@ -618,7 +618,7 @@ router.post("/fullimport", (req,res) => {
 });
 
 router.get("/exportTests", (req, res) => {
-  const result = db.exportTests();
+  const result = db.exportInBulk();
 
   result
     .then((data) => {
