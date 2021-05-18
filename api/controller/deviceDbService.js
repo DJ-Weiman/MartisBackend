@@ -34,27 +34,31 @@ class Dbservice {
           resolve(result);
         });
       });
-
       return response;
     } catch (err) {
       console.log(err.message);
     }
   }
 
-  async setPin(deviceId, devicePin) {
+  async setPinAndID(deviceId, userId, devicePin) {
     try {
       const response = await new Promise((resolve, reject) => {
-        const query = "UPDATE device SET PIN = ? WHERE DeviceID = ? ";
+        const query = "INSERT INTO device values (?,?,?, UNIX_TIMESTAMP())";
 
-        connection.query(query, [devicePin, deviceId], (err, result) => {
-          if (err) reject(new Error(err));
-          resolve(result);
-        });
+        connection.query(
+          query,
+          [deviceId, userId, devicePin],
+          (err, result) => {
+            if (err) reject(new Error(err));
+            resolve(result);
+          }
+        );
       });
 
       return response;
     } catch (err) {
       console.log(err.message);
+      return err;
     }
   }
 }

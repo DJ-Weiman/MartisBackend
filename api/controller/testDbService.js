@@ -109,8 +109,9 @@ class Dbservice {
 	async AutoInsertIntoRepair(AssetID, CreatedDate) {
 		try {
 			const response = await new Promise((resolve, reject) => {
-				const query = 'Insert into repair(AssetID, CreatedDate) values (?, ?)';
+				const query = 'INSERT INTO repair(AssetID, CreatedDate) VALUES (?, ?)';
 				connection.query(query, [ AssetID, CreatedDate ], (err, results) => {
+					console.log(query);
 					if (err) reject(err.message);
 					resolve('Repair Entry Added');
 				});
