@@ -27,6 +27,7 @@ class Dbservice {
         connection.query(query, (err, results) => {
           if (err) reject(new Error(err));
 
+          var results = new Array(results);
           var tables = [];
           var tableNames = ['asset','role','user','repair','testmodule','test'];
 
