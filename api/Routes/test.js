@@ -18,6 +18,16 @@ router.get('/getTests', (req, res) => {
 		.catch((err) => console.log(err));
 });
 
+router.get('/getLatestTest', (req, res) => {
+	const result = db.getLatestTest();
+	result
+		.then((data) => {
+			console.log(data);
+			res.json({ data: data });
+		})
+		.catch((err) => console.log(err));
+});
+
 router.get('/exportTests', (req, res) => {
 	const result = db.exportTests();
 	result
