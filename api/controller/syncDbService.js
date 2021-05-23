@@ -29,7 +29,7 @@ class Dbservice {
           if (err) reject(new Error(err));
 
           var tables = [];
-          var tableNames = ['asset','role','user','repair','testmodule','test'];
+          var tableNames = ['asset','role','user','device','repair','testmodule','test'];
           
           if(results == null){
             return;
