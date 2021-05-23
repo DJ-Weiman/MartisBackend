@@ -9,6 +9,7 @@ const db = dbService.getDbServiceInstance();
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json());
 
+//to export into SQLite
 router.get("/export", (req, res) => {
   const result = db.exportAssets();
 
@@ -25,12 +26,12 @@ router.get("/export", (req, res) => {
           repairResults
             .then((data3) => {
               var repairData = data3;
-              const accessResults = db.exportAccess(); //del
+              //const accessResults = db.exportAccess(); //del
 
-              accessResults
-                .then((data4) => {
-                  var accessData = data4;
-                  const roleResults = db.exportRoles();//del
+              //accessResults
+                //.then((data4) => {
+                  //var accessData = data4;
+                  const roleResults = db.exportRoles();
 
                   roleResults
                     .then((data5) => {
@@ -45,11 +46,11 @@ router.get("/export", (req, res) => {
                           deviceResults
                             .then((data7) => {
                               var deviceData = data7;
-                              const roleaccessResults = db.exportRoleAccess();//del
+                              //const roleaccessResults = db.exportRoleAccess();//del
 
-                              roleaccessResults
-                                .then((data8) => {
-                                  var roleaccessData = data8;
+                              //roleaccessResults
+                                //.then((data8) => {
+                                  //var roleaccessData = data8;
                                   const testmoduleResults = db.exportTestModules();
 
                                   testmoduleResults
@@ -61,25 +62,25 @@ router.get("/export", (req, res) => {
                                         encrypted: false,
                                         mode: "full",
                                         tables: [
-                                          {
-                                            name: "access",
-                                            schema: [
-                                              {
-                                                column: "id",
-                                                value:
-                                                  "TEXT PRIMARY KEY NOT NULL",
-                                              },
-                                              {
-                                                column: "Access",
-                                                value: "TEXT NOT NULL",
-                                              },
-                                              { 
-                                                column: "last_modified",
-                                                value: "INTEGER DEFAULT (strftime('%s', 'now'))" 
-                                              }
-                                            ],
-                                            values: accessData,
-                                          },
+                                          // {
+                                          //   name: "access",
+                                          //   schema: [
+                                          //     {
+                                          //       column: "id",
+                                          //       value:
+                                          //         "TEXT PRIMARY KEY NOT NULL",
+                                          //     },
+                                          //     {
+                                          //       column: "Access",
+                                          //       value: "TEXT NOT NULL",
+                                          //     },
+                                          //     { 
+                                          //       column: "last_modified",
+                                          //       value: "INTEGER DEFAULT (strftime('%s', 'now'))" 
+                                          //     }
+                                          //   ],
+                                          //   values: accessData,
+                                          // },
                                           {
                                             name: "asset",
                                             schema: [
@@ -178,10 +179,10 @@ router.get("/export", (req, res) => {
                                                 column: "Email",
                                                 value: "TEXT NOT NULL",
                                               },
-                                              {
-                                                column: "Password",
-                                                value: "TEXT NOT NULL",
-                                              },
+                                              // {
+                                              //   column: "Password",
+                                              //   value: "TEXT",
+                                              // },
                                               {
                                                 column: "Region",
                                                 value: "TEXT NOT NULL",
@@ -275,51 +276,51 @@ router.get("/export", (req, res) => {
                                             ],
                                             values: repairData,
                                           },
-                                          {
-                                            name: "roleaccess",
-                                            schema: [
-                                              {
-                                                column: "id",
-                                                value: "TEXT NOT NULL",
-                                              },
-                                              {
-                                                column: "AccessID",
-                                                value: "TEXT NOT NULL",
-                                              },
-                                              {
-                                                column: "CreatedDate",
-                                                value: "TEXT NOT NULL",
-                                              },
-                                              {
-                                                column: "UpdatedDate",
-                                                value: "TEXT DEFAULT NULL",
-                                              },
-                                              {
-                                                column: "DeletedDate",
-                                                value: "TEXT DEFAULT NULL",
-                                              },
-                                              { 
-                                                column: "last_modified",
-                                                value: "INTEGER DEFAULT (strftime('%s', 'now'))" 
-                                              },
-                                              {
-                                                constraint: "PK_roleaccesss",
-                                                value:
-                                                  "PRIMARY KEY (id, AccessID)",
-                                              },
-                                              {
-                                                constraint: "roleaccess_ibfk_1",
-                                                value:
-                                                  "FOREIGN KEY (id) REFERENCES role(id) ON DELETE CASCADE",
-                                              },
-                                              {
-                                                constraint: "roleaccess_ibfk_2",
-                                                value:
-                                                  "FOREIGN KEY (AccessID) REFERENCES access(id) ON DELETE CASCADE",
-                                              },
-                                            ],
-                                            values: roleaccessData,
-                                          },
+                                          // {
+                                          //   name: "roleaccess",
+                                          //   schema: [
+                                          //     {
+                                          //       column: "id",
+                                          //       value: "TEXT NOT NULL",
+                                          //     },
+                                          //     {
+                                          //       column: "AccessID",
+                                          //       value: "TEXT NOT NULL",
+                                          //     },
+                                          //     {
+                                          //       column: "CreatedDate",
+                                          //       value: "TEXT NOT NULL",
+                                          //     },
+                                          //     {
+                                          //       column: "UpdatedDate",
+                                          //       value: "TEXT DEFAULT NULL",
+                                          //     },
+                                          //     {
+                                          //       column: "DeletedDate",
+                                          //       value: "TEXT DEFAULT NULL",
+                                          //     },
+                                          //     { 
+                                          //       column: "last_modified",
+                                          //       value: "INTEGER DEFAULT (strftime('%s', 'now'))" 
+                                          //     },
+                                          //     {
+                                          //       constraint: "PK_roleaccesss",
+                                          //       value:
+                                          //         "PRIMARY KEY (id, AccessID)",
+                                          //     },
+                                          //     {
+                                          //       constraint: "roleaccess_ibfk_1",
+                                          //       value:
+                                          //         "FOREIGN KEY (id) REFERENCES role(id) ON DELETE CASCADE",
+                                          //     },
+                                          //     {
+                                          //       constraint: "roleaccess_ibfk_2",
+                                          //       value:
+                                          //         "FOREIGN KEY (AccessID) REFERENCES access(id) ON DELETE CASCADE",
+                                          //     },
+                                          //   ],
+                                          //   values: roleaccessData,
+                                          // },
                                           {
                                             name: "testmodule",
                                             schema: [
@@ -428,16 +429,16 @@ router.get("/export", (req, res) => {
                                       res.json(dataToImport);
                                     })
                                     .catch((err) => console.log(err));
-                                })
-                                .catch((err) => console.log(err));
+                                //})
+                                //.catch((err) => console.log("roleAccess:"+ err));
                             })
                             .catch((err) => console.log(err));
                         })
                         .catch((err) => console.log(err));
                     })
                     .catch((err) => console.log(err));
-                })
-                .catch((err) => console.log(err));
+                //})
+                //.catch((err) => console.log(err));
             })
             .catch((err) => console.log(err));
         })
@@ -446,7 +447,7 @@ router.get("/export", (req, res) => {
     .catch((err) => console.log(err));
 });
 
-router.get("/partialexport", (req, res) => {
+router.get("/partialex", (req, res) => {
   const result = db.exportAssets();
 
   result
@@ -557,6 +558,7 @@ router.get("/partialexport", (req, res) => {
     .catch((err) => console.log(err));
 });
 
+//import all data from SQLite
 router.post("/fullimport", (req,res) => {
   let tables = req.body.tables;
 
@@ -617,14 +619,49 @@ router.post("/fullimport", (req,res) => {
       .catch((err) => console.log(err));
 });
 
-router.get("/exportTests", (req, res) => {
-  const result = db.exportInBulk();
+//partially export to SQLite
+router.get("/partialexport", (req, res) => {
+  let last_modified = req.query.last_modified;
+
+  const result = db.exportInBulk(last_modified);
 
   result
     .then((data) => {
       console.log(data);
 
       res.json(data);
+    })
+    .catch((err) => console.log(err));
+});
+
+//TESTINGGG
+router.post("/fullimp", (req,res) => {
+  let tables = req.body.tables;
+
+  console.log(req.body.tables);
+
+  const result = db.importAll(tables); 
+
+	result
+		.then((reply) => {
+			res.json(reply);
+		})
+		.catch((err) => console.log(err));
+
+});
+
+
+//To delete any falsely written rows
+router.delete("/delete", (req, res) => {
+  
+
+  const result = db.deleteRows();
+
+  result
+    .then((data) => {
+      console.log(data);
+
+      res.json({status: data});
     })
     .catch((err) => console.log(err));
 });

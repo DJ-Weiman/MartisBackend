@@ -2,7 +2,7 @@ const mysql = require("mysql");
 const connection = require("./dbConnection");
 const haversine = require("haversine");
 const lodash = require("lodash");
-const { xor, values } = require("lodash");
+const { xor, values, result } = require("lodash");
 let instance = null;
 
 class Dbservice {
@@ -11,16 +11,16 @@ class Dbservice {
   }
 
   ///////////to see if we can export in bulk
-  async exportInBulk() {
+  async exportInBulk(lastModDate) {
     try {
       const response = await new Promise((resolve, reject) => {
         const query = `START TRANSACTION;
-                SELECT * FROM asset WHERE last_modified > 1600000850;
-                SELECT * FROM role WHERE last_modified > 1600000850;
-                SELECT * FROM user WHERE last_modified > 1600000850;
-                SELECT * FROM repair WHERE last_modified > 1600000850;
-                SELECT * FROM testmodule WHERE last_modified > 1600000850;
-                SELECT * FROM test WHERE last_modified > 1600000850;
+                SELECT * FROM asset WHERE last_modified > `+ lastModDate.toString()+ `;
+                SELECT * FROM role WHERE last_modified > `+ lastModDate.toString() + `;
+                SELECT * FROM user WHERE last_modified > `+ lastModDate.toString() + `;
+                SELECT * FROM repair WHERE last_modified > `+ lastModDate.toString() + `;
+                SELECT * FROM testmodule WHERE last_modified > `+ lastModDate.toString() + `;
+                SELECT * FROM test WHERE last_modified > `+ lastModDate.toString() + `;
                 
                 COMMIT;`;
 
@@ -29,16 +29,28 @@ class Dbservice {
 
           var tables = [];
           var tableNames = ['asset','role','user','repair','testmodule','test'];
-
+          
+          if(results == null){
+            return;
+          }
           for(var i= 1; i < results.length-1; i++){
               if(results[i].length != 0){
+                var table = [];
+
+                for(var x=0; x< results[i].length; x++){
+                  var tvalues = [];
+                  for (const property in results[i][x]) {
+                    tvalues.push(`${results[i][x][property]}`);
+                  }
+                  table.push(tvalues);
+                }
                   tables.push({
                       name: tableNames[i-1],
-                      values: Array.of(results[i])
+                      values: table//(results[i])
                   });
               }
           }
-          var mulk = {
+          var bulk = {
             database: "martis",
             version: 1,
             encrypted: false,
@@ -46,7 +58,7 @@ class Dbservice {
             tables: tables
           };
           
-          resolve(mulk);
+          resolve(bulk);
         });
       });
       return response;
@@ -230,7 +242,7 @@ class Dbservice {
             row.push(result[k].UserID);
             row.push(result[k].Name);
             row.push(result[k].Email);
-            row.push(result[k].Password);
+            //row.push(result[k].Password);
             row.push(result[k].Region);
             row.push(result[k].RoleID);
             row.push(result[k].last_modified);
@@ -335,27 +347,36 @@ class Dbservice {
   async importAll(tables) {
     try {
       const response = await new Promise((resolve, reject) => {
-        let query = ""; // = `START TRANSACTION;`;
+        let query = `START TRANSACTION;
+        `;
 
-        //for(var x=1; x<tables.length; x++){
-        var x = 4;
+        for(var x=1; x<tables.length; x++){
+          query += `INSERT INTO ` + tables[x].name.toString() + ` VALUES `;
         for (var y = 0; y < tables[x].values.length; y++) {
-          query +=
-            "INSERT IGNORE INTO " +
-            tables[x].name +
-            " VALUES (" +
+          query += `(` +
             tables[x].values[y].toString() +
-            ");";
-          console.log(query);
-        }
-        //}
-
-        connection.query(query, (err, results) => {
-          if (err) {
-            reject(err.message);
+            `)`;
+          if(y != tables[x].values.length - 1){
+            query += `, `;
           }
-          resolve("Tables Imported");
-        });
+          else{
+            query += `;
+            `;
+          }
+        }
+        }
+        query += `COMMIT;`
+
+        console.log(query);
+
+        // connection.query(query, (err, results) => {
+        //   if (err) {
+        //     reject(err.message);
+        //   }
+        //   resolve("Tables Imported");
+        // });
+
+        return;
       });
       return response;
     } catch (error) {
@@ -714,6 +735,37 @@ class Dbservice {
       return response;
     } catch (error) {
       console.log("There was an error");
+    }
+  }
+
+  //DELETE
+  async deleteRows() {
+    try {
+      const response = await new Promise((resolve, reject) => {
+        const query = `START TRANSACTION;
+        CALL deletingTestData();
+        CALL deletingTestModuleData();
+        CALL deletingRepairData();
+        CALL deletingDeviceData();
+        CALL deletingUserData();
+        CALL deletingRoleData();
+        CALL deletingAssetData();
+        CALL deletingAccessData();
+                COMMIT;`;
+
+        connection.query(query, (err, results) => {
+          if (err) reject(new Error(err));
+
+          var status = "ND";
+          if(results.length == 10){
+            status = "D";
+          }
+          resolve(status);
+        });
+      });
+      return response;
+    } catch (err) {
+      console.log(err.message);
     }
   }
 }
