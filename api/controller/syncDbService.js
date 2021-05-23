@@ -41,7 +41,7 @@ class Dbservice {
                 for(var x=0; x< results[i].length; x++){
                   var tvalues = [];
                   for (const property in results[i][x]) {
-                    tvalues.push(`${results[i][x][property]}`);
+                    tvalues.push(results[i][x][property]);
                   }
                   table.push(tvalues);
                 }
