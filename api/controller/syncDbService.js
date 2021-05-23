@@ -750,15 +750,14 @@ class Dbservice {
         CALL deletingDeviceData();
         CALL deletingUserData();
         CALL deletingRoleData();
-        CALL deletingAssetData();
-        CALL deletingAccessData();
+        CALL deletingAssetData();        
                 COMMIT;`;
 
         connection.query(query, (err, results) => {
           if (err) reject(new Error(err));
 
           var status = "ND";
-          if(results.length == 10){
+          if(results.length == 9){
             status = "D";
           }
           resolve(status);
