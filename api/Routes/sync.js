@@ -9,7 +9,7 @@ const db = dbService.getDbServiceInstance();
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json());
 
-//to export into SQLite
+//to fully export into SQLite
 router.get("/export", (req, res) => {
   const result = db.exportAssets();
 
@@ -564,47 +564,36 @@ router.post("/fullimport", (req,res) => {
 
   console.log(req.body.tables);
 
-  const result = db.importAccess(tables[0].values); 
+  const assetResult = db.importAsset(tables[0].values); 
 
-	result
-		.then((reply) => {
-      const result2 = db.importAsset(tables[1].values); 
-
-      result2
+      assetResult
       .then((reply) =>{
-        const result3 = db.importRole(tables[2].values); 
+        const roleResult = db.importRole(tables[1].values); 
         
-        result3
+        roleResult
         .then((reply) => {
-          const result4 = db.importUser(tables[3].values);
+          const userResult = db.importUser(tables[2].values);
 
-          result4
+          userResult
           .then((reply) => {
-            const result5 = db.importDevice(tables[4].values);
+            const deviceResult = db.importDevice(tables[3].values);
 
-            result5
+            deviceResult
             .then((reply) => {
-              const result6 = db.importRepair(tables[5].values); 
+              const repairResult = db.importRepair(tables[4].values); 
 
-              result6
+              repairResult
               .then((reply) => {
-                const result7 = db.importRoleAccess(tables[6].values); 
+                  const testModuleResult = db.importTestModule(tables[5].values);
 
-                result7
-                .then((reply) =>{
-                  const result8 = db.importTestModule(tables[7].values);
-
-                  result8
+                  testModuleResult
                   .then((reply) => {
-                    const result9 = db.importTest(tables[8].values); 
+                    const testResult = db.importTest(tables[6].values); 
 
-                    result9
-                    .then((reply) => res.json(reply))
-                    .catch((err9) => console.log(err9)); 
+                    testResult.then((reply) => res.json(reply))
+                    .catch((err9) => console.log("test:"+ err9)); 
                     })
-                    .catch((err8) => console.log(err8));    
-                  })
-                  .catch((err7) => console.log(err7));  
+                    .catch((err8) => console.log("testmodule:"+err8));    
                 })
                 .catch((err6) => console.log(err6));     
               })
@@ -614,9 +603,7 @@ router.post("/fullimport", (req,res) => {
           })
           .catch((err3) => console.log(err3));  
         })
-        .catch((err2) => console.log(err2));  
-      })
-      .catch((err) => console.log(err));
+        .catch((err2) => console.log(err2));
 });
 
 //partially export to SQLite

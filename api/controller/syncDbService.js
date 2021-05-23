@@ -18,6 +18,7 @@ class Dbservice {
                 SELECT * FROM asset WHERE last_modified > `+ lastModDate.toString()+ `;
                 SELECT * FROM role WHERE last_modified > `+ lastModDate.toString() + `;
                 SELECT * FROM user WHERE last_modified > `+ lastModDate.toString() + `;
+                SELECT * FROM device WHERE last_modified > `+ lastModDate.toString() + `;
                 SELECT * FROM repair WHERE last_modified > `+ lastModDate.toString() + `;
                 SELECT * FROM testmodule WHERE last_modified > `+ lastModDate.toString() + `;
                 SELECT * FROM test WHERE last_modified > `+ lastModDate.toString() + `;
