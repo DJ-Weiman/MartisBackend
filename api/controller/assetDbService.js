@@ -67,7 +67,7 @@ class Dbservice {
 		try {
 			const response = await new Promise((resolve, reject) => {
 				const query = 
-				`select ut.AssetID, ut.Status, ut.noOfTests, ur.noOfRepairs from unassignedTests ut JOIN unassignedRepairs ur 
+				`select ut.AssetID AS id, ut.Status, ut.noOfTests, ur.noOfRepairs from unassignedTests ut JOIN unassignedRepairs ur 
 				ON ur.AssetID = ut.AssetID`;
 
 				connection.query(query, (err, results) => {
