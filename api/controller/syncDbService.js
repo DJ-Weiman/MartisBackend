@@ -454,6 +454,7 @@ class Dbservice {
 
           var aType = values[x][1].toString() == "NULL" ? null : values[x][1];
           var status = values[x][2].toString() == "NULL" ? null : values[x][2];
+          var ltd = values[x][9].toString() == "NULL" ? "2010-10-10 10:10:10" : values[x][9].toString().replace(/T/, " ").replace(/\..+/, "");
           connection.query(
             query,
             [
@@ -466,7 +467,7 @@ class Dbservice {
               values[x][6],
               values[x][7],
               values[x][8],
-              values[x][9].toString().replace(/T/, " ").replace(/\..+/, ""),
+              ltd,
               values[x][10],
             ],
             (err, results) => {
