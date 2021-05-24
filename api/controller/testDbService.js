@@ -48,7 +48,7 @@ class Dbservice {
 				const query = `SELECT * 
 				FROM test t
 				where (t.DateCompleted is null or t.DateCompleted = "0000-00-00 00:00:00")
-				AND t.AssetID = `+AssetID+`;`;
+				AND t.AssetID = `+AssetID.toString()+`;`;
 				connection.query(query, (err, results) => {
 					if (err) reject(new Error(err));
 					resolve(results);
