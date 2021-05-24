@@ -26,11 +26,11 @@ class Dbservice {
     }
   }
 
-  async getAllTestsByEMPID(EmpID) {
+  async getLatestTest() {
     try {
       const response = await new Promise((resolve, reject) => {
-        const query = `SELECT * FROM test where (DateCompleted is NULL OR DateCompleted = "0000-00-00 00:00:00") AND InspectorID = (?)`;
-        connection.query(query, [EmpID], (err, results) => {
+        const query = `SELECT TestID FROM test ORDER BY TestID DESC limit 1`;
+        connection.query(query, (err, results) => {
           if (err) reject(new Error(err));
           resolve(results);
         });
