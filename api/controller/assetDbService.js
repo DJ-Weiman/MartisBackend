@@ -41,17 +41,34 @@ class Dbservice {
 		}
 	}
 
+	// async getTestsForAssets() {
+	// 	try {
+	// 		const response = await new Promise((resolve, reject) => {
+	// 			const query = `select a.AssetID AS id, a.Status, COUNT(t.TestID)
+    //     AS noOfTests
+    //     FROM asset AS a
+    //     LEFT JOIN test AS t
+    //     ON a.AssetID = t.AssetID
+    //     AND (t.DateCompleted is NULL 
+    //     OR t.DateCompleted = "0000-00-00 00:00:00")
+    //     GROUP BY a.AssetID`;
+
+	// 			connection.query(query, (err, results) => {
+	// 				if (err) reject(new Error(err));
+	// 				resolve(results);
+	// 			});
+	// 		});
+	// 		return response;
+	// 	} catch (error) {
+	// 		console.log(error.message);
+	// 	}
+	// }
 	async getTestsForAssets() {
 		try {
 			const response = await new Promise((resolve, reject) => {
-				const query = `select a.AssetID AS id, a.Status, COUNT(t.TestID)
-        AS noOfTests
-        FROM asset AS a
-        LEFT JOIN test AS t
-        ON a.AssetID = t.AssetID
-        AND (t.DateCompleted is NULL 
-        OR t.DateCompleted = "0000-00-00 00:00:00")
-        GROUP BY a.AssetID`;
+				const query = 
+				`select ut.AssetID, ut.Status, ut.noOfTests, ur.noOfRepairs from unassignedTests ut JOIN unassignedRepairs ur 
+				ON ur.AssetID = ut.AssetID`;
 
 				connection.query(query, (err, results) => {
 					if (err) reject(new Error(err));
