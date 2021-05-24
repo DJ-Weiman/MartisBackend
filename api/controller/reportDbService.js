@@ -17,8 +17,7 @@ class Dbservice {
         AND t.TestModID = tm.TestModID
         AND t.InspectorID = ?
         AND t.DateIssued BETWEEN ?
-        AND ?` ;
-		
+        AND ? AND t.DateCompleted IS NOT NULL`;
 
 				connection.query(query, [ inspectorID, InitialDate, FinalDate ], (err, results) => {
 					if (err) reject(new Error(err));
@@ -34,7 +33,7 @@ class Dbservice {
 	async getAssetReportDetails(assetID, InitialDate, FinalDate) {
 		try {
 			const response = await new Promise((resolve, reject) => {
-				const query = `SELECT a.Status,a.Region, t.Result,a.GPSLatitude, a.GPSLongitude, t.TestID, t.InspectorID, t.DateCompleted, a.Division, a.SubDivision, a.NearestMilePost, t.comments from asset a, test t WHERE a.AssetID = t.AssetID AND t.AssetID = ? AND t.DateIssued BETWEEN ? AND ? `;
+				const query = `SELECT a.Status,a.Region, t.Result,a.GPSLatitude, a.GPSLongitude, t.TestID, t.InspectorID, t.DateCompleted, a.Division, a.SubDivision, a.NearestMilePost, t.comments from asset a, test t WHERE a.AssetID = t.AssetID AND t.AssetID = ? AND t.DateIssued BETWEEN ? AND ? AND t.DateCompleted IS NOT NULL `;
 
 				connection.query(query, [ assetID, InitialDate, FinalDate ], (err, results) => {
 					if (err) reject(new Error(err));
