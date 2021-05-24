@@ -29,7 +29,7 @@ router.get("/getLatestTest", (req, res) => {
 });
 //testing
 router.get('/getTestsByAssetID', (req, res) => {
-	let AssetID = req.query.id;
+	let AssetID = req.query.id.toString();
 
 	const result = db.getIncompleteTestsByAssetID(AssetID);
 	result
