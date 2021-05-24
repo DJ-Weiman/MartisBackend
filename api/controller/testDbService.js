@@ -45,11 +45,12 @@ class Dbservice {
 	async getIncompleteTestsByAssetID(AssetID){
 		try {
 			const response = await new Promise((resolve, reject) => {
-				const query = `SELECT * 
+				const query = `SELECT t.TestID, t.SupervisorID, t.InspectorID, t.TestModID
 				FROM test t
 				where (t.DateCompleted is null or t.DateCompleted = "0000-00-00 00:00:00")
-				AND t.AssetID = `+AssetID+`;`;
-				connection.query(query, (err, results) => {
+				AND t.AssetID = ? 
+				ORDER BY t.Priority;`;
+				connection.query(query, [AssetID], (err, results) => {
 					if (err) reject(new Error(err));
 					resolve(results);
 				});
