@@ -30,6 +30,19 @@ router.get('/getUnassignedRepairs', (req, res) => {
 		.catch((err) => console.log(err));
 });
 
+//testing
+router.get('/getRepairsByAssetID', (req, res) => {
+	let AssetID = req.query.AssetID;
+
+	const result = db.getIncompleteRepairsByAssetID(AssetID);
+	result
+		.then((data) => {
+			console.log(data);
+			res.json({ data: data });
+		})
+		.catch((err) => console.log(err));
+});
+
 router.post('/addRepair', (req, res) => {
 	let assetId = req.body.AssetID;
 	let engineerId = req.body.EngineerID;

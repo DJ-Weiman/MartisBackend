@@ -42,6 +42,26 @@ class Dbservice {
 		}
 	}
 
+	//testing
+	async getIncompleteRepairsByAssetID(AssetID){
+		try {
+			const response = await new Promise((resolve, reject) => {
+				const query = `SELECT r.CreatedDate, r.EngineerID, r.comments
+				FROM repair r
+				where (r.CompletedDate is null or r.CompletedDate = "0000-00-00 00:00:00")
+				AND r.AssetID = "A102" 
+				ORDER BY r.CreatedDate DESC;`;
+				connection.query(query, [AssetID], (err, results) => {
+					if (err) reject(new Error(err));
+					resolve(results);
+				});
+			});
+			return response;
+		} catch (error) {
+			console.log(error.message);
+		}
+	}
+
 	async addRepair(AssetID, EngineerID, CreatedDate, CompletedDate, comments) {
 		try {
 			const response = await new Promise((resolve, reject) => {
