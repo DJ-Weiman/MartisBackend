@@ -345,49 +345,8 @@ class Dbservice {
     }
   }
 
-  async importAll(tables) {
-    try {
-      const response = await new Promise((resolve, reject) => {
-        let query = `START TRANSACTION;
-        `;
-
-        for(var x=1; x<tables.length; x++){
-          query += `INSERT INTO ` + tables[x].name.toString() + ` VALUES `;
-        for (var y = 0; y < tables[x].values.length; y++) {
-          query += `(` +
-            tables[x].values[y].toString() +
-            `)`;
-          if(y != tables[x].values.length - 1){
-            query += `, `;
-          }
-          else{
-            query += `;
-            `;
-          }
-        }
-        }
-        query += `COMMIT;`
-
-        console.log(query);
-
-        // connection.query(query, (err, results) => {
-        //   if (err) {
-        //     reject(err.message);
-        //   }
-        //   resolve("Tables Imported");
-        // });
-
-        return;
-      });
-      return response;
-    } catch (error) {
-      console.log(error.message);
-    }
-  }
-
   async importTest(test) {
     try {
-      console.log("test");
       const response = await new Promise((resolve, reject) => {
         for (var x = 0; x < test.length; x++) {
           //
@@ -436,7 +395,6 @@ class Dbservice {
   //edited to test the triggger
   async importTestModule(values) {
     try {
-      console.log("TM");
       const response = await new Promise((resolve, reject) => {
         for (var x = 0; x < values.length; x++) {
           //

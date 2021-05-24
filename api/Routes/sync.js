@@ -622,12 +622,39 @@ router.get("/partialexport", (req, res) => {
 });
 
 //TESTINGGG
-router.post("/fullimp", (req,res) => {
+router.post("/partialimport", (req,res) => {
   let tables = req.body.tables;
 
   console.log(req.body.tables);
 
-  const result = db.importAll(tables); 
+  let result;
+
+  for (var x=0; x<tables.length; x++){
+    var tableName = tables[x].name;
+    switch(tableName){
+      case 'asset':
+        result = db.importAsset(tables[x].values);
+        break;
+      case 'role':
+        result = db.importRole(tables[x].values);
+        break;
+      case 'user':
+        result = db.importUser(tables[x].values);
+        break;
+      case 'device':
+        result = db.importDevice(tables[x].values);
+        break;
+      case 'repair':
+        result = db.importRepair(tables[x].values); 
+        break;
+      case 'testmodule':
+        result = db.importTestModule(tables[x].values); 
+        break;
+      case 'test':
+        result = db.importTest(tables[x].values); 
+        break;
+    }
+  } 
 
 	result
 		.then((reply) => {
