@@ -41,6 +41,25 @@ class Dbservice {
 		}
 	}
 
+	//testing
+	async getIncompleteTestsByAssetID(AssetID){
+		try {
+			const response = await new Promise((resolve, reject) => {
+				const query = `SELECT * 
+				FROM test t
+				where (t.DateCompleted is null or t.DateCompleted = "0000-00-00 00:00:00")
+				AND t.AssetID = ${AssetID}`;
+				connection.query(query, (err, results) => {
+					if (err) reject(new Error(err));
+					resolve(results);
+				});
+			});
+			return response;
+		} catch (error) {
+			console.log(error.message);
+		}
+	}
+
 	async createNewTest(TestID, DateIssued, AssetID, InspectorID, SupervisorID, Frequency, Priority, TestModID) {
 		try {
 			const response = await new Promise((resolve, reject) => {

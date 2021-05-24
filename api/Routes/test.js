@@ -27,6 +27,18 @@ router.get('/getLatestTest', (req, res) => {
 		})
 		.catch((err) => console.log(err));
 });
+//testing
+router.get('/getTestsByAssetID', (req, res) => {
+	let AssetID = req.body.AssetID;
+
+	const result = db.getIncompleteTestsByAssetID(AssetID);
+	result
+		.then((data) => {
+			console.log(data);
+			res.json({ data: data });
+		})
+		.catch((err) => console.log(err));
+});
 
 router.get('/exportTests', (req, res) => {
 	const result = db.exportTests();

@@ -10,7 +10,7 @@ class Dbservice {
     return instance ? instance : new Dbservice();
   }
 
-  ///////////to see if we can export in bulk
+  //to see if we can export in bulk
   async exportInBulk(lastModDate) {
     try {
       const response = await new Promise((resolve, reject) => {
@@ -698,7 +698,7 @@ class Dbservice {
     }
   }
 
-  //DELETE
+  //Delete rows in the deletion table
   async deleteRows() {
     try {
       const response = await new Promise((resolve, reject) => {
