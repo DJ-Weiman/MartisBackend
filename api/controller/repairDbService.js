@@ -42,7 +42,6 @@ class Dbservice {
 		}
 	}
 
-	//testing
 	async getIncompleteRepairsByAssetID(AssetID){
 		try {
 			const response = await new Promise((resolve, reject) => {

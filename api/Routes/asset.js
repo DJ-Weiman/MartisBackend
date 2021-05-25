@@ -31,11 +31,11 @@ router.get('/getAssets', (req, res) => {
 });
 
 router.get('/getAssetsTests', (req, res) => {
-	const page = parseInt(req.query.page); //
-	const limit = parseInt(req.query.limit); //
+	const page = parseInt(req.query.page); 
+	const limit = parseInt(req.query.limit); 
 
-	const startIndex = (page - 1) * limit; //
-	const endIndex = page * limit; //
+	const startIndex = (page - 1) * limit;
+	const endIndex = page * limit; 
 
 	const result = db.getTestsForAssets();
 
@@ -57,8 +57,8 @@ router.get('/getAssetsTests', (req, res) => {
 					limit: limit
 				};
 			}
-			rets.results = data.slice(startIndex, endIndex); //
-			res.json(rets); //data
+			rets.results = data.slice(startIndex, endIndex);
+			res.json(rets);
 		})
 		.catch((err) => console.log(err));
 });

@@ -26,11 +26,7 @@ router.get("/export", (req, res) => {
           repairResults
             .then((data3) => {
               var repairData = data3;
-              //const accessResults = db.exportAccess(); //del
 
-              //accessResults
-                //.then((data4) => {
-                  //var accessData = data4;
                   const roleResults = db.exportRoles();
 
                   roleResults
@@ -41,16 +37,11 @@ router.get("/export", (req, res) => {
                       userResults
                         .then((data6) => {
                           var userData = data6;
-                          const deviceResults = db.exportDevices();//del
+                          const deviceResults = db.exportDevices();
 
                           deviceResults
                             .then((data7) => {
                               var deviceData = data7;
-                              //const roleaccessResults = db.exportRoleAccess();//del
-
-                              //roleaccessResults
-                                //.then((data8) => {
-                                  //var roleaccessData = data8;
                                   const testmoduleResults = db.exportTestModules();
 
                                   testmoduleResults
@@ -62,25 +53,6 @@ router.get("/export", (req, res) => {
                                         encrypted: false,
                                         mode: "full",
                                         tables: [
-                                          // {
-                                          //   name: "access",
-                                          //   schema: [
-                                          //     {
-                                          //       column: "id",
-                                          //       value:
-                                          //         "TEXT PRIMARY KEY NOT NULL",
-                                          //     },
-                                          //     {
-                                          //       column: "Access",
-                                          //       value: "TEXT NOT NULL",
-                                          //     },
-                                          //     { 
-                                          //       column: "last_modified",
-                                          //       value: "INTEGER DEFAULT (strftime('%s', 'now'))" 
-                                          //     }
-                                          //   ],
-                                          //   values: accessData,
-                                          // },
                                           {
                                             name: "asset",
                                             schema: [
@@ -179,10 +151,6 @@ router.get("/export", (req, res) => {
                                                 column: "Email",
                                                 value: "TEXT NOT NULL",
                                               },
-                                              // {
-                                              //   column: "Password",
-                                              //   value: "TEXT",
-                                              // },
                                               {
                                                 column: "Region",
                                                 value: "TEXT NOT NULL",
@@ -276,51 +244,6 @@ router.get("/export", (req, res) => {
                                             ],
                                             values: repairData,
                                           },
-                                          // {
-                                          //   name: "roleaccess",
-                                          //   schema: [
-                                          //     {
-                                          //       column: "id",
-                                          //       value: "TEXT NOT NULL",
-                                          //     },
-                                          //     {
-                                          //       column: "AccessID",
-                                          //       value: "TEXT NOT NULL",
-                                          //     },
-                                          //     {
-                                          //       column: "CreatedDate",
-                                          //       value: "TEXT NOT NULL",
-                                          //     },
-                                          //     {
-                                          //       column: "UpdatedDate",
-                                          //       value: "TEXT DEFAULT NULL",
-                                          //     },
-                                          //     {
-                                          //       column: "DeletedDate",
-                                          //       value: "TEXT DEFAULT NULL",
-                                          //     },
-                                          //     { 
-                                          //       column: "last_modified",
-                                          //       value: "INTEGER DEFAULT (strftime('%s', 'now'))" 
-                                          //     },
-                                          //     {
-                                          //       constraint: "PK_roleaccesss",
-                                          //       value:
-                                          //         "PRIMARY KEY (id, AccessID)",
-                                          //     },
-                                          //     {
-                                          //       constraint: "roleaccess_ibfk_1",
-                                          //       value:
-                                          //         "FOREIGN KEY (id) REFERENCES role(id) ON DELETE CASCADE",
-                                          //     },
-                                          //     {
-                                          //       constraint: "roleaccess_ibfk_2",
-                                          //       value:
-                                          //         "FOREIGN KEY (AccessID) REFERENCES access(id) ON DELETE CASCADE",
-                                          //     },
-                                          //   ],
-                                          //   values: roleaccessData,
-                                          // },
                                           {
                                             name: "testmodule",
                                             schema: [
@@ -374,7 +297,7 @@ router.get("/export", (req, res) => {
                                                 value: "TEXT DEFAULT NULL",
                                               },
                                               {
-                                                column: "SupervisorID",
+                                                column: "ManagerID",
                                                 value: "TEXT NOT NULL",
                                               },
                                               {
@@ -383,7 +306,7 @@ router.get("/export", (req, res) => {
                                               },
                                               {
                                                 column: "Frequency",
-                                                value: "INTEGER NOT NULL",
+                                                value: "INTEGER",
                                               },
                                               {
                                                 column: "Priority",
@@ -429,16 +352,12 @@ router.get("/export", (req, res) => {
                                       res.json(dataToImport);
                                     })
                                     .catch((err) => console.log(err));
-                                //})
-                                //.catch((err) => console.log("roleAccess:"+ err));
                             })
                             .catch((err) => console.log(err));
                         })
                         .catch((err) => console.log(err));
                     })
                     .catch((err) => console.log(err));
-                //})
-                //.catch((err) => console.log(err));
             })
             .catch((err) => console.log(err));
         })
@@ -606,7 +525,7 @@ router.post("/fullimport", (req,res) => {
         .catch((err2) => console.log(err2));
 });
 
-//partially export to SQLite
+
 router.get("/partialexport", (req, res) => {
   let last_modified = req.query.last_modified;
 
@@ -621,7 +540,7 @@ router.get("/partialexport", (req, res) => {
     .catch((err) => console.log(err));
 });
 
-//TESTINGGG
+
 router.post("/partialimport", (req,res) => {
   let tables = req.body.tables;
 
@@ -665,7 +584,6 @@ router.post("/partialimport", (req,res) => {
 });
 
 
-//To delete any falsely written rows
 router.delete("/delete", (req, res) => {
   
 
@@ -681,3 +599,7 @@ router.delete("/delete", (req, res) => {
 });
 
 module.exports = router;
+
+
+//test.SUpervisorID == test.ManagerID
+//

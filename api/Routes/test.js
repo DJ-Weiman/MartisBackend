@@ -27,7 +27,7 @@ router.get("/getLatestTest", (req, res) => {
     })
     .catch((err) => console.log(err));
 });
-//testing
+
 router.get('/getTestsByAssetID', (req, res) => {
 	let AssetID = req.query.AssetID;
 

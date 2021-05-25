@@ -10,7 +10,7 @@ class Dbservice {
     return instance ? instance : new Dbservice();
   }
 
-  //to see if we can export in bulk
+
   async exportInBulk(lastModDate) {
     try {
       const response = await new Promise((resolve, reject) => {
@@ -67,7 +67,6 @@ class Dbservice {
       console.log(err.message);
     }
   }
-  ///////////////
 
   async exportAssets() {
     try {
@@ -350,7 +349,8 @@ class Dbservice {
       const response = await new Promise((resolve, reject) => {
         for (var x = 0; x < test.length; x++) {
           //
-          const query = `INSERT INTO test (TestID,DateIssued, AssetID, InspectorID, Result, SupervisorID, DateCompleted, Frequency, Priority, TestModID, comments, last_modified) Values ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+          const query = 
+          `INSERT INTO test (TestID,DateIssued, AssetID, InspectorID, Result, SupervisorID, DateCompleted, Frequency, Priority, TestModID, comments, last_modified) Values ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                     ON DUPLICATE KEY UPDATE DateIssued = VALUES(DateIssued), AssetID = VALUES(AssetID), InspectorID = VALUES(InspectorID), Result = VALUES(Result), SupervisorID = VALUES(SupervisorID), DateCompleted = VALUES(DateCompleted), Frequency = VALUES(Frequency), Priority = VALUES(Priority), TestModID = VALUES(TestModID), comments = VALUES(comments), last_modified = VALUES(last_modified)`;
 
           var dIssued =
@@ -392,7 +392,7 @@ class Dbservice {
       console.log("There was an error in test import");
     }
   }
-  //edited to test the triggger
+  
   async importTestModule(values) {
     try {
       const response = await new Promise((resolve, reject) => {
@@ -416,7 +416,7 @@ class Dbservice {
       console.log("There was an error in test module import");
     }
   }
-  //edited to test the trigger
+  
   async importAccess(values) {
     try {
       const response = await new Promise((resolve, reject) => {
