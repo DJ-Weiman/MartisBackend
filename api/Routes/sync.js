@@ -253,7 +253,7 @@ router.get("/export", (req, res) => {
                                                   "TEXT PRIMARY KEY NOT NULL",
                                               },
                                               {
-                                                column: "SupervisorID",
+                                                column: "ManagerID",
                                                 value: "TEXT NOT NULL",
                                               },
                                               {
@@ -267,7 +267,7 @@ router.get("/export", (req, res) => {
                                               {
                                                 constraint: "testmodule_ibfk_1",
                                                 value:
-                                                  "FOREIGN KEY (SupervisorID) REFERENCES user (id) ON DELETE CASCADE",
+                                                  "FOREIGN KEY (ManagerID) REFERENCES user (id) ON DELETE CASCADE",
                                               },
                                             ],
                                             values: testmoduleData,
@@ -306,7 +306,7 @@ router.get("/export", (req, res) => {
                                               },
                                               {
                                                 column: "Frequency",
-                                                value: "INTEGER",
+                                                value: "INTEGER DEFAULT NULL",
                                               },
                                               {
                                                 column: "Priority",
@@ -337,7 +337,7 @@ router.get("/export", (req, res) => {
                                               {
                                                 constraint: "test_ibfk_3",
                                                 value:
-                                                  "FOREIGN KEY (SupervisorID) REFERENCES user (id) ON DELETE CASCADE",
+                                                  "FOREIGN KEY (ManagerID) REFERENCES user (id) ON DELETE CASCADE",
                                               },
                                               {
                                                 constraint: "test_ibfk_4",
