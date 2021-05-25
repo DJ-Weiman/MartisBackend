@@ -120,7 +120,7 @@ class Dbservice {
             currTest.push(result[k].AssetID);
             currTest.push(result[k].InspectorID);
             currTest.push(result[k].Result);
-            currTest.push(result[k].SupervisorID);
+            currTest.push(result[k].ManagerID);
             currTest.push(result[k].DateCompleted);
             currTest.push(result[k].Frequency);
             currTest.push(result[k].Priority);
