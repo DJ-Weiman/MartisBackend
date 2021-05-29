@@ -103,12 +103,29 @@ class Dbservice {
 					[ employeeid, completedDate, comments, Result, assetID, createdDate ],
 					(err, results) => {
 						console.log(query);
+						console.log(results);
 						if (err) reject(err.message);
 						resolve('Repair completed');
 					}
 				);
 			});
 			console.log(response);
+			return response;
+		} catch (error) {
+			console.log(error.message);
+		}
+	}
+
+	async AutoAssetDisable(AssetID) {
+		try {
+			const response = await new Promise((resolve, reject) => {
+				const query = 'UPDATE asset SET Status = "Offline" WHERE AssetID = ?;';
+				connection.query(query, [ AssetID ], (err, results) => {
+					console.log(query);
+					if (err) reject(err.message);
+					resolve('Change completed');
+				});
+			});
 			return response;
 		} catch (error) {
 			console.log(error.message);
@@ -146,7 +163,9 @@ class Dbservice {
 								CreatedDate: element.CreatedDate,
 								CompletedDate: element.CompletedDate,
 								comments: element.comments,
-								EngineerID: element.EngineerID
+								EngineerID: element.EngineerID,
+								GPSLatitude: element.GPSLatitude,
+								GPSLongitude: element.GPSLongitude
 							});
 						}
 					});

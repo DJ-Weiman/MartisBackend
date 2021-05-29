@@ -75,6 +75,14 @@ router.put('/addCompletedDateAndComments', (req, res) => {
 			});
 		})
 		.catch((err) => console.log(err));
+	if (Result == 'Further Repair/Replacement') {
+		const trigger = db.AutoAssetDisable(assetId);
+		trigger
+			.then((reply) => {
+				console.log('The asset status change was completed');
+			})
+			.catch((err) => console.log(err));
+	}
 });
 
 router.post('/orderRepairsByLocation', (req, res) => {
