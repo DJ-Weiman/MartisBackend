@@ -182,7 +182,7 @@ class Dbservice {
             };
             const distance = Math.round(
               haversine(asset, employeeCoordinates, {
-                unit: "meter",
+                unit: "km",
               })
             );
             if (distance) {
@@ -233,7 +233,7 @@ class Dbservice {
             };
             const distance = Math.round(
               haversine(asset, employeeCoordinates, {
-                unit: "meter",
+                unit: "km",
               })
             );
             if (distance) {
