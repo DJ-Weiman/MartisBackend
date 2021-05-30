@@ -109,6 +109,38 @@ class Dbservice {
       console.log(error.message);
     }
   }
+
+  async getInspectors() {
+    try {
+      const response = await new Promise((resolve, reject) => {
+        const query = "SELECT UserID, Name FROM user WHERE RoleID='R102'";
+
+        connection.query(query, (err, results) => {
+          if (err) reject(new Error(err));
+          resolve(results);
+        });
+      });
+      return response;
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+
+  async getManagers() {
+    try {
+      const response = await new Promise((resolve, reject) => {
+        const query = "SELECT UserID, Name FROM user WHERE RoleID='R101'";
+
+        connection.query(query, (err, results) => {
+          if (err) reject(new Error(err));
+          resolve(results);
+        });
+      });
+      return response;
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
 }
 
 module.exports = Dbservice;

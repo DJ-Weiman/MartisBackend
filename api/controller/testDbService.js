@@ -172,7 +172,7 @@ class Dbservice {
                         from test t, asset a
                         where t.AssetID = a.AssetID
                         AND (DateCompleted is NULL OR  DateCompleted = "0000-00-00 00:00:00")`;
-        connection.query(query, [empId], (err, results) => {
+        connection.query(query, (err, results) => {
           if (err) reject(new Error(err));
           console.log(results);
           results.forEach((element) => {

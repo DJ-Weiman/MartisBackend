@@ -147,4 +147,28 @@ router.post("/getUserNameAndRole", (req, res) => {
     .catch((err) => console.log(err));
 });
 
+router.get("/getInspectors", (req, res) => {
+  const result = db.getInspectors();
+
+  result
+    .then((data) => {
+      console.log(data);
+
+      res.json({ data: data });
+    })
+    .catch((err) => console.log(err));
+});
+
+router.get("/getManagers", (req, res) => {
+  const result = db.getManagers();
+
+  result
+    .then((data) => {
+      console.log(data);
+
+      res.json({ data: data });
+    })
+    .catch((err) => console.log(err));
+});
+
 module.exports = router;
