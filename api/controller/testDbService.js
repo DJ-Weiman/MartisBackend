@@ -172,7 +172,7 @@ class Dbservice {
                         from test t, asset a
                         where t.AssetID = a.AssetID
                         AND (DateCompleted is NULL OR  DateCompleted = "0000-00-00 00:00:00")`;
-        connection.query(query, (err, results) => {
+        connection.query(query, [empId], (err, results) => {
           if (err) reject(new Error(err));
           console.log(results);
           results.forEach((element) => {
@@ -192,6 +192,8 @@ class Dbservice {
                 InspectorID: element.InspectorID,
                 TestID: element.TestID,
                 TestModID: element.TestModID,
+                GPSLatitude: element.GPSLatitude,
+                GPSLongitude: element.GPSLongitude,
               });
             }
           });
@@ -241,6 +243,8 @@ class Dbservice {
                 InspectorID: element.InspectorID,
                 TestID: element.TestID,
                 TestModID: element.TestModID,
+                GPSLatitude: element.GPSLatitude,
+                GPSLongitude: element.GPSLongitude,
               });
             }
           });
@@ -260,7 +264,7 @@ class Dbservice {
   async orderByPriority() {
     try {
       const response = await new Promise((resolve, reject) => {
-        const query = `SELECT * from test where DateCompleted is NULL or DateCompleted = "0000-00-00 00:00:00" ORDER by Priority ASC`;
+        const query = `SELECT * from test t ,asset a where t.AssetID = a.AssetID AND (DateCompleted is NULL or DateCompleted = "0000-00-00 00:00:00") ORDER by Priority ASC`;
         connection.query(query, (err, results) => {
           if (err) reject(new Error(err));
           resolve(results);
@@ -275,7 +279,7 @@ class Dbservice {
   async orderByPriorityAndEmpID(empId) {
     try {
       const response = await new Promise((resolve, reject) => {
-        const query = `SELECT * from test where (DateCompleted is NULL or DateCompleted = "0000-00-00 00:00:00") AND InspectorID = (?) ORDER by Priority ASC`;
+        const query = `SELECT * from test t ,asset a where t.AssetID = a.AssetID AND (DateCompleted is NULL or DateCompleted = "0000-00-00 00:00:00") AND InspectorID = (?) ORDER by Priority ASC`;
         connection.query(query, [empId], (err, results) => {
           if (err) reject(new Error(err));
           resolve(results);
