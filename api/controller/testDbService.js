@@ -54,7 +54,7 @@ class Dbservice {
     try {
       const response = await new Promise((resolve, reject) => {
         const query =
-          "INSERT INTO test (TestID,DateIssued, AssetID, InspectorID, SupervisorID, Frequency, Priority, TestModID, last_modified) Values ( ?, ?, ?, ?, ?, ?, ?, ?, UNIX_TIMESTAMP())";
+          "INSERT INTO test (TestID,DateIssued, AssetID, InspectorID, ManagerID, Frequency, Priority, TestModID, last_modified) Values ( ?, ?, ?, ?, ?, ?, ?, ?, UNIX_TIMESTAMP())";
 
         connection.query(
           query,
@@ -76,7 +76,8 @@ class Dbservice {
       });
       return response;
     } catch (error) {
-      console.log("There was an error");
+      console.log("Error");
+      return "Error";
     }
   }
 

@@ -96,12 +96,22 @@ router.post("/createNewTest", (req, res) => {
   );
   result
     .then((reply) => {
-      res.json({
-        message: "Test added successfully",
-        reply: reply,
-      });
+      console.log("Reply : " + reply);
+      if (reply != "Error") {
+        res.json({
+          message: "Test added successfully",
+          reply: reply,
+        });
+      } else {
+        res.json({
+          message: "Error",
+          reply: reply,
+        });
+      }
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      console.log(err);
+    });
 });
 
 router.patch("/setResult", (req, res) => {
